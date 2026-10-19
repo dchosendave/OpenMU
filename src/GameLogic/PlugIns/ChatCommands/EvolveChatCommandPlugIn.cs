@@ -6,7 +6,9 @@ namespace MUnique.OpenMU.GameLogic.PlugIns.ChatCommands;
 
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.InteropServices;
+using MUnique.OpenMU.AttributeSystem;
 using MUnique.OpenMU.DataModel.Configuration.Quests;
+using MUnique.OpenMU.GameLogic.Attributes;
 using MUnique.OpenMU.GameLogic.PlugIns.ChatCommands.Arguments;
 using MUnique.OpenMU.GameLogic.Views.Character;
 using MUnique.OpenMU.GameLogic.Views.Inventory;
@@ -71,6 +73,11 @@ public class EvolveChatCommandPlugIn : ChatCommandPlugInBase<EmptyChatCommandArg
 
         // The same as the reward of the evolution quests (QuestCompletionAction).
         character.CharacterClass = nextClass;
+        if (configuration.UnlockCombo)
+        {
+            await this.UnlockComboAsync(player, nextClass).ConfigureAwait(false);
+        }
+
         var rewardType = toMasterClass ? QuestRewardType.CharacterEvolutionSecondToThird : QuestRewardType.CharacterEvolutionFirstToSecond;
         await player.ForEachWorldObserverAsync<ILegacyQuestRewardPlugIn>(p => p.ShowAsync(player, rewardType, 0, null), true).ConfigureAwait(false);
         if (toMasterClass)
@@ -84,6 +91,27 @@ public class EvolveChatCommandPlugIn : ChatCommandPlugInBase<EmptyChatCommandArg
         }
 
         await player.ShowBlueMessageAsync($"Congratulations, you are now a {nextClass.Name.GetTranslation(player.Culture)}!").ConfigureAwait(false);
+    }
+
+    // The combo of a class (e.g. the Blade Knight's) is normally the reward of a quest of its own.
+    private async ValueTask UnlockComboAsync(Player player, CharacterClass characterClass)
+    {
+        var hasCombo = false;
+        for (var c = characterClass; c is not null && !hasCombo; c = player.GameContext.Configuration.CharacterClasses.FirstOrDefault(p => p.NextGenerationClass == c))
+        {
+            hasCombo = c.ComboDefinition is not null;
+        }
+
+        if (!hasCombo || player.Attributes![Stats.IsSkillComboAvailable] > 0
+            || player.GameContext.Configuration.Attributes.FirstOrDefault(a => a == Stats.IsSkillComboAvailable) is not { } definition)
+        {
+            return;
+        }
+
+        // Saved with the character, and in effect right away.
+        player.SelectedCharacter!.Attributes.Add(player.PersistenceContext.CreateNew<StatAttribute>(definition, 1));
+        player.Attributes.AddElement(new SimpleElement(1, AggregateType.AddRaw), Stats.IsSkillComboAvailable);
+        await player.InvokeViewPlugInAsync<ILegacyQuestRewardPlugIn>(p => p.ShowAsync(player, QuestRewardType.Attribute, 1, definition)).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -115,5 +143,12 @@ public class EvolveChatCommandPlugIn : ChatCommandPlugInBase<EmptyChatCommandArg
         /// </summary>
         [Display(Name = "Zen for the master class")]
         public int MasterClassMoney { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether evolving also unlocks the class's combo (e.g. the
+        /// Blade Knight's), which is otherwise the reward of a quest of its own.
+        /// </summary>
+        [Display(Name = "Unlock the combo")]
+        public bool UnlockCombo { get; set; } = true;
     }
 }
