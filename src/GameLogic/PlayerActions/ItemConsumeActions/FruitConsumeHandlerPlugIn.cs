@@ -70,10 +70,24 @@ public class FruitConsumeHandlerPlugIn : BaseConsumeHandlerPlugIn
             return false;
         }
 
+        var remainingToMaximum = statAttribute.MaximumValue is { } maximumValue
+            ? maximumValue - player.Attributes![statAttribute]
+            : float.MaxValue;
+        if (isAdding && remainingToMaximum < 1)
+        {
+            await player.InvokeViewPlugInAsync<IFruitConsumptionResponsePlugIn>(p => p.ShowResponseAsync(FruitConsumptionResult.PlusPrevented, 0, statAttribute)).ConfigureAwait(false);
+            return false;
+        }
+
         var successPercentage = this.GetSuccessPercentage(player, isAdding);
         if (Rand.NextRandomBool(successPercentage))
         {
             var randomPoints = (byte)Math.Min(maximumRemainingPoints, this.GetRandomPoints(isAdding));
+            if (isAdding)
+            {
+                randomPoints = (byte)Math.Min(randomPoints, remainingToMaximum);
+            }
+
             if (isAdding)
             {
                 player.Attributes![statAttribute] += randomPoints;
