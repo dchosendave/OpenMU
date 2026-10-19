@@ -68,16 +68,11 @@ public sealed class ComboStateMachine : StateMachine
             await this.TryAdvanceToAsync(this.InitialState).ConfigureAwait(false);
         }
 
-        var nextPossibleSkillState = this.GetTransition(skill);
-        if (nextPossibleSkillState is null && this.CurrentState != this.InitialState)
-        {
-            // If it's the wrong skill, reset to initial state - the skill may still start a new combo.
-            await this.TryAdvanceToAsync(this.InitialState).ConfigureAwait(false);
-            nextPossibleSkillState = this.GetTransition(skill);
-        }
-
+        var nextPossibleSkillState = this.CurrentState?.PossibleTransitions?.OfType<ComboState>().FirstOrDefault(t => t.RequiredSkill == skill.GetBaseSkill());
         if (nextPossibleSkillState is null)
         {
+            // If it's the wrong skill, reset to initial state.
+            await this.TryAdvanceToAsync(this.InitialState).ConfigureAwait(false);
             return false;
         }
 
@@ -153,10 +148,5 @@ public sealed class ComboStateMachine : StateMachine
         }
 
         return (initialState, finalState);
-    }
-
-    private ComboState? GetTransition(Skill skill)
-    {
-        return this.CurrentState?.PossibleTransitions?.OfType<ComboState>().FirstOrDefault(t => t.RequiredSkill == skill.GetBaseSkill());
     }
 }
