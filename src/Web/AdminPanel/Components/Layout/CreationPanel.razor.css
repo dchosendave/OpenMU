@@ -9,7 +9,7 @@
     background-color: var(--omu-surface-2);
     color: var(--omu-text);
     border-left: var(--bs-border-width) solid var(--omu-border);
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.08);
+    box-shadow: none;
     overflow: hidden;
     z-index: 2;
 }

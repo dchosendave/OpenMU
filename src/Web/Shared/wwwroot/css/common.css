@@ -13,7 +13,7 @@
 }
 
 html, body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: var(--sc-font-sans);
 }
 
 a, .btn-link {
@@ -21,7 +21,9 @@ a, .btn-link {
 }
 
 mark, .mark {
-  font-weight: bold;
+  font-weight: 600;
+  color: inherit;
   background: var(--omu-mark-bg);
-  padding: 0;
+  padding: 0 0.125rem;
+  border-radius: 0.25rem;
 }

@@ -1,16 +1,23 @@
-/* Sidebar navigation: layout, links, collapsible dropdown groups, and the culture selector. */
+/* Sidebar navigation in the look of the shadcn sidebar: layout, menu buttons, collapsible sub menus, and the culture selector. */
 .sidebar {
   display: flex;
   flex-direction: column;
-}
-
-.sidebar > nav {
-  background-image: var(--omu-sidebar-gradient);
+  color: var(--sc-sidebar-foreground);
+  background-color: var(--sc-sidebar);
 }
 
 @media (min-width: 768px) {
+  .sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    flex-shrink: 0;
+    overflow-y: auto;
+    border-right: 1px solid var(--sc-sidebar-border);
+  }
+
   .sidebar > nav {
-    width: 250px;
+    width: 16rem;
     min-height: 100%;
   }
 
@@ -23,65 +30,132 @@
   }
 }
 
+.sidebar .nav {
+  gap: 1px;
+  padding: 0.5rem;
+}
+
 .sidebar .nav-link {
-  color: var(--omu-nav-link);
-  font-size: 0.9rem;
-  background: none;
-  border: none;
-  border-radius: 4px;
-  height: 3rem;
   display: flex;
   align-items: center;
-  line-height: 3rem;
+  gap: 0.5rem;
   width: 100%;
+  height: 2rem;
+  padding: 0 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--sc-sidebar-foreground);
+  background: none;
+  border: none;
+  border-radius: 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-.sidebar > nav .oi {
-  width: 2rem;
-  font-size: 1.1rem;
-  vertical-align: text-top;
-  top: -2px;
+.sidebar .nav-link:hover,
+.sidebar .nav-link:focus-visible {
+  color: var(--sc-sidebar-accent-foreground);
+  background-color: var(--sc-sidebar-accent);
 }
 
-.sidebar > nav > div > ul > li.dropdown > div {
-  display: none;
+.sidebar .nav-link:focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 2px var(--sc-ring);
 }
 
-.sidebar > nav > div > ul > li.dropdown > div.show {
-  display: block;
-  position: relative;
-  width: 100%;
-  border-radius: 0;
+.sidebar .nav-link.active {
+  font-weight: 500;
+  color: var(--sc-sidebar-accent-foreground);
+  background-color: var(--sc-sidebar-accent);
 }
 
-.sidebar > nav > div > ul > li.dropdown > a::after {
-  transition: transform 0.3s ease;
+.sidebar .oi {
+  flex-shrink: 0;
+  width: 1rem;
+  font-size: 0.875rem;
+  text-align: center;
+  top: 0;
 }
 
-.sidebar > nav > div > ul > li.dropdown.expanded > a::after {
+/* The badge of a menu entry is aligned to the right, like the shadcn SidebarMenuBadge. */
+.sidebar .nav-link .badge {
+  margin-left: auto !important;
+}
+
+/* Collapsible sub menu (e.g. the game configuration), like the shadcn SidebarMenuSub. */
+.sidebar li.dropdown > .dropdown-toggle::after {
+  margin-left: auto;
+  transition: transform 0.2s ease;
+}
+
+.sidebar li.dropdown.expanded > .dropdown-toggle::after {
   transform: rotate(180deg);
 }
 
+.sidebar li.dropdown > .dropdown-menu {
+  display: none;
+}
+
+.sidebar li.dropdown > .dropdown-menu.show {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  position: static;
+  width: auto;
+  min-width: 0;
+  margin: 0.125rem 0 0.125rem 0.875rem;
+  padding: 0.125rem 0 0.125rem 0.625rem;
+  color: var(--sc-sidebar-foreground);
+  background: none;
+  border: 0;
+  border-left: 1px solid var(--sc-sidebar-border);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.sidebar li.dropdown > .dropdown-menu > .dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 1.75rem;
+  padding: 0 0.5rem;
+  font-size: 0.875rem;
+  color: var(--sc-sidebar-foreground);
+  background: none;
+  border-radius: 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar li.dropdown > .dropdown-menu > .dropdown-item:hover,
+.sidebar li.dropdown > .dropdown-menu > .dropdown-item:focus-visible {
+  color: var(--sc-sidebar-accent-foreground);
+  background-color: var(--sc-sidebar-accent);
+}
+
+.sidebar li.dropdown > .dropdown-menu > .dropdown-item.active {
+  font-weight: 500;
+  color: var(--sc-sidebar-accent-foreground);
+  background-color: var(--sc-sidebar-accent);
+}
+
+.sidebar li.dropdown > .dropdown-menu > .dropdown-divider {
+  margin: 0.25rem 0;
+  border-color: var(--sc-sidebar-border);
+}
+
 .culture-selector-icon {
-  color: var(--omu-nav-link);
+  color: var(--sc-muted-foreground);
 }
 
 .culture-selector {
   display: flex;
-  line-height: 3rem;
+  gap: 0.5rem;
   align-items: center;
-  padding-left: 1rem;
-  padding-top: 1rem;
-  position: relative;
-}
-
-.culture-selector::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(215, 215, 215, 0.1) 0%, rgb(215, 215, 215) 50%, rgba(215, 215, 215, 0.1) 100%);
-  pointer-events: none;
+  margin-top: 0.5rem;
+  padding: 0.75rem 0.5rem 0.25rem;
+  border-top: 1px solid var(--sc-sidebar-border);
 }
