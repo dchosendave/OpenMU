@@ -1,31 +1,17 @@
 /* Form layout and validation styling: Blazor valid/invalid states, expandable details sections, info popups, sticky form actions, and the auto-form search field. */
-/* Blazor validation states mapped onto Bootstrap's default validation colors.
-   Note: Bootstrap's own validation visuals (is-valid/is-invalid icons and padding) are intentionally
-   unused - no markup applies those classes, so stock Bootstrap stays at its defaults. */
+/* Blazor validation states in the shadcn style: only invalid fields are highlighted (destructive border and ring),
+   valid fields keep their normal look. The size of checkboxes and radios is defined in shadcn.css. */
 .invalid.modified {
-  border-color: var(--bs-form-invalid-border-color);
+  border-color: var(--sc-destructive);
 }
 
 .invalid.modified:focus {
-  border-color: var(--bs-form-invalid-border-color);
-  box-shadow: 0 0 0 0.25rem rgba(var(--bs-danger-rgb), 0.25);
-}
-
-.valid.modified {
-  border-color: var(--bs-form-valid-border-color);
-}
-
-.valid.modified:focus {
-  border-color: var(--bs-form-valid-border-color);
-  box-shadow: 0 0 0 0.25rem rgba(var(--bs-success-rgb), 0.25);
+  border-color: var(--sc-destructive);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--sc-destructive) 20%, transparent);
 }
 
 .form-check-input {
   padding: 0;
-  width: 1em;
-  height: 1em;
-  min-width: 1em;
-  min-height: 1em;
 }
 
 details > summary {

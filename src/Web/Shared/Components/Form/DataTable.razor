@@ -4,8 +4,8 @@
 
 <div class="btn-toolbar" role="toolbar" aria-label="@Resources.Toolbar">
     <div class="btn-group" role="group" aria-label="@Resources.Navigation">
-        <button disabled="@(this.Page <= 1 || this._isLoading)" class="btn btn-sm btn-primary" @onclick=@this.GetPreviousPageAsync><span class="oi oi-arrow-thick-left" aria-hidden="true" /></button>
-        <button class="btn btn-sm btn-secondary" disabled>
+        <button disabled="@(this.Page <= 1 || this._isLoading)" class="btn btn-sm btn-outline-secondary" @onclick=@this.GetPreviousPageAsync><span class="oi oi-arrow-thick-left" aria-hidden="true" /></button>
+        <button class="btn btn-sm btn-outline-secondary page-indicator" disabled>
             @if (this._isLoading)
             {
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -16,7 +16,7 @@
                 <span>@string.Format(Resources.PageNumber, this.Page)</span>
             }
         </button>
-        <button disabled="@(!this._hasMoreEntries || this._isLoading)" class="btn btn-sm btn-primary" @onclick=@this.GetNextPageAsync><span class="oi oi-arrow-thick-right" aria-hidden="true" /></button>
+        <button disabled="@(!this._hasMoreEntries || this._isLoading)" class="btn btn-sm btn-outline-secondary" @onclick=@this.GetNextPageAsync><span class="oi oi-arrow-thick-right" aria-hidden="true" /></button>
     </div>
 </div>
 
