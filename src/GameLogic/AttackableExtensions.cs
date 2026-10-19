@@ -306,16 +306,6 @@ public static class AttackableExtensions
             }
         }
 
-        if (isPvp && dmg > 0 && attackerPlayer!.Attributes?[Stats.PvpDamageMultiplier] is > 0 and var pvpDamageMultiplier)
-        {
-            dmg = Math.Max(1, (int)(dmg * pvpDamageMultiplier));
-        }
-
-        if (isPvp && dmg > 0 && defender.Attributes[Stats.PvpDamageTakenMultiplier] is > 0 and var pvpDamageTakenMultiplier)
-        {
-            dmg = Math.Max(1, (int)(dmg * pvpDamageTakenMultiplier));
-        }
-
         return defender.GetHitInfo((uint)dmg, attributes, attacker, (uint)manaToll, skill);
     }
 
