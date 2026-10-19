@@ -73,7 +73,7 @@ internal static class Program
             }
         }
 
-        var potion = Potion.LargeComplex(config, options);
+        var potion = Potion.LargeComplex(options);
         var duels = new DuelResult[fighters.Count, fighters.Count];
         for (var a = 0; a < fighters.Count; a++)
         {
@@ -160,7 +160,7 @@ internal static class Program
 }
 
 /// <summary>Command line options.</summary>
-internal sealed record Options(int Port, float Stat, int Level, byte ItemLevel, int Samples, bool Gear, bool Buffs, string? Output, int Duels, double DuelSeconds, bool Potions, float? PvpMultiplier, double? PotionHealth, double? PotionShield, double? PotionCooldown)
+internal sealed record Options(int Port, float Stat, int Level, byte ItemLevel, int Samples, bool Gear, bool Buffs, string? Output, int Duels, double DuelSeconds, bool Potions, double? PotionHealth, double? PotionShield, double? PotionCooldown)
 {
     public static Options Parse(string[] args)
     {
@@ -178,7 +178,6 @@ internal sealed record Options(int Port, float Stat, int Level, byte ItemLevel, 
             int.Parse(Value("--duels") ?? "10", CultureInfo.InvariantCulture),
             double.Parse(Value("--duel-seconds") ?? "180", CultureInfo.InvariantCulture),
             !Flag("--no-potions"),
-            Value("--pvp-multiplier") is { } multiplier ? float.Parse(multiplier, CultureInfo.InvariantCulture) : null,
             Value("--potion-hp") is { } potionHealth ? double.Parse(potionHealth, CultureInfo.InvariantCulture) : null,
             Value("--potion-sd") is { } potionShield ? double.Parse(potionShield, CultureInfo.InvariantCulture) : null,
             Value("--potion-cooldown") is { } potionCooldown ? double.Parse(potionCooldown, CultureInfo.InvariantCulture) : null);
@@ -303,12 +302,6 @@ internal sealed class Fighter
                     buffs.Add(Program.Name(skill));
                 }
             }
-        }
-
-        // --pvp-multiplier: try another PvP damage multiplier than the configured one, in the simulation only.
-        if (options.PvpMultiplier is { } pvpMultiplier)
-        {
-            player.Attributes!.AddElement(new SimpleElement(pvpMultiplier - player.Attributes[Stats.PvpDamageMultiplier], AggregateType.AddRaw), Stats.PvpDamageMultiplier);
         }
 
         var attackSkills = skills
@@ -617,22 +610,18 @@ internal sealed record Matchup(string Skill, double HitChance, double DamagePerH
 
 /// <summary>
 /// A large complex potion as the server applies it: the large healing and the large shield potion
-/// handlers with their default configuration (the complex potion handler creates its own instances),
-/// each recovering in steps, and a cooldown before the next potion.
+/// handlers with their default configuration (the complex potion handler creates its own instances,
+/// so the admin panel's potion settings don't apply to it), each recovering in steps, and a cooldown.
 /// </summary>
 internal sealed record Potion(RecoverConsumeHandlerConfiguration Health, RecoverConsumeHandlerConfiguration Shield)
 {
     public TimeSpan Cooldown => this.Health.CooldownTime > this.Shield.CooldownTime ? this.Health.CooldownTime : this.Shield.CooldownTime;
 
-    public static Potion LargeComplex(GameConfiguration config, Options options)
+    public static Potion LargeComplex(Options options)
     {
-        var plugIn = new LargeComplexPotionConsumeHandlerPlugIn();
-        var json = config.PlugInConfigurations.FirstOrDefault(c => c.TypeId == typeof(LargeComplexPotionConsumeHandlerPlugIn).GUID)?.CustomConfiguration;
-        var configuration = string.IsNullOrWhiteSpace(json)
-            ? (ComplexPotionConsumeHandlerConfiguration)plugIn.CreateDefaultConfig()
-            : System.Text.Json.Nodes.JsonNode.Parse(json) is { } node
-                ? StripReferenceMetadata(node)!.Deserialize<ComplexPotionConsumeHandlerConfiguration>()!
-                : throw new InvalidDataException("Potion configuration is not JSON.");
+        var configuration = (
+            Health: (RecoverConsumeHandlerConfiguration)new LargeHealthPotionConsumeHandlerPlugIn().CreateDefaultConfig(),
+            Shield: (RecoverConsumeHandlerConfiguration)new LargeShieldPotionConsumeHandlerPlugIn().CreateDefaultConfig());
         if (options.PotionHealth is { } health)
         {
             configuration.Health.TotalRecoverPercentage = health;
@@ -672,38 +661,6 @@ internal sealed record Potion(RecoverConsumeHandlerConfiguration Health, Recover
                 var amount = total * step.RecoverPercentage / 100.0;
                 yield return (at, isHealth ? amount : 0, isHealth ? 0 : amount);
             }
-        }
-    }
-
-    // The stored configuration has OpenMU's reference metadata ($id, $values), which only its own reference handler reads.
-    private static System.Text.Json.Nodes.JsonNode? StripReferenceMetadata(System.Text.Json.Nodes.JsonNode? node)
-    {
-        switch (node)
-        {
-            case System.Text.Json.Nodes.JsonObject obj when obj["$values"] is { } values:
-                obj.Remove("$values");
-                return StripReferenceMetadata(values);
-            case System.Text.Json.Nodes.JsonObject obj:
-                obj.Remove("$id");
-                foreach (var property in obj.ToList())
-                {
-                    var stripped = StripReferenceMetadata(property.Value);
-                    if (!ReferenceEquals(stripped, property.Value))
-                    {
-                        obj[property.Key] = stripped?.DeepClone();
-                    }
-                }
-
-                return obj;
-            case System.Text.Json.Nodes.JsonArray array:
-                foreach (var item in array)
-                {
-                    StripReferenceMetadata(item);
-                }
-
-                return array;
-            default:
-                return node;
         }
     }
 
@@ -860,7 +817,7 @@ internal static class Report
         text.AppendLine(string.Create(invariant, $"All 3rd class characters at level {options.Level}, every base stat {options.Stat:N0}, no master skills, ")
             + (options.Gear ? string.Create(invariant, $"+{options.ItemLevel} full option 380 items (no 380 option) and 3rd wings") : "no gear")
             + (options.Buffs ? ", own buffs active." : ", no buffs.")
-            + (options.PvpMultiplier is { } forced ? string.Create(invariant, $" PvP damage multiplier {forced:0.###} for every class (--pvp-multiplier).") : " PvP multipliers per class as configured (see Classes)."));
+            );
         text.AppendLine();
 
         text.AppendLine("## Duels");
@@ -956,12 +913,12 @@ internal static class Report
 
         text.AppendLine("## Classes");
         text.AppendLine();
-        text.AppendLine("| class | HP | SD | defense (PvP) | defense rate (PvP) | attack rate (PvP) | attack / magic speed | damage taken | PvP damage × | PvP damage taken × | buffs |");
-        text.AppendLine("|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|");
+        text.AppendLine("| class | HP | SD | defense (PvP) | defense rate (PvP) | attack rate (PvP) | attack / magic speed | damage taken | buffs |");
+        text.AppendLine("|---|---:|---:|---:|---:|---:|---:|---:|---|");
         foreach (var f in fighters)
         {
             var a = f.Attributes;
-            text.AppendLine(invariant, $"| {f.Name} | {a[Stats.MaximumHealth]:N0} | {a[Stats.MaximumShield]:N0} | {a[Stats.DefensePvp]:N0} | {a[Stats.DefenseRatePvp]:N0} | {a[Stats.AttackRatePvp]:N0} | {a[Stats.AttackSpeed]:N0} / {a[Stats.MagicSpeed]:N0} | {a[Stats.DamageReceiveDecrement]:P0} | {a[Stats.PvpDamageMultiplier]:0.####} | {a[Stats.PvpDamageTakenMultiplier]:0.###} | {string.Join(", ", f.Buffs)} |");
+            text.AppendLine(invariant, $"| {f.Name} | {a[Stats.MaximumHealth]:N0} | {a[Stats.MaximumShield]:N0} | {a[Stats.DefensePvp]:N0} | {a[Stats.DefenseRatePvp]:N0} | {a[Stats.AttackRatePvp]:N0} | {a[Stats.AttackSpeed]:N0} / {a[Stats.MagicSpeed]:N0} | {a[Stats.DamageReceiveDecrement]:P0} | {string.Join(", ", f.Buffs)} |");
         }
 
         text.AppendLine();

@@ -14,14 +14,13 @@ dotnet run -c Release -p:ci=true -- --out ../../../balance-report.md
 
 Options: `--port 5433` (database port), `--stat 32767` (every base stat), `--level 400`,
 `--item-level 15`, `--samples 4000` (hits sampled per matchup; more = steadier numbers),
-`--duels 10`, `--duel-seconds 180`, `--no-potions`, `--pvp-multiplier 0.3`, `--potion-hp 30`, `--potion-sd 25`, `--potion-cooldown 1` (try values without changing the database), `--no-gear`, `--no-buffs`.
+`--duels 10`, `--duel-seconds 180`, `--no-potions`, `--potion-hp 30`, `--potion-sd 25`, `--potion-cooldown 1` (try values without changing the database), `--no-gear`, `--no-buffs`.
 
 The model and what it leaves out are listed at the end of every report.
 
-## Re-balancing after a change
+## Offense and defense per class
 
-`fit.py <report.md>` reads the "Casts to kill" table of a report made with every class's
-`PvP Damage Multiplier` and `PvP Damage Taken Multiplier` set to 1, and prints the per-class values that
-even out offense and defense (and set the pace to about 10 s per kill without potions), plus how close
-each matchup would be. Put the values into the classes' base attribute values (admin panel or SQL) and
-re-run the simulator to check the duels.
+`fit.py <report.md>` reads the "Casts to kill" table of a report and separates how strong each class
+attacks from how much it can take (a two-way fit), and lists how close each matchup is once both are
+evened out - useful to see whether an imbalance is a class's damage, its survivability, or one
+specific matchup.
