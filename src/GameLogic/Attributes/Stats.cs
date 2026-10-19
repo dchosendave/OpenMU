@@ -817,6 +817,19 @@ public class Stats
     public static AttributeDefinition FinalDamageIncreasePvp { get; } = new(new Guid("20BE9BFA-A2DC-4868-8ABF-B6DE4B51D4D2"), "Final Damage Increase (PvP)", string.Empty);
 
     /// <summary>
+    /// Gets the PvP damage multiplier attribute definition: scales all damage between players,
+    /// e.g. to make fights last on servers with very high stats. Set it as a global base value;
+    /// 0 (not set) means no scaling.
+    /// </summary>
+    public static AttributeDefinition PvpDamageMultiplier { get; } = new(new Guid("BEEC9760-0300-41C7-A2BE-85B6707FA96C"), "PvP Damage Multiplier", "Scales all damage between players (1 = unchanged, 0.1 = a tenth). 0 or not set: unchanged.");
+
+    /// <summary>
+    /// Gets the PvP damage taken multiplier attribute definition: scales the damage a player receives
+    /// from other players, e.g. per character class to balance PvP. 0 (not set) means no scaling.
+    /// </summary>
+    public static AttributeDefinition PvpDamageTakenMultiplier { get; } = new(new Guid("2EB1DB11-456B-43EB-BEDE-F464ECEECB5F"), "PvP Damage Taken Multiplier", "Scales the damage a player receives from other players (1 = unchanged, 2 = double). 0 or not set: unchanged.");
+
+    /// <summary>
     /// Gets the defense base attribute definition.
     /// </summary>
     /// <remarks>
