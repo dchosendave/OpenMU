@@ -1,9 +1,11 @@
 ﻿@using System.Diagnostics.CodeAnalysis
 @inherits NotifyableInputBase<bool>
 
-<div class="mb-3">
-    <FieldLabel Text="@Label" ValueExpression="@this.ValueExpression" />
-    <input type="checkbox" class="form-check-input" id="@this.FieldIdentifier.FieldName" @bind="CurrentValue" />
+<div class="mb-3 boolean-field">
+    <div class="form-check form-switch">
+        <input type="checkbox" role="switch" class="form-check-input" id="@this.FieldIdentifier.FieldName" @bind="CurrentValue" />
+        <FieldLabel Text="@Label" ValueExpression="@this.ValueExpression" />
+    </div>
     <ValidationMessage For=@this.ValueExpression />
 </div>
 

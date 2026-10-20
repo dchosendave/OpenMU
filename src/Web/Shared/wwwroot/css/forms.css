@@ -84,3 +84,103 @@ label > details.info-popup > div {
   color: var(--omu-text-muted);
   pointer-events: none;
 }
+
+/* Auto-generated form layout: simple fields in a responsive grid, nested objects and collections as sections below it. */
+.auto-fields-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  column-gap: 1.25rem;
+  align-items: end;
+}
+
+.auto-field {
+  min-width: 0;
+}
+
+.auto-field-wide {
+  grid-column: 1 / -1;
+}
+
+.auto-field > .mb-3 > label {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  margin-bottom: 0.375rem;
+}
+
+.auto-field-group {
+  border-top: 1px solid var(--sc-border);
+  padding-top: 1rem;
+  margin-top: 0.25rem;
+}
+
+.auto-field-group > legend {
+  float: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.auto-field-section > .card {
+  border-radius: 0.75rem;
+}
+
+.auto-field-section > .card > .card-header {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.auto-field-section > .card > .card-header label {
+  margin-bottom: 0;
+}
+
+/* Sections nested in sections are set off by a tinted background instead of another border. */
+.auto-field-section .auto-field-section > .card {
+  background-color: color-mix(in srgb, var(--sc-muted) 60%, transparent);
+  border-color: transparent;
+}
+
+/* Boolean fields: a switch with its label beside it. AutoFields collects them in one row below the inputs. */
+.auto-field-switches {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.auto-field-switches > .boolean-field {
+  margin-bottom: 0.5rem !important;
+}
+
+.boolean-field .form-check {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-height: 2rem;
+  padding-left: 0;
+  margin: 0;
+}
+
+.boolean-field .form-check > label {
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+.boolean-field .form-switch .form-check-input {
+  margin: 0;
+  float: none;
+}
+
+/* Lists of nested objects: the action buttons sit together at the right end of the row. */
+.item-table > tbody > tr > td:not(:first-child) {
+  width: 1%;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.item-table > tbody > tr > td {
+  vertical-align: middle;
+}
