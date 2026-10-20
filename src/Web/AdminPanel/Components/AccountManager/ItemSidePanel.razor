@@ -1,0 +1,22 @@
+<aside class="card side-panel">
+    <ul class="nav nav-tabs px-2 pt-2">
+        <li class="nav-item">
+            <button type="button" class="nav-link @(!this.State.ShowCatalog ? "active" : string.Empty)" @onclick="() => this.Set(() => this.State.ShowCatalog = false)">@Resources.AccountManagerSelectedItem</button>
+        </li>
+        <li class="nav-item">
+            <button type="button" class="nav-link show-catalog @(this.State.ShowCatalog ? "active" : string.Empty)" @onclick="() => this.Set(() => this.State.ShowCatalog = true)">@Resources.AccountManagerAddItems</button>
+        </li>
+    </ul>
+    @if (this.State.ShowCatalog)
+    {
+        <ItemCatalog />
+    }
+    else if (this.State.ItemEditor is { } editor)
+    {
+        <ItemEditorPanel Editor="editor" />
+    }
+    else
+    {
+        <div class="text-muted small p-3">@Resources.AccountManagerSelectItemHint</div>
+    }
+</aside>

@@ -1,0 +1,233 @@
+<div class="catalog">
+    <div class="d-flex gap-2 align-items-center">
+        <input class="form-control form-control-sm catalog-search flex-grow-1" type="search" placeholder="@this.SearchPlaceholder" @bind="this._search" @bind:event="oninput" />
+        @if (this._mode != Mode.Packages)
+        {
+            <select class="form-select form-select-sm catalog-level" title="@Resources.AccountManagerLevel" @bind="this._level">
+                @for (var i = 0; i <= 15; i++)
+                {
+                    <option value="@i">+@i</option>
+                }
+            </select>
+        }
+    </div>
+    @if (this._mode != Mode.Packages)
+    {
+        <div class="d-flex gap-2 align-items-center">
+            <select class="form-select form-select-sm catalog-class" title="@Resources.AccountManagerClassFilterHint" @bind="this._classNumber">
+                <option value="-1">@Resources.AccountManagerAllClasses</option>
+                @foreach (var characterClass in this.BaseClasses)
+                {
+                    <option value="@characterClass.Number">@characterClass.Name.ToString()</option>
+                }
+            </select>
+            <select class="form-select form-select-sm catalog-preset" title="@Resources.AccountManagerPresetHint" value="@(this.State.CatalogPreset?.Id.ToString() ?? string.Empty)" @onchange="this.OnPresetChanged">
+                <option value="">@Resources.AccountManagerPlainItems</option>
+                @foreach (var preset in this.State.Presets.Presets)
+                {
+                    <option value="@preset.Id" title="@preset.GetSummary()">@preset.Name</option>
+                }
+            </select>
+            <button type="button" class="btn btn-sm btn-outline-secondary manage-presets text-nowrap" title="@Resources.AccountManagerManagePresetsHint" @onclick="this.ShowPresetsAsync">@Resources.AccountManagerPresets</button>
+        </div>
+    }
+    <div class="text-muted small text-truncate" title="@this.TargetCaption">@this.TargetCaption</div>
+    <div class="catalog-body">
+        <nav class="category-tree">
+            <button type="button" class="filter @(this._filter is null && this._mode == Mode.Items ? "active" : string.Empty)" @onclick="() => this.Pick(null, Mode.Items)">@Resources.AccountManagerAllItems</button>
+            @foreach (var category in this._categories)
+            {
+                <div class="category-name">@category.Name</div>
+                @if (category.HasArmorSets)
+                {
+                    <button type="button" class="filter sets-filter @(this._mode == Mode.Sets ? "active" : string.Empty)" @onclick="() => this.Pick(null, Mode.Sets)">@Resources.AccountManagerSets</button>
+                }
+
+                @foreach (var entry in category.Filters)
+                {
+                    <button type="button" class="filter @(this._filter == entry && this._mode == Mode.Items ? "active" : string.Empty)" @onclick="() => this.Pick(entry, Mode.Items)">@entry.Name</button>
+                }
+            }
+            @if (!this.ForPackage)
+            {
+                <button type="button" class="filter packages-filter mt-2 @(this._mode == Mode.Packages ? "active" : string.Empty)" @onclick="() => this.Pick(null, Mode.Packages)">@Resources.AccountManagerPackages</button>
+            }
+        </nav>
+        @switch (this._mode)
+        {
+            case Mode.Packages:
+                <div class="catalog-list package-list">
+                    @{
+                        var forClass = this.State.SelectedCharacter?.CharacterClass;
+                        var converter = this.Converter;
+                    }
+                    @foreach (var package in this.FilteredPackages)
+                    {
+                        var count = converter is null ? package.Items.Count : package.Items.Count(i => converter.IsFor(i, forClass));
+                        <div class="catalog-item package-entry" @key="package.Id" title="@PackageTooltip(package)">
+                            <span class="catalog-name d-flex flex-column">
+                                <span class="package-name">@package.Name</span>
+                                <span class="text-muted small package-count">@string.Format(Resources.AccountManagerPackageCount, count)@(package.Zen > 0 ? $", {string.Format(Resources.AccountManagerZenAmount, package.Zen)}" : string.Empty)</span>
+                            </span>
+                            <button type="button" class="btn btn-sm btn-outline-secondary apply-package" title="@Resources.AccountManagerAddToVault" disabled="@(this.State.Session is null)"
+                                    @onclick="() => this.State.ApplyPackage(package)">@Resources.AccountManagerAdd</button>
+                        </div>
+                    }
+                    @if (!this.FilteredPackages.Any())
+                    {
+                        <div class="text-muted small p-2">
+                            @(this.State.Packages.Packages.Count == 0 ? Resources.AccountManagerNoPackagesYet : Resources.AccountManagerNoPackageMatches)
+                        </div>
+                    }
+                </div>
+                break;
+            case Mode.Sets:
+                <div class="catalog-list set-list">
+                    @foreach (var set in this.Sets)
+                    {
+                        <div class="catalog-item set-entry" @key="set.Number" title="@string.Join("\n", set.Pieces.Select(p => p.Name.ToString()))">
+                            <CatalogIcon Definition="set.Main" />
+                            <span class="catalog-name fw-medium set-name">@set.Name</span>
+                            <span class="text-muted small">@string.Format(Resources.AccountManagerPieces, set.Pieces.Count)</span>
+                            <button type="button" class="btn btn-sm btn-outline-secondary add-set" title="@string.Format(Resources.AccountManagerAddAllPiecesTo, this.AddTarget)" disabled="@(!this.CanAdd)"
+                                    @onclick="() => this.State.AddSet(set, (byte)this._level, this.ForPackage)">@Resources.AccountManagerAdd</button>
+                        </div>
+                    }
+                    @if (!this.Sets.Any())
+                    {
+                        <div class="text-muted small p-2">@Resources.AccountManagerNoSetMatches</div>
+                    }
+                </div>
+                break;
+            default:
+                <div class="catalog-list">
+                    @foreach (var definition in this.Results)
+                    {
+                        <div class="catalog-item" @key="definition" title="@ItemDisplay.GroupName(definition.Group), @definition.Width×@definition.Height">
+                            <CatalogIcon Definition="definition" />
+                            <span class="catalog-name">@definition.Name.ToString()</span>
+                            <span class="text-muted small">@definition.Width×@definition.Height</span>
+                            <button type="button" class="btn btn-sm btn-outline-secondary add-item" title="@string.Format(Resources.AccountManagerAddTo, this.AddTarget)" disabled="@(!this.CanAdd)"
+                                    @onclick="() => this.Add(definition)">@Resources.AccountManagerAdd</button>
+                        </div>
+                    }
+                    @if (!this.Results.Any())
+                    {
+                        <div class="text-muted small p-2">@Resources.AccountManagerNoItemMatches</div>
+                    }
+                </div>
+                break;
+        }
+    </div>
+</div>
+
+@code {
+    private const int MaximumResults = 150;
+
+    private readonly IReadOnlyList<ItemCategory> _categories = ItemDisplay.Categories;
+    private string _search = string.Empty;
+    private ItemFilter? _filter;
+    private Mode _mode;
+    private int _level;
+    private int _classNumber = -1;
+    private PackageConverter? _converter;
+
+    private enum Mode
+    {
+        Items,
+        Sets,
+        Packages,
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether "Add" adds to the open package instead of the target storage.
+    /// </summary>
+    [Parameter]
+    public bool ForPackage { get; set; }
+
+    [Inject]
+    private IModalService ModalService { get; set; } = null!;
+
+    private PackageConverter? Converter => this._converter ??= this.State.Database is { } database ? new PackageConverter(database.Configuration) : null;
+
+    private IReadOnlyList<CharacterClass> BaseClasses => this.Converter?.BaseClasses ?? Array.Empty<CharacterClass>();
+
+    private CharacterClass? ChosenClass => this.BaseClasses.FirstOrDefault(c => c.Number == this._classNumber);
+
+    private string? AddTarget => this.ForPackage ? this.State.PackageEditor?.Name : this.State.TargetStorage?.Title;
+
+    private bool CanAdd => this.ForPackage ? this.State.PackageEditor is not null : this.State.TargetStorage is not null;
+
+    private string SearchPlaceholder => this._mode switch
+    {
+        Mode.Packages => Resources.AccountManagerSearchPackageName,
+        Mode.Sets => Resources.AccountManagerSearchSetName,
+        _ => Resources.AccountManagerSearchItemName,
+    };
+
+    private string TargetCaption
+    {
+        get
+        {
+            if (this._mode == Mode.Packages)
+            {
+                return string.Format(Resources.AccountManagerPackageTarget, this.State.SelectedCharacter?.CharacterClass?.Name.ToString() ?? Resources.AccountManagerAllClasses);
+            }
+
+            var caption = string.Format(Resources.AccountManagerAddsTo, this.AddTarget ?? Resources.AccountManagerNoStorage);
+            return this.State.CatalogPreset is { } preset ? $"{caption}, {preset.GetSummary()}" : caption;
+        }
+    }
+
+    private IEnumerable<ItemDefinition> Results => this.State.Definitions
+        .Where(d => this._filter?.Matches(d) != false)
+        .Where(d => this.ChosenClass is null || this.Converter?.IsFor(d, this.ChosenClass) != false)
+        .Where(d => string.IsNullOrWhiteSpace(this._search) || (d.Name.ToString() ?? string.Empty).Contains(this._search.Trim(), StringComparison.OrdinalIgnoreCase))
+        .Take(MaximumResults);
+
+    private IEnumerable<ArmorSet> Sets => (this.State.Database?.ArmorSets ?? Array.Empty<ArmorSet>())
+        .Where(s => this.ChosenClass is null || this.Converter?.IsFor(s.Main, this.ChosenClass) != false)
+        .Where(s => string.IsNullOrWhiteSpace(this._search) || s.Name.Contains(this._search.Trim(), StringComparison.OrdinalIgnoreCase));
+
+    private IEnumerable<ItemPackage> FilteredPackages => this.State.Packages.Packages
+        .Where(p => string.IsNullOrWhiteSpace(this._search) || p.Name.Contains(this._search.Trim(), StringComparison.OrdinalIgnoreCase));
+
+    private static string PackageTooltip(ItemPackage package)
+    {
+        var lines = new List<string>();
+        if (!string.IsNullOrWhiteSpace(package.Description))
+        {
+            lines.Add(package.Description);
+        }
+
+        lines.AddRange(package.Items.Select(PackageConverter.Describe));
+        return string.Join("\n", lines);
+    }
+
+    private void Pick(ItemFilter? entry, Mode mode)
+    {
+        this._filter = entry;
+        this._mode = mode;
+    }
+
+    private void OnPresetChanged(ChangeEventArgs e)
+        => this.State.SetCatalogPreset(Guid.TryParse(e.Value as string, out var id) ? id : null);
+
+    private void Add(ItemDefinition definition)
+    {
+        if (this.ForPackage)
+        {
+            this.State.AddPackageItem(definition, (byte)this._level);
+        }
+        else
+        {
+            this.State.AddItem(definition, (byte)this._level);
+        }
+    }
+
+    private async Task ShowPresetsAsync()
+    {
+        var modal = this.ModalService.Show<PresetsDialog>(Resources.AccountManagerOptionPresets, null, new ModalOptions { Size = ModalSize.ExtraLarge });
+        await modal.Result.ConfigureAwait(true);
+    }
+}

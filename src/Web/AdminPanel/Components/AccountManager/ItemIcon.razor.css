@@ -1,0 +1,50 @@
+/* The icons are the item editor's renders: the cells of an item (42px each) start at 38/42px in the picture,
+   so it's scaled to 36px cells and shifted onto the tile (inside its 1px border). */
+.tile-icon {
+    position: absolute;
+    left: -33.57px;
+    top: -37px;
+    transform: scale(0.857143);
+    transform-origin: 0 0;
+    pointer-events: none;
+    user-select: none;
+}
+
+.tile-icon.missing {
+    display: none;
+}
+
+.tile-name {
+    display: none;
+    font-size: 9.5px;
+    line-height: 1.1;
+    color: #eceef2;
+    word-break: break-word;
+}
+
+.tile-name.shown,
+.tile-icon.missing ~ .tile-name {
+    display: block;
+}
+
+.tile-level,
+.tile-amount {
+    position: absolute;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1;
+    pointer-events: none;
+    text-shadow: 0 0 2px #000, 1px 1px 0 #000;
+}
+
+.tile-level {
+    top: 2px;
+    left: 2px;
+    color: #f0d27a;
+}
+
+.tile-amount {
+    bottom: 2px;
+    right: 3px;
+    color: #fff;
+}

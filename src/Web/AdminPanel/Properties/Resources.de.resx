@@ -2037,4 +2037,19 @@
   <data name="DashboardOpen" xml:space="preserve">
     <value>Öffnen</value>
   </data>
+  <data name="ConfigGroupGeneral" xml:space="preserve">
+    <value>Allgemein &amp; Server</value>
+  </data>
+  <data name="ConfigGroupCharacters" xml:space="preserve">
+    <value>Charaktere &amp; Fertigkeiten</value>
+  </data>
+  <data name="ConfigGroupDropsAndShops" xml:space="preserve">
+    <value>Drops &amp; Shops</value>
+  </data>
+  <data name="ConfigGroupWorld" xml:space="preserve">
+    <value>Welt &amp; Monster</value>
+  </data>
+  <data name="ConfigGroupExtensions" xml:space="preserve">
+    <value>Plugins &amp; Befehle</value>
+  </data>
 </root>

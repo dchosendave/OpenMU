@@ -1,14 +1,34 @@
-/* Data grid styling: QuickGrid striping, row hover, and cell padding. */
+/* Data grid styling: QuickGrid in the look of the shadcn table - row borders, subtle striping, row hover, and cell padding. */
 /* Note: the old staggered row fade-in animation was intentionally removed with the SCSS build. */
 .quickgrid {
   width: 100%;
-  border-color: var(--bs-table-border-color);
-  --bs-table-striped-bg: rgba(0, 0, 0, 0.05);
-  --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
+  font-size: 0.875rem;
+  border-color: var(--sc-border);
+  --bs-table-striped-bg: color-mix(in srgb, var(--sc-muted) 40%, transparent);
+  --bs-table-hover-bg: color-mix(in srgb, var(--sc-muted) 70%, transparent);
 }
 
 .quickgrid td, .quickgrid th {
   padding: 0.5rem;
+  vertical-align: middle;
+}
+
+.quickgrid thead th {
+  height: 2.5rem;
+  padding-top: 0;
+  padding-bottom: 0;
+  font-weight: 500;
+  color: var(--sc-foreground);
+  border-bottom: 1px solid var(--sc-border);
+}
+
+.quickgrid tbody tr {
+  border-bottom: 1px solid var(--sc-border);
+  transition: background-color 0.15s ease;
+}
+
+.quickgrid tbody tr:last-child {
+  border-bottom: 0;
 }
 
 .quickgrid tbody tr:nth-child(odd) {

@@ -1,0 +1,68 @@
+@using System.Globalization
+@using System.Numerics
+@inherits ComponentBase
+@typeparam TValue where TValue : struct, INumber<TValue>, IMinMaxValue<TValue>
+
+@* A number field which shows thousands separators (1,000,000). Separators may be typed; invalid text keeps the old value. *@
+<input class="form-control form-control-sm text-end @this.Class" type="text" inputmode="numeric" @bind:get="this.Text" @bind:set="this.SetTextAsync" @attributes="this.AdditionalAttributes" />
+
+@code {
+    /// <summary>
+    /// Gets or sets the value.
+    /// </summary>
+    [Parameter]
+    public TValue Value { get; set; }
+
+    /// <summary>
+    /// Gets or sets the callback which is called when the value changed.
+    /// </summary>
+    [Parameter]
+    public EventCallback<TValue> ValueChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets the minimum value.
+    /// </summary>
+    [Parameter]
+    public decimal? Min { get; set; }
+
+    /// <summary>
+    /// Gets or sets the maximum value.
+    /// </summary>
+    [Parameter]
+    public decimal? Max { get; set; }
+
+    /// <summary>
+    /// Gets or sets additional CSS classes.
+    /// </summary>
+    [Parameter]
+    public string? Class { get; set; }
+
+    /// <summary>
+    /// Gets or sets additional attributes of the input.
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string Text => decimal.CreateSaturating(this.Value).ToString("#,0.##", CultureInfo.CurrentCulture);
+
+    private async Task SetTextAsync(string? text)
+    {
+        var culture = CultureInfo.CurrentCulture;
+        var digits = (text ?? string.Empty)
+            .Replace(culture.NumberFormat.NumberGroupSeparator, string.Empty, StringComparison.Ordinal)
+            .Replace("_", string.Empty, StringComparison.Ordinal)
+            .Replace(" ", string.Empty, StringComparison.Ordinal)
+            .Replace(" ", string.Empty, StringComparison.Ordinal);
+        if (!decimal.TryParse(digits, NumberStyles.Number, culture, out var number))
+        {
+            return;
+        }
+
+        number = Math.Clamp(number, this.Min ?? decimal.CreateSaturating(TValue.MinValue), this.Max ?? decimal.CreateSaturating(TValue.MaxValue));
+        var value = TValue.CreateSaturating(number);
+        if (value != this.Value)
+        {
+            await this.ValueChanged.InvokeAsync(value);
+        }
+    }
+}

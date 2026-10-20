@@ -1,0 +1,45 @@
+.sheet {
+    max-width: 64rem;
+}
+
+.sheet-title {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    padding-bottom: 0.375rem;
+    margin: 1.25rem 0 0.75rem;
+    border-bottom: 1px solid var(--sc-border);
+}
+
+.sheet-title:first-child {
+    margin-top: 0;
+}
+
+.fields {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+    gap: 0.75rem 1rem;
+    align-items: end;
+}
+
+.fields .wide {
+    grid-column: span 2;
+}
+
+.form-label {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.sheet-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--sc-border);
+}

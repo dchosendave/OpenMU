@@ -3,13 +3,20 @@
     flex-direction: row;
 }
 
+/* On small screens, the sidebar collapses to a bar above the content. */
+@media (max-width: 767.98px) {
+    .page {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        border-bottom: 1px solid var(--sc-sidebar-border);
+    }
+}
+
 main {
     flex: 1;
     min-width: 0;
-}
-
-.sidebar {
-    background-image: var(--omu-sidebar-gradient);
 }
 
 .header-search {
@@ -20,6 +27,11 @@ main {
     top: 0;
     z-index: 99;
     position: sticky;
+    min-height: 3.5rem;
+    padding: 0;
+    background-color: color-mix(in srgb, var(--sc-background) 95%, transparent);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
 }
 
 .breadcrumb-bar {

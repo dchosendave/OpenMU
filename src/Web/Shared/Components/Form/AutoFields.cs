@@ -1,4 +1,4 @@
-// <copyright file="AutoFields.cs" company="MUnique">
+﻿// <copyright file="AutoFields.cs" company="MUnique">
 // Licensed under the MIT License. See LICENSE file in the project root for full license information.
 // </copyright>
 
@@ -133,25 +133,114 @@ public class AutoFields : ComponentBase
     private ILogger<AutoFields> Logger { get; set; } = null!;
 
     /// <inheritdoc />
+    /// <remarks>
+    /// Simple fields are laid out in a responsive grid, grouped by <see cref="DisplayAttribute.GroupName"/>.
+    /// Nested objects and collections follow as full-width sections, so they don't interrupt the grid.
+    /// </remarks>
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
+        var entries = this.Properties
+            .Select(p => (Property: p, Builder: Builders.FirstOrDefault(b => b.CanBuildComponent(p))))
+            .Where(e => e.Builder is not null)
+            .Select(e => (e.Property, Builder: e.Builder!, Layout: this.GetLayout(e.Property, e.Builder!)))
+            .ToList();
+
         int i = 0;
-        foreach (var propertyInfo in this.Properties)
+        var fieldGroups = entries
+            .Where(e => e.Layout != FieldLayout.Section)
+            .GroupBy(e => e.Property.GetCustomAttribute<DisplayAttribute>()?.GetGroupName());
+        foreach (var group in fieldGroups)
         {
-            IComponentBuilder? componentBuilder = null;
-            try
+            if (group.Key is { } groupName)
             {
-                componentBuilder = Builders.FirstOrDefault(b => b.CanBuildComponent(propertyInfo));
-                if (componentBuilder != null)
+                builder.OpenElement(i++, "fieldset");
+                builder.AddAttribute(i++, "class", "auto-field-group");
+                builder.OpenElement(i++, "legend");
+                builder.AddContent(i++, groupName);
+                builder.CloseElement();
+            }
+
+            builder.OpenElement(i++, "div");
+            builder.AddAttribute(i++, "class", "auto-fields-grid");
+            foreach (var entry in group.Where(e => e.Builder is not BooleanFieldBuilder))
+            {
+                builder.OpenElement(i++, "div");
+                builder.AddAttribute(i++, "class", entry.Layout == FieldLayout.Wide ? "auto-field auto-field-wide" : "auto-field");
+                i = this.BuildField(builder, entry.Property, entry.Builder, i);
+                builder.CloseElement();
+            }
+
+            // Switches are collected in one row at the end, so they don't break up the rows of inputs.
+            var switches = group.Where(e => e.Builder is BooleanFieldBuilder).ToList();
+            if (switches.Count > 0)
+            {
+                builder.OpenElement(i++, "div");
+                builder.AddAttribute(i++, "class", "auto-field auto-field-wide auto-field-switches");
+                foreach (var entry in switches)
                 {
-                    // TODO: Build something around groups (same DisplayAttribute.GroupName)
-                    i = componentBuilder.BuildComponent(this.Context.Model, propertyInfo, builder, i, this.NotificationService);
+                    i = this.BuildField(builder, entry.Property, entry.Builder, i);
                 }
+
+                builder.CloseElement();
             }
-            catch (Exception ex)
+
+            builder.CloseElement();
+
+            if (group.Key is not null)
             {
-                this.Logger.LogError(ex, $"Error building component for property {this.Context.Model.GetType().Name}.{propertyInfo.Name} with component builder {componentBuilder}: {ex.Message}{Environment.NewLine}{ex.StackTrace}");
+                builder.CloseElement();
             }
+        }
+
+        foreach (var entry in entries.Where(e => e.Layout == FieldLayout.Section))
+        {
+            builder.OpenElement(i++, "div");
+            builder.AddAttribute(i++, "class", "auto-field-section");
+            i = this.BuildField(builder, entry.Property, entry.Builder, i);
+            builder.CloseElement();
+        }
+    }
+
+    private int BuildField(RenderTreeBuilder builder, PropertyInfo propertyInfo, IComponentBuilder componentBuilder, int i)
+    {
+        try
+        {
+            return componentBuilder.BuildComponent(this.Context.Model, propertyInfo, builder, i, this.NotificationService);
+        }
+        catch (Exception ex)
+        {
+            this.Logger.LogError(ex, $"Error building component for property {this.Context.Model.GetType().Name}.{propertyInfo.Name} with component builder {componentBuilder}: {ex.Message}{Environment.NewLine}{ex.StackTrace}");
+            return i;
+        }
+    }
+
+    private FieldLayout GetLayout(PropertyInfo propertyInfo, IComponentBuilder componentBuilder)
+    {
+        switch (componentBuilder)
+        {
+            case EmbeddedFormFieldBuilder:
+            case ObjectCollectionFieldBuilder:
+            case SkillListFieldBuilder:
+            case ItemStorageFieldBuilder:
+            case InvasionSpawnTableFieldBuilder:
+            case ValueListFieldBuilder:
+                return FieldLayout.Section;
+            case FlagsEnumFieldBuilder:
+            case ExitGateFieldBuilder:
+            case LocalizedStringFieldBuilder:
+            case IntCollectionFieldBuilder:
+            case ByteArrayFieldBuilder:
+                return FieldLayout.Wide;
+            case TextFieldBuilder:
+                // Formulas, expressions and descriptions need the room; names and short values don't.
+                var value = propertyInfo.GetValue(this.Context.Model) as string;
+                return value?.Length > 40
+                       || propertyInfo.Name.EndsWith("Formula", StringComparison.Ordinal)
+                       || propertyInfo.Name.EndsWith("Description", StringComparison.Ordinal)
+                    ? FieldLayout.Wide
+                    : FieldLayout.Compact;
+            default:
+                return FieldLayout.Compact;
         }
     }
 
@@ -181,6 +270,24 @@ public class AutoFields : ComponentBase
 
         return metadata.Property.Name.Contains(this.SearchTerm, StringComparison.OrdinalIgnoreCase)
                || (metadata.DisplayAttribute?.GetName()?.Contains(this.SearchTerm, StringComparison.OrdinalIgnoreCase) ?? false);
+    }
+
+    private enum FieldLayout
+    {
+        /// <summary>
+        /// A single cell of the field grid.
+        /// </summary>
+        Compact,
+
+        /// <summary>
+        /// A full row of the field grid.
+        /// </summary>
+        Wide,
+
+        /// <summary>
+        /// A full-width section below the field grid, e.g. a nested object or a collection.
+        /// </summary>
+        Section,
     }
 
     private sealed record PropertyMetadata(

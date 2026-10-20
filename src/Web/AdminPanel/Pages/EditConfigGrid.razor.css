@@ -14,7 +14,7 @@
 }
 
 .col-title:hover {
-    background-color: rgba(128, 128, 128, 0.15);
+    background-color: var(--sc-muted);
 }
 
 .col-title-text {

@@ -1,0 +1,147 @@
+.storage {
+    border: 1px solid var(--sc-border);
+    border-radius: 0.75rem;
+    background: var(--sc-card);
+    padding: 0.75rem;
+    width: fit-content;
+}
+
+.storage.targeted {
+    border-color: var(--sc-ring);
+    box-shadow: 0 0 0 3px var(--sc-ring-50);
+}
+
+.storage-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    max-width: 290px;
+}
+
+.storage-title {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    min-width: 0;
+}
+
+.storage-title h3 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.storage-actions {
+    display: flex;
+    gap: 0.375rem;
+}
+
+.zen {
+    color: #b8860b;
+    font-weight: 500;
+}
+
+.alert {
+    max-width: 290px;
+}
+
+.area-title {
+    color: var(--sc-muted-foreground);
+    font-size: 0.75rem;
+    font-weight: 500;
+    margin: 0.5rem 0 0.25rem;
+}
+
+/* Equipment like the character window of the game: its background with a frame per slot. */
+.equipment {
+    position: relative;
+    width: 288px;
+    aspect-ratio: 325 / 323;
+    margin: 0.25rem 0;
+    background: url('/_content/MUnique.OpenMU.Web.ItemEditor/img/equipment_back.png') 0 0 / 100% 100% no-repeat;
+    border-radius: 4px;
+}
+
+.equip-slot {
+    position: absolute;
+}
+
+.equip-slot.can-drop {
+    outline: 2px solid #c9a24a;
+    outline-offset: -3px;
+    background: rgba(201, 162, 74, 0.12);
+}
+
+.equip-slot .tile {
+    left: 50%;
+    top: 50%;
+    background: transparent;
+    border-color: transparent;
+}
+
+/* Grids look like the ones of the game: stone cells, each area in its own frame. */
+.grid {
+    position: relative;
+    overflow: hidden;
+    background: #0c0c0c url('/_content/MUnique.OpenMU.Web.ItemEditor/img/inventory_back.png') 0 0 / 36px 36px;
+    border: 1px solid #000;
+    box-shadow: 0 0 0 1px #6b5e45, 0 0 0 2px #241f17;
+    margin: 2px 2px 0.25rem;
+}
+
+.cell {
+    position: absolute;
+    width: 36px;
+    height: 36px;
+}
+
+.cell:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.tile {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1px;
+    overflow: hidden;
+    cursor: grab;
+    text-align: center;
+    background: rgba(70, 90, 140, 0.22);
+    border: 1px solid rgba(120, 140, 190, 0.35);
+    z-index: 1;
+}
+
+.tile:hover {
+    border-color: #c9c2ae;
+    z-index: 2;
+    filter: brightness(1.15);
+}
+
+.tile.excellent {
+    background: rgba(60, 170, 90, 0.2);
+    border-color: rgba(90, 200, 120, 0.45);
+}
+
+.tile.ancient {
+    background: rgba(60, 120, 220, 0.25);
+    border-color: rgba(90, 150, 240, 0.55);
+}
+
+.tile.socket {
+    background: rgba(150, 90, 220, 0.22);
+    border-color: rgba(170, 120, 240, 0.5);
+}
+
+.tile.overlap {
+    border: 1px dashed #d06060;
+    opacity: 0.85;
+}
+
+.tile.selected {
+    border-color: #c9a24a;
+    outline: 1px solid #c9a24a;
+    z-index: 3;
+}

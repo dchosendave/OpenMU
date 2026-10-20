@@ -412,7 +412,24 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
     public ISkillList? SkillList { get; private set; }
 
     /// <inheritdoc />
-    public ComboStateMachine? ComboState => this.Attributes?[Stats.IsSkillComboAvailable] > 0 ? this._comboStateLazy?.Value : null;
+    public ComboStateMachine? ComboState
+    {
+        get
+        {
+            if (!(this.Attributes?[Stats.IsSkillComboAvailable] > 0))
+            {
+                return null;
+            }
+
+            // Set up when entering the game; a class change (e.g. /evo) or a combo unlock after that needs it here.
+            if (this._comboStateLazy is null && this.DetermineComboDefinition() is { } comboDefinition)
+            {
+                this._comboStateLazy = new Lazy<ComboStateMachine>(() => ComboStateMachine.Create(comboDefinition));
+            }
+
+            return this._comboStateLazy?.Value;
+        }
+    }
 
     /// <summary>
     /// Gets the player summon.

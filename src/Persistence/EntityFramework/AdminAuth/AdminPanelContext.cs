@@ -6,10 +6,11 @@ namespace MUnique.OpenMU.Persistence.EntityFramework.AdminAuth;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
+using MUnique.OpenMU.Persistence.AccountManager;
 using MUnique.OpenMU.Persistence.AdminAuth;
 
 /// <summary>
-/// The context which holds the users of the admin panel.
+/// The context which holds the users of the admin panel and the data of its tools, like the item packages of the account manager.
 /// </summary>
 /// <remarks>
 /// It uses an own schema, an own migration history and an own set of migrations.
@@ -29,6 +30,16 @@ public class AdminPanelContext : DbContext
     /// Gets or sets the API keys of the public API.
     /// </summary>
     public DbSet<ApiKey> ApiKeys { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the item packages of the account manager.
+    /// </summary>
+    public DbSet<ItemPackage> ItemPackages { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the item option presets of the account manager.
+    /// </summary>
+    public DbSet<ItemOptionPreset> ItemOptionPresets { get; set; } = null!;
 
     /// <inheritdoc />
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -69,6 +80,49 @@ public class AdminPanelContext : DbContext
             entity.HasIndex(k => k.KeyHash).IsUnique();
             entity.Property(k => k.KeyPrefix).IsRequired().HasMaxLength(16);
             entity.Property(k => k.Roles).IsRequired().HasMaxLength(200);
+        });
+
+        this.OnAccountManagerModelCreating(modelBuilder);
+    }
+
+    private void OnAccountManagerModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<ItemPackage>(entity =>
+        {
+            entity.ToTable(nameof(ItemPackage), SchemaNames.AdminPanel);
+            entity.HasKey(p => p.Id);
+            entity.Property(p => p.Name).IsRequired().HasMaxLength(ItemPackage.NameMaximumLength);
+            entity.HasIndex(p => p.Name).IsUnique();
+            entity.Property(p => p.Description).IsRequired().HasMaxLength(ItemPackage.DescriptionMaximumLength);
+            entity.HasMany(p => p.Items).WithOne().HasForeignKey(i => i.ItemPackageId).OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<ItemPackageItem>(entity =>
+        {
+            entity.ToTable(nameof(ItemPackageItem), SchemaNames.AdminPanel);
+            entity.HasKey(i => i.Id);
+            entity.Property(i => i.Name).IsRequired().HasMaxLength(ItemPackageItem.NameMaximumLength);
+            entity.HasMany(i => i.Options).WithOne().HasForeignKey(o => o.ItemPackageItemId).OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<ItemPackageItemOption>(entity =>
+        {
+            entity.ToTable(nameof(ItemPackageItemOption), SchemaNames.AdminPanel);
+            entity.HasKey(o => o.Id);
+        });
+
+        modelBuilder.Entity<ItemOptionPreset>(entity =>
+        {
+            entity.ToTable(nameof(ItemOptionPreset), SchemaNames.AdminPanel);
+            entity.HasKey(p => p.Id);
+            entity.Property(p => p.Name).IsRequired().HasMaxLength(ItemOptionPreset.NameMaximumLength);
+
+            // The presets which a new installation starts with.
+            var createdAt = new DateTime(2026, 10, 20, 0, 0, 0, DateTimeKind.Utc);
+            entity.HasData(
+                new ItemOptionPreset { Id = new Guid("7c6f4f5e-1d0b-4a51-9b1e-000000000001"), Name = "Luck, skill, max option", Skill = true, Luck = true, OptionLevel = ItemOptionPreset.MaximumOptionLevel, CreatedAt = createdAt },
+                new ItemOptionPreset { Id = new Guid("7c6f4f5e-1d0b-4a51-9b1e-000000000002"), Name = "Full option", Skill = true, Luck = true, OptionLevel = ItemOptionPreset.MaximumOptionLevel, Excellent = true, Guardian = true, CreatedAt = createdAt.AddSeconds(1) },
+                new ItemOptionPreset { Id = new Guid("7c6f4f5e-1d0b-4a51-9b1e-000000000003"), Name = "Freebie +13", Level = 13, Skill = true, Luck = true, OptionLevel = 3, CreatedAt = createdAt.AddSeconds(2) });
         });
     }
 }

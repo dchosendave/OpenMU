@@ -1,0 +1,105 @@
+<div class="mb-2">
+    <label class="form-label" for="package-target">@Resources.AccountManagerPackage</label>
+    <select id="package-target" class="form-select package-target" @bind="this._targetId">
+        <option value="">@Resources.AccountManagerNewPackageName</option>
+        @foreach (var package in this.State.Packages.Packages)
+        {
+            <option value="@package.Id">@string.Format(Resources.AccountManagerAddToPackage, package.Name)</option>
+        }
+    </select>
+</div>
+@if (this._targetId.Length == 0)
+{
+    <div class="mb-2">
+        <label class="form-label" for="package-name">@Resources.AccountManagerName</label>
+        <input id="package-name" class="form-control package-name-input" maxlength="@ItemPackage.NameMaximumLength" @bind="this._name" />
+    </div>
+}
+<div class="d-flex align-items-center gap-2 mb-1">
+    <span class="form-label mb-0 flex-grow-1">@Resources.AccountManagerItems <span class="text-muted">@string.Format(Resources.AccountManagerSelectedOf, this._chosen.Count, this._items.Count)</span></span>
+    <button type="button" class="btn btn-sm btn-outline-secondary" @onclick="() => this._chosen = this._items.ToHashSet()">@Resources.AccountManagerAll</button>
+    <button type="button" class="btn btn-sm btn-outline-secondary" @onclick="() => this._chosen.Clear()">@Resources.AccountManagerNoItems</button>
+</div>
+<div class="pick-list mb-2">
+    @foreach (var item in this._items)
+    {
+        <div class="form-check pick-item" @key="item">
+            <input class="form-check-input" type="checkbox" id="@($"pick-{item.GetHashCode()}")" checked="@this._chosen.Contains(item)" @onchange="e => this.Toggle(item, (bool)e.Value!)" />
+            <label class="form-check-label" for="@($"pick-{item.GetHashCode()}")">
+                <span class="@ItemDisplay.Kind(item)">@ItemDisplay.Caption(item)</span>
+                <span class="text-muted small ms-1">@this.Where(item)</span>
+            </label>
+        </div>
+    }
+</div>
+<p class="text-muted small">@string.Format(Resources.AccountManagerSaveAsPackageHint, this.Storage.Title)</p>
+<div class="d-flex justify-content-end gap-2">
+    <button type="button" class="btn btn-secondary" @onclick="() => this.Modal.CancelAsync()">@Resources.Cancel</button>
+    <button type="button" class="btn btn-primary save-as-package" disabled="@(this._chosen.Count == 0 || this.State.IsBusy)" @onclick="this.SaveAsync">@Resources.AccountManagerSavePackage</button>
+</div>
+
+@code {
+    private List<Item> _items = new();
+    private HashSet<Item> _chosen = new();
+    private string _targetId = string.Empty;
+    private string _name = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the modal instance.
+    /// </summary>
+    [Parameter]
+    public ModalInstance Modal { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the storage whose items are offered.
+    /// </summary>
+    [Parameter]
+    public StorageModel Storage { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the suggested name of a new package, e.g. the name of the character.
+    /// </summary>
+    [Parameter]
+    public string? SuggestedName { get; set; }
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        // The personal store holds items for sale; those aren't part of what a character has.
+        var store = this.Storage.AreasOf(StorageAreaKind.PersonalStore).ToList();
+        this._items = this.Storage.Items.Where(i => !store.Any(a => a.Contains(i.ItemSlot)))
+            .OrderBy(i => this.Storage.IsEquipmentSlot(i.ItemSlot) ? 0 : 1)
+            .ThenBy(i => i.ItemSlot)
+            .ToList();
+        this._chosen = this._items.ToHashSet();
+        this._name = this.State.Packages.UniqueName(this.SuggestedName ?? Resources.AccountManagerNewPackageName);
+    }
+
+    private string Where(Item item) => this.Storage.IsEquipmentSlot(item.ItemSlot)
+        ? StorageModel.EquipmentNames[item.ItemSlot]
+        : this.Storage.Areas.FirstOrDefault(a => a.Contains(item.ItemSlot))?.Title ?? string.Empty;
+
+    private void Toggle(Item item, bool on)
+    {
+        if (on)
+        {
+            this._chosen.Add(item);
+        }
+        else
+        {
+            this._chosen.Remove(item);
+        }
+    }
+
+    private async Task SaveAsync()
+    {
+        var picked = this._items.Where(this._chosen.Contains).ToList();
+        var target = Guid.TryParse(this._targetId, out var id) ? this.State.Packages.Find(id) : null;
+        if (await this.State.SaveItemsAsPackageAsync(picked, this._name, target).ConfigureAwait(true))
+        {
+            await this.Modal.CloseAsync(ModalResult.Ok(true)).ConfigureAwait(true);
+        }
+    }
+}

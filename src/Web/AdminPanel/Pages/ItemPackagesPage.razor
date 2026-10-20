@@ -1,0 +1,37 @@
+@page "/item-packages"
+@attribute [Authorize(Policy = AdminPolicies.Administrator)]
+@inherits MUnique.OpenMU.Web.AdminPanel.Components.AccountManager.AccountManagerComponentBase
+
+@using MUnique.OpenMU.Web.AdminPanel.Components.AccountManager
+@using MUnique.OpenMU.Web.AdminPanel.Properties
+
+<PageTitle>OpenMU: @Resources.ItemPackagesTitle</PageTitle>
+<Breadcrumb IsFirstFromRoot="true" Caption="@Resources.ItemPackagesTitle" />
+<NavigationLock ConfirmExternalNavigation="@(this.State.PackageEditor?.HasChanges == true)" />
+<h1>@Resources.ItemPackagesTitle</h1>
+<p class="text-muted">@Resources.ItemPackagesDescription</p>
+
+@if (!this.State.IsInitialized)
+{
+    @if (this.State.InitializationError is { } error)
+    {
+        <div class="alert alert-danger">@error</div>
+    }
+    else
+    {
+        <p>@Resources.AccountManagerLoading</p>
+    }
+}
+else
+{
+    <PackageManager />
+}
+
+@code {
+    /// <inheritdoc />
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync().ConfigureAwait(true);
+        await this.State.InitializeAsync().ConfigureAwait(true);
+    }
+}

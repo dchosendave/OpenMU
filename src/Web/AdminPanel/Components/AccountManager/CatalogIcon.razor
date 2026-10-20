@@ -1,0 +1,30 @@
+@using System.Globalization
+@inherits ComponentBase
+
+@* A small icon of an item definition for lists: the cells of the icon picture (42px each, starting at 38/42px)
+   scaled into the box and centered. *@
+<span class="catalog-icon"><img src="@ItemDisplay.Icon(this.Definition)" alt="" loading="lazy" style="@this.Place" onerror="this.style.visibility='hidden'" /></span>
+
+@code {
+    private const double IconBox = 22;
+
+    /// <summary>
+    /// Gets or sets the item definition.
+    /// </summary>
+    [Parameter]
+    [EditorRequired]
+    public ItemDefinition Definition { get; set; } = null!;
+
+    private string Place
+    {
+        get
+        {
+            int width = Math.Max((byte)1, this.Definition.Width);
+            int height = Math.Max((byte)1, this.Definition.Height);
+            var scale = IconBox / (Math.Max(width, height) * 42);
+            var left = (-38 * scale) + ((IconBox - (width * 42 * scale)) / 2);
+            var top = (-42 * scale) + ((IconBox - (height * 42 * scale)) / 2);
+            return string.Create(CultureInfo.InvariantCulture, $"left:{left:0.##}px;top:{top:0.##}px;transform:scale({scale:0.####})");
+        }
+    }
+}

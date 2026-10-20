@@ -1,0 +1,38 @@
+<form @onsubmit="this.CreateAsync">
+    <div class="mb-2">
+        <label class="form-label" for="new-login">@Resources.AccountManagerLoginName <span class="text-muted small">@string.Format(Resources.AccountManagerLoginNameHint, AccountManagerDatabase.MinimumLength, AccountManagerDatabase.LoginNameMaximumLength)</span></label>
+        <input id="new-login" class="form-control new-login" autocomplete="off" maxlength="@AccountManagerDatabase.LoginNameMaximumLength" @bind="this._login" />
+    </div>
+    <div class="mb-2">
+        <label class="form-label" for="new-password">@Resources.AccountManagerPassword <span class="text-muted small">@string.Format(Resources.AccountManagerPasswordHint, AccountManagerDatabase.MinimumLength, AccountManagerDatabase.PasswordMaximumLength)</span></label>
+        <input id="new-password" class="form-control new-password" type="password" autocomplete="new-password" maxlength="@AccountManagerDatabase.PasswordMaximumLength" @bind="this._password" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="new-email">@Resources.AccountManagerEMail <span class="text-muted small">@Resources.AccountManagerOptional</span></label>
+        <input id="new-email" class="form-control" type="email" @bind="this._email" />
+    </div>
+    <div class="d-flex justify-content-end gap-2">
+        <button type="button" class="btn btn-secondary" @onclick="() => this.Modal.CancelAsync()">@Resources.Cancel</button>
+        <button type="submit" class="btn btn-primary create-account" disabled="@this.State.IsBusy">@Resources.AccountManagerCreateAccount</button>
+    </div>
+</form>
+
+@code {
+    private string _login = string.Empty;
+    private string _password = string.Empty;
+    private string _email = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the modal instance.
+    /// </summary>
+    [Parameter]
+    public ModalInstance Modal { get; set; } = null!;
+
+    private async Task CreateAsync()
+    {
+        if (await this.State.CreateAccountAsync(this._login, this._password, this._email).ConfigureAwait(true))
+        {
+            await this.Modal.CloseAsync(ModalResult.Ok(this._login.Trim())).ConfigureAwait(true);
+        }
+    }
+}
