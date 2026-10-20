@@ -2482,4 +2482,19 @@
   <data name="DiscordNotConfigured" xml:space="preserve"><value>Nicht konfiguriert</value></data>
   <data name="DiscordChooseServer" xml:space="preserve"><value>Discord-Server wählen</value></data>
   <data name="DiscordStaffPrivacy" xml:space="preserve"><value>Einen privaten Teamkanal wählen. GM-Auditnachrichten können vertrauliche Informationen enthalten.</value></data>
+  <data name="ConfigGroupGeneral" xml:space="preserve">
+    <value>Allgemein &amp; Server</value>
+  </data>
+  <data name="ConfigGroupCharacters" xml:space="preserve">
+    <value>Charaktere &amp; Fertigkeiten</value>
+  </data>
+  <data name="ConfigGroupDropsAndShops" xml:space="preserve">
+    <value>Drops &amp; Shops</value>
+  </data>
+  <data name="ConfigGroupWorld" xml:space="preserve">
+    <value>Welt &amp; Monster</value>
+  </data>
+  <data name="ConfigGroupExtensions" xml:space="preserve">
+    <value>Plugins &amp; Befehle</value>
+  </data>
 </root>

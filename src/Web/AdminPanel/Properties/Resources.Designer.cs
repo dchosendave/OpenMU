@@ -7096,5 +7096,50 @@ namespace MUnique.OpenMU.Web.AdminPanel.Properties {
                 return ResourceManager.GetString("TerrainEditor", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General &amp; server.
+        /// </summary>
+        public static string ConfigGroupGeneral {
+            get {
+                return ResourceManager.GetString("ConfigGroupGeneral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Characters &amp; skills.
+        /// </summary>
+        public static string ConfigGroupCharacters {
+            get {
+                return ResourceManager.GetString("ConfigGroupCharacters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Drops &amp; shops.
+        /// </summary>
+        public static string ConfigGroupDropsAndShops {
+            get {
+                return ResourceManager.GetString("ConfigGroupDropsAndShops", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to World &amp; monsters.
+        /// </summary>
+        public static string ConfigGroupWorld {
+            get {
+                return ResourceManager.GetString("ConfigGroupWorld", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Plugins &amp; commands.
+        /// </summary>
+        public static string ConfigGroupExtensions {
+            get {
+                return ResourceManager.GetString("ConfigGroupExtensions", resourceCulture);
+            }
+        }
     }
 }

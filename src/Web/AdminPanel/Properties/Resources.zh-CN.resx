@@ -2068,4 +2068,19 @@
   <data name="CashShopIssueInvalidQuantity" xml:space="preserve">
     <value>商品 {0} 的数量不能小于 1。</value>
   </data>
+  <data name="ConfigGroupGeneral" xml:space="preserve">
+    <value>常规与服务器</value>
+  </data>
+  <data name="ConfigGroupCharacters" xml:space="preserve">
+    <value>角色与技能</value>
+  </data>
+  <data name="ConfigGroupDropsAndShops" xml:space="preserve">
+    <value>掉落与商店</value>
+  </data>
+  <data name="ConfigGroupWorld" xml:space="preserve">
+    <value>世界与怪物</value>
+  </data>
+  <data name="ConfigGroupExtensions" xml:space="preserve">
+    <value>插件与命令</value>
+  </data>
 </root>
