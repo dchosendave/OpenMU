@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine AS base
 WORKDIR /app
 
@@ -16,35 +17,27 @@ EXPOSE 44405
 EXPOSE 45980
 
 FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:10.0-alpine AS build
-WORKDIR /src
+RUN apk add --no-cache rsync
 
-COPY Directory.Packages.props .
-COPY Directory.Build.props .
-
-COPY Startup/*.csproj Startup/
-COPY Persistence/**/*.csproj Persistence/
-
-RUN dotnet restore "Startup/MUnique.OpenMU.Startup.csproj"
-
-COPY . .
-
-WORKDIR /src/Startup
-
-RUN dotnet build "MUnique.OpenMU.Startup.csproj" \
-    -c Release \
-    -o /app/build \
-    -p:ci=true
-
-FROM build AS publish
-RUN dotnet publish "MUnique.OpenMU.Startup.csproj" \
-    -c Release \
-    -o /app/publish \
-    -p:ci=true
+# The build runs in a cache mount which survives between image builds, like a local working copy:
+# rsync only updates the changed files (keeping the timestamps), and the bin/obj folders from
+# the previous build stay, so MSBuild recompiles only the projects which actually changed.
+# The NuGet packages are cached, too. The analyzers (StyleCop etc.) only matter in the IDE.
+RUN --mount=type=bind,target=/context \
+    --mount=type=cache,id=openmu-build,target=/build \
+    --mount=type=cache,id=openmu-nuget,target=/root/.nuget/packages \
+    rsync -a --delete --exclude bin/ --exclude obj/ /context/ /build/src/ \
+    && cd /build/src \
+    && dotnet publish "Startup/MUnique.OpenMU.Startup.csproj" \
+        -c Release \
+        -o /app/publish \
+        -p:ci=true \
+        -p:RunAnalyzers=false
 
 FROM base AS final
 WORKDIR /app
 
-COPY --from=publish /app/publish .
+COPY --from=build /app/publish .
 
 # The container runs as a non-root user, but /app belongs to root. Directories the
 # application writes to have to be created and made writable beforehand - the data
