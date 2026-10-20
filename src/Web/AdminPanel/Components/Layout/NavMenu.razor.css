@@ -33,36 +33,9 @@
     border-bottom: 1px solid var(--sc-sidebar-border);
 }
 
-.top-row ::deep .navbar-brand {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0;
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--sc-sidebar-foreground);
-}
-
-.top-row ::deep .navbar-brand:hover,
-.top-row ::deep .navbar-brand:focus {
-    color: var(--sc-sidebar-foreground);
-}
-
-.brand-logo {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 2rem;
-    height: 2rem;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--sc-primary-foreground);
-    background-color: var(--sc-primary);
-    border-radius: 0.5rem;
-}
-
 @media (min-width: 768px) {
-    .navbar-toggler {
+    /* The top row only holds the menu toggler, which isn't needed on wide screens. */
+    .top-row {
         display: none;
     }
 }
