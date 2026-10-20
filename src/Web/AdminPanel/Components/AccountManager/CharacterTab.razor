@@ -1,0 +1,123 @@
+@if (this.State.SelectedCharacter is { } character && this.State.Database is { } database)
+{
+    <div class="sheet">
+        <h3 class="sheet-title">@Resources.AccountManagerGeneral</h3>
+        <div class="fields">
+            <div>
+                <label class="form-label" for="character-name">@Resources.AccountManagerName</label>
+                <input id="character-name" class="form-control form-control-sm character-name" value="@character.Name" maxlength="10" @onchange="e => this.Set(() => character.Name = (string)e.Value!)" />
+            </div>
+            <div>
+                <label class="form-label" for="character-class">@Resources.AccountManagerClass</label>
+                <select id="character-class" class="form-select form-select-sm" @onchange="e => this.Set(() => character.CharacterClass = Pick(database.CharacterClasses, e.Value))">
+                    @for (var i = 0; i < database.CharacterClasses.Count; i++)
+                    {
+                        <option value="@i" selected="@(database.CharacterClasses[i] == character.CharacterClass)">@database.CharacterClasses[i].Name.ToString()</option>
+                    }
+                </select>
+            </div>
+            <div>
+                <label class="form-label" for="character-status">@Resources.AccountManagerStatus</label>
+                <select id="character-status" class="form-select form-select-sm" @onchange="e => this.Set(() => character.Status = Enum.Parse<CharacterStatus>((string)e.Value!))">
+                    @foreach (var status in Enum.GetValues<CharacterStatus>())
+                    {
+                        <option value="@status" selected="@(status == character.Status)">@status.GetEnumCaption()</option>
+                    }
+                </select>
+            </div>
+            <div>
+                <label class="form-label">@Resources.AccountManagerZen</label>
+                <NumberInput TValue="int" Class="character-zen" Min="0" Value="character.Zen" ValueChanged="v => this.Set(() => character.Zen = v)" />
+            </div>
+            <div>
+                <label class="form-label" for="character-level">@string.Format(Resources.AccountManagerLevelRange, character.MaximumLevel)</label>
+                <input id="character-level" class="form-control form-control-sm text-end character-level" type="number" min="1" max="@character.MaximumLevel" value="@character.Level" @onchange="e => this.Set(() => character.Level = ParseInt(e.Value))" />
+            </div>
+            <div>
+                <label class="form-label">@Resources.AccountManagerExperience</label>
+                <NumberInput TValue="long" Min="0" Value="character.Experience" ValueChanged="v => this.Set(() => character.Experience = v)" />
+            </div>
+            <div>
+                <label class="form-label">@Resources.AccountManagerLevelUpPoints</label>
+                <NumberInput TValue="int" Min="0" Value="character.LevelUpPoints" ValueChanged="v => this.Set(() => character.LevelUpPoints = v)" />
+            </div>
+            <div title="@Resources.AccountManagerInventoryExtensionsHint">
+                <label class="form-label" for="character-extensions">@Resources.AccountManagerInventoryExtensions</label>
+                <input id="character-extensions" class="form-control form-control-sm text-end" type="number" min="0" max="4" value="@character.InventoryExtensions" @onchange="e => this.Set(() => character.InventoryExtensions = ParseInt(e.Value))" />
+            </div>
+            <div>
+                <label class="form-label">@Resources.AccountManagerMasterExperience</label>
+                <NumberInput TValue="long" Min="0" Value="character.MasterExperience" ValueChanged="v => this.Set(() => character.MasterExperience = v)" />
+            </div>
+            <div>
+                <label class="form-label">@Resources.AccountManagerMasterPoints</label>
+                <NumberInput TValue="int" Min="0" Value="character.MasterLevelUpPoints" ValueChanged="v => this.Set(() => character.MasterLevelUpPoints = v)" />
+            </div>
+        </div>
+
+        <h3 class="sheet-title">@Resources.AccountManagerPosition <span class="text-muted fw-normal small">@Resources.AccountManagerPositionHint</span></h3>
+        <div class="fields">
+            <div class="wide">
+                <label class="form-label" for="character-map">@Resources.AccountManagerMap</label>
+                <select id="character-map" class="form-select form-select-sm character-map" @onchange="e => this.WarpTo(Pick(database.Maps, e.Value))">
+                    @for (var i = 0; i < database.Maps.Count; i++)
+                    {
+                        <option value="@i" selected="@(database.Maps[i] == character.CurrentMap)">@database.Maps[i].Name.ToString()</option>
+                    }
+                </select>
+            </div>
+            <div>
+                <label class="form-label" for="character-x">X</label>
+                <input id="character-x" class="form-control form-control-sm text-end" type="number" min="0" max="255" value="@character.PositionX" @onchange="e => this.Set(() => character.PositionX = (byte)Math.Clamp(ParseInt(e.Value), 0, 255))" />
+            </div>
+            <div>
+                <label class="form-label" for="character-y">Y</label>
+                <input id="character-y" class="form-control form-control-sm text-end" type="number" min="0" max="255" value="@character.PositionY" @onchange="e => this.Set(() => character.PositionY = (byte)Math.Clamp(ParseInt(e.Value), 0, 255))" />
+            </div>
+        </div>
+
+        <h3 class="sheet-title">
+            @Resources.AccountManagerStats
+            @if (character.CappedBaseStats.Count > 0)
+            {
+                <button type="button" class="btn btn-sm btn-outline-secondary max-stats ms-2" disabled="@(!character.CanMaximizeBaseStats)"
+                        title="@string.Format(Resources.AccountManagerMaxStatsHint, character.CappedBaseStats[0].Definition!.MaximumValue!.Value.ToString("N0"))"
+                        @onclick="() => this.Set(character.MaximizeBaseStats)">@Resources.AccountManagerMaxStats</button>
+            }
+        </h3>
+        <div class="fields">
+            @foreach (var stat in character.Attributes)
+            {
+                <div @key="stat">
+                    <label class="form-label text-truncate d-block" title="@stat.Definition?.GetName()">@(stat.Definition?.GetName() ?? "?")</label>
+                    <NumberInput TValue="float" Min="0" Value="stat.Value" ValueChanged="v => this.Set(() => character.SetAttribute(stat, v))" />
+                </div>
+            }
+        </div>
+
+        <div class="sheet-footer">
+            <span class="text-muted small">@string.Format(Resources.AccountManagerDeleteCharacterHint, character.Name)</span>
+            <button type="button" class="btn btn-sm btn-outline-danger delete-character" @onclick="() => this.State.DeleteCharacterAsync(character)">@Resources.AccountManagerDeleteCharacter</button>
+        </div>
+    </div>
+}
+else
+{
+    <div class="text-muted small">@Resources.AccountManagerNoCharactersHint</div>
+}
+
+@code {
+    private static T? Pick<T>(IReadOnlyList<T> choices, object? value)
+        where T : class
+        => int.TryParse(value as string, out var index) && index >= 0 && index < choices.Count ? choices[index] : null;
+
+    private static int ParseInt(object? value) => int.TryParse(value as string, out var i) ? i : 0;
+
+    private void WarpTo(GameMapDefinition? map)
+    {
+        if (map is not null)
+        {
+            this.Set(() => this.State.SelectedCharacter!.WarpTo(map));
+        }
+    }
+}

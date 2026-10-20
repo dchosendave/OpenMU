@@ -1,0 +1,193 @@
+@using System.Globalization
+
+<section class="storage @(this.State.SelectedStorage == this.Storage ? "targeted" : string.Empty)" data-storage="@this.Storage.Title"
+         @onclick="() => this.State.SelectItem(this.Storage, null)">
+    @if (this.ShowHeader)
+    {
+        <div class="storage-header">
+            <div class="storage-title">
+                <h3 class="h6 mb-0">@(this.Title ?? this.Storage.Title)</h3>
+                <span class="text-muted small">@string.Format(Resources.AccountManagerItemCount, this.Storage.Items.Count()) · <span class="zen">@string.Format(Resources.AccountManagerZenAmount, this.Storage.Money)</span></span>
+            </div>
+            <div class="storage-actions">
+                <button type="button" class="btn btn-sm btn-outline-secondary storage-to-package" title="@string.Format(Resources.AccountManagerSaveAsPackageTitle, this.Title ?? this.Storage.Title)" disabled="@(!this.Storage.Items.Any())" @onclick="this.ShowSavePackageAsync" @onclick:stopPropagation="true">@Resources.AccountManagerSaveAsPackage</button>
+                <button type="button" class="btn btn-sm btn-outline-danger clear-storage" title="@Resources.AccountManagerClearStorageHint" disabled="@(!this.Storage.Items.Any())" @onclick="() => this.State.ClearStorageAsync(this.Storage)" @onclick:stopPropagation="true">@Resources.AccountManagerClear</button>
+            </div>
+        </div>
+    }
+
+    @{
+        var overlapping = this.Storage.FindOverlaps();
+    }
+    @if (this.ShowHeader && overlapping.Count > 0)
+    {
+        <div class="alert alert-warning py-1 px-2 small mb-2">
+            @string.Format(Resources.AccountManagerOverlapping, overlapping.Count)
+            @foreach (var hidden in overlapping)
+            {
+                <button type="button" class="btn btn-link btn-sm p-0 me-1" @onclick="() => this.State.SelectItem(this.Storage, hidden)" @onclick:stopPropagation="true">@ItemDisplay.Caption(hidden) (@hidden.ItemSlot)</button>
+            }
+            <button type="button" class="btn btn-sm btn-outline-secondary resolve-overlaps ms-1" @onclick="() => this.State.ResolveOverlaps(this.Storage)" @onclick:stopPropagation="true">@Resources.AccountManagerMoveToFreePlaces</button>
+        </div>
+    }
+
+    @if (this.ShowEquipment && this.Storage.Equipment.Count > 0)
+    {
+        @* The layout of the character window of the game: pet, helm, wings / weapon, pendant, armor, weapon / gloves, ring, pants, ring, boots. *@
+        <div class="equipment">
+            @foreach (var slot in this.Storage.Equipment)
+            {
+                var item = this.Storage.ItemAt(slot.Slot);
+                var slotNumber = slot.Slot;
+                <div class="equip-slot @this.Highlight(slotNumber) @(item is null ? "empty" : string.Empty)" title="@slot.Name" data-slot="@slotNumber" style="@EquipmentPlace(slotNumber)"
+                     @ondragover="Nothing" @ondragover:preventDefault="true" @ondrop="() => this.State.Drop(this.Storage, slotNumber)" @ondrop:stopPropagation="true">
+                    @if (item is not null)
+                    {
+                        <div class="tile @ItemDisplay.Kind(item) @(this.State.SelectedItem == item ? "selected" : string.Empty)" draggable="true" title="@ItemDisplay.Tooltip(item)"
+                             data-item-slot="@item.ItemSlot" style="@EquippedTile(slotNumber, item)"
+                             @onclick="() => this.State.SelectItem(this.Storage, item)" @onclick:stopPropagation="true"
+                             @ondragstart="() => this.State.Dragged = (this.Storage, item)" @ondragend="() => this.State.Dragged = null">
+                            <ItemIcon Item="item" />
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    }
+
+    @foreach (var area in this.Storage.Areas.Where(a => this.Kinds is null || this.Kinds.Contains(a.Kind)).Where(a => this.Pages is null || this.Pages.Contains(a.Title)))
+    {
+        <div class="area-title">@area.Title</div>
+        <div class="grid" data-area="@area.Title" style="width:@(StorageArea.Columns * Cell)px;height:@(area.Rows * Cell)px">
+            @for (var i = 0; i < area.SlotCount; i++)
+            {
+                var slot = area.FirstSlot + i;
+                <div class="cell" style="left:@(area.ColumnOf(slot) * Cell)px;top:@(area.RowOf(slot) * Cell)px" data-slot="@slot"
+                     @ondragover="Nothing" @ondragover:preventDefault="true" @ondrop="() => this.State.Drop(this.Storage, slot)" @ondrop:stopPropagation="true"></div>
+            }
+            @foreach (var item in this.Storage.Items.Where(i => area.Contains(i.ItemSlot)).ToList())
+            {
+                var (width, height) = StorageModel.SizeOf(item);
+                <div class="tile @ItemDisplay.Kind(item) @(this.State.SelectedItem == item ? "selected" : string.Empty) @(overlapping.Contains(item) ? "overlap" : string.Empty)" draggable="true" @key="item"
+                     title="@ItemDisplay.Tooltip(item)" data-item-slot="@item.ItemSlot"
+                     style="left:@(area.ColumnOf(item.ItemSlot) * Cell)px;top:@(area.RowOf(item.ItemSlot) * Cell)px;width:@(width * Cell)px;height:@(height * Cell)px"
+                     @onclick="() => this.State.SelectItem(this.Storage, item)" @onclick:stopPropagation="true"
+                     @ondragstart="() => this.State.Dragged = (this.Storage, item)" @ondragend="() => this.State.Dragged = null">
+                    <ItemIcon Item="item" />
+                </div>
+            }
+        </div>
+    }
+</section>
+
+@code {
+    private const int Cell = 36;
+
+    /// <summary>
+    /// The character window is as wide as the inventory, see .equipment in the stylesheet.
+    /// </summary>
+    private const int EquipmentWidth = 8 * Cell;
+
+    /// <summary>
+    /// The frames of the equipment slots on the background of the character window of the game
+    /// (equipment_back.png, 325x323 px): x, y, width, height. They're placed in percent, so the window scales.
+    /// </summary>
+    private static readonly Dictionary<int, (int X, int Y, int Width, int Height)> EquipmentFrames = new()
+    {
+        [8] = (0, 2, 84, 84),
+        [2] = (121, 2, 84, 84),
+        [7] = (208, 2, 117, 84),
+        [0] = (0, 96, 84, 126),
+        [9] = (82, 96, 42, 42),
+        [3] = (121, 96, 84, 126),
+        [1] = (241, 96, 84, 126),
+        [5] = (0, 231, 84, 84),
+        [10] = (82, 231, 42, 42),
+        [4] = (121, 231, 84, 84),
+        [11] = (203, 231, 42, 42),
+        [6] = (241, 231, 84, 84),
+    };
+
+    /// <summary>
+    /// Gets or sets the storage.
+    /// </summary>
+    [Parameter]
+    [EditorRequired]
+    public StorageModel Storage { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the kinds of areas which are shown; all when <c>null</c>.
+    /// </summary>
+    [Parameter]
+    public IReadOnlyCollection<StorageAreaKind>? Kinds { get; set; }
+
+    /// <summary>
+    /// Gets or sets the titles of the areas which are shown (e.g. one vault page); all when <c>null</c>.
+    /// </summary>
+    [Parameter]
+    public IReadOnlyCollection<string>? Pages { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the equipment is shown.
+    /// </summary>
+    [Parameter]
+    public bool ShowEquipment { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the header is shown.
+    /// </summary>
+    [Parameter]
+    public bool ShowHeader { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets the title. The title of the storage is used when it's <c>null</c>.
+    /// </summary>
+    [Parameter]
+    public string? Title { get; set; }
+
+    [Inject]
+    private IModalService ModalService { get; set; } = null!;
+
+    private static string EquipmentPlace(int slot)
+    {
+        if (!EquipmentFrames.TryGetValue(slot, out var frame))
+        {
+            return string.Empty;
+        }
+
+        static string Percent(double value) => value.ToString("0.##", CultureInfo.InvariantCulture) + "%";
+        return $"left:{Percent(frame.X * 100.0 / 325)};top:{Percent(frame.Y * 100.0 / 323)};width:{Percent(frame.Width * 100.0 / 325)};height:{Percent(frame.Height * 100.0 / 323)}";
+    }
+
+    /// <summary>
+    /// An equipped item keeps its size in cells. It's centered in the frame and made smaller when it doesn't fit.
+    /// </summary>
+    private static string EquippedTile(int slot, Item item)
+    {
+        var (width, height) = StorageModel.SizeOf(item);
+        var scale = 1.0;
+        if (EquipmentFrames.TryGetValue(slot, out var frame))
+        {
+            var pixelsPerFramePixel = EquipmentWidth / 325.0;
+            scale = Math.Min(1, Math.Min(frame.Width * pixelsPerFramePixel / (width * Cell), frame.Height * pixelsPerFramePixel / (height * Cell)));
+        }
+
+        return string.Create(CultureInfo.InvariantCulture, $"width:{width * Cell}px;height:{height * Cell}px;transform:translate(-50%,-50%) scale({scale:0.###})");
+    }
+
+    private static void Nothing()
+    {
+        // The drop target needs a handler for dragover, which prevents the default.
+    }
+
+    private string Highlight(int slot) => this.State.Dragged is { } dragged && dragged.Item.Definition?.ItemSlot?.ItemSlots.Contains(slot) == true ? "can-drop" : string.Empty;
+
+    private async Task ShowSavePackageAsync()
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(SavePackageDialog.Storage), this.Storage);
+        parameters.Add(nameof(SavePackageDialog.SuggestedName), this.Title ?? this.Storage.Title);
+        var modal = this.ModalService.Show<SavePackageDialog>(Resources.AccountManagerSaveAsPackage, parameters, new ModalOptions { Size = ModalSize.Large });
+        await modal.Result.ConfigureAwait(true);
+    }
+}

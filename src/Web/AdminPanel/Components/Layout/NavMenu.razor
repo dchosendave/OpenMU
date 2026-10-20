@@ -44,6 +44,18 @@
                     <span class="oi oi-list" aria-hidden="true"></span> @Resources.Accounts
                   </NavLink>
                 </li>
+                <AuthorizeView Policy="@AdminPolicies.Administrator">
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="account-manager" @onclick="() => NavigationHistory.Clear()">
+                            <span class="oi oi-briefcase" aria-hidden="true"></span> @Resources.AccountManagerTitle
+                        </NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="item-packages" @onclick="() => NavigationHistory.Clear()">
+                            <span class="oi oi-box" aria-hidden="true"></span> @Resources.ItemPackagesTitle
+                        </NavLink>
+                    </li>
+                </AuthorizeView>
                 <li class="nav-item">
                   <NavLink class="nav-link" href="logged-in" @onclick="() => NavigationHistory.Clear()">
                     <span class="oi oi-people" aria-hidden="true" /> @Resources.OnlineAccounts

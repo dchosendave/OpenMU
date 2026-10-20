@@ -1,0 +1,18 @@
+.items-layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: flex-start;
+}
+
+.secondary {
+    width: 316px;
+    flex: none;
+}
+
+.storage-placeholder {
+    width: 316px;
+    padding: 1rem;
+    border: 1px dashed var(--sc-border);
+    border-radius: 0.75rem;
+}

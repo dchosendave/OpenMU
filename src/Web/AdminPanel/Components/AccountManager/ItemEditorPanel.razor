@@ -1,0 +1,266 @@
+@using System.Globalization
+@using MUnique.OpenMU.Web.ItemEditor
+
+<div class="item-editor">
+    <div class="item-title @ItemDisplay.Kind(this.Editor.Item)">
+        <div class="fw-semibold">@ItemDisplay.Caption(this.Editor.Item)</div>
+        <div class="text-muted small">@ItemDisplay.GroupName(this.Editor.Definition?.Group ?? 0)@(this.Standalone ? string.Empty : $" · {string.Format(Resources.AccountManagerSlotNumber, this.Editor.ItemSlot)} · {this.State.SelectedStorage?.Title}")</div>
+    </div>
+
+    <div class="d-flex flex-wrap gap-1 mb-3">
+        @if (this.Actions is not null)
+        {
+            @this.Actions
+        }
+        else
+        {
+            <button type="button" class="btn btn-sm btn-outline-secondary" @onclick="this.State.DuplicateSelected">@Resources.AccountManagerDuplicate</button>
+            @foreach (var target in this.State.Session?.Storages.Where(s => s != this.State.SelectedStorage) ?? Enumerable.Empty<StorageModel>())
+            {
+                <button type="button" class="btn btn-sm btn-outline-secondary send-to" title="@Resources.AccountManagerMoveToFirstFreePlace" @onclick="() => this.State.SendSelectedTo(target)">@string.Format(Resources.AccountManagerMoveTo, ShortTitle(target))</button>
+            }
+            <button type="button" class="btn btn-sm btn-outline-danger delete-item" @onclick="this.State.DeleteSelectedAsync">@Resources.Delete</button>
+        }
+    </div>
+
+    <div class="mb-2">
+        <label class="form-label">@Resources.AccountManagerItemType</label>
+        <select class="form-select form-select-sm" @onchange="this.OnDefinitionChanged">
+            @foreach (var definition in this.SameGroup)
+            {
+                <option value="@definition.Number" selected="@(definition == this.Editor.Definition)">@definition.Name.ToString()</option>
+            }
+        </select>
+    </div>
+
+    <div class="mb-2">
+        <span class="form-label d-block">@Resources.AccountManagerLevel</span>
+        <div class="level-picker" role="radiogroup" aria-label="@Resources.AccountManagerLevel">
+            @for (var i = 0; i <= 15; i++)
+            {
+                var level = (byte)i;
+                <button type="button" class="level @LevelTier(level) @(level == this.Editor.Level ? "active" : string.Empty)" data-level="@level"
+                        disabled="@(level > this.Editor.MaximumLevel)" role="radio" aria-checked="@(level == this.Editor.Level)"
+                        @onclick="() => this.Set(() => this.Editor.Level = level)">+@level</button>
+            }
+        </div>
+    </div>
+
+    <div class="mb-2">
+        @if (this.Editor.IsStackable)
+        {
+            <label class="form-label">@Resources.AccountManagerAmount <span class="text-muted">(@string.Format(Resources.AccountManagerMaximum, this.Editor.MaximumDurability))</span></label>
+            <input type="number" class="form-control form-control-sm" min="1" max="@this.Editor.MaximumDurability" value="@this.Editor.Amount" @onchange="e => this.Set(() => this.Editor.Amount = ParseByte(e.Value))" />
+        }
+        else
+        {
+            <label class="form-label">@Resources.AccountManagerDurability <span class="text-muted">(@string.Format(Resources.AccountManagerMaximum, this.Editor.MaximumDurability))</span></label>
+            <input type="number" class="form-control form-control-sm" min="0" max="255" value="@this.Editor.Durability" @onchange="e => this.Set(() => this.Editor.Durability = ParseDouble(e.Value))" />
+        }
+    </div>
+
+    <div class="d-flex flex-wrap gap-3 mb-2">
+        <div class="form-check form-switch mb-0" title="@(this.Editor.CanHaveSkill ? null : Resources.AccountManagerOptionNotPossible)">
+            <input class="form-check-input" type="checkbox" role="switch" id="item-skill" checked="@this.Editor.HasSkill" disabled="@(!this.Editor.CanHaveSkill)" @onchange="e => this.Set(() => this.Editor.HasSkill = (bool)e.Value!)" />
+            <label class="form-check-label" for="item-skill">@Resources.AccountManagerSkill</label>
+        </div>
+        <div class="form-check form-switch mb-0" title="@(this.Editor.CanHaveLuck ? null : Resources.AccountManagerOptionNotPossible)">
+            <input class="form-check-input" type="checkbox" role="switch" id="item-luck" checked="@this.Editor.HasLuck" disabled="@(!this.Editor.CanHaveLuck)" @onchange="e => this.Set(() => this.Editor.HasLuck = (bool)e.Value!)" />
+            <label class="form-check-label" for="item-luck">@Resources.AccountManagerLuck</label>
+        </div>
+        @if (this.Editor.CanHaveGuardianOption)
+        {
+            <div class="form-check form-switch mb-0">
+                <input class="form-check-input" type="checkbox" role="switch" id="item-guardian" checked="@this.Editor.HasGuardianOption" @onchange="e => this.Set(() => this.Editor.HasGuardianOption = (bool)e.Value!)" />
+                <label class="form-check-label" for="item-guardian">@Resources.AccountManagerGuardianOption</label>
+            </div>
+        }
+    </div>
+
+    @if (this.Editor.NormalOptionChoices.Count > 0)
+    {
+        <div class="mb-2">
+            <label class="form-label">@Resources.AccountManagerOption</label>
+            <div class="d-flex gap-1">
+                <select class="form-select form-select-sm flex-grow-1" @onchange="e => this.Set(() => this.Editor.NormalOption = Pick(this.Editor.NormalOptionChoices, e.Value))">
+                    <option value="-1">@Resources.AccountManagerNone</option>
+                    @for (var i = 0; i < this.Editor.NormalOptionChoices.Count; i++)
+                    {
+                        <option value="@i" selected="@(this.Editor.NormalOptionChoices[i] == this.Editor.NormalOption)">@this.Editor.NormalOptionChoices[i]</option>
+                    }
+                </select>
+                @if (this.Editor.NormalOption is not null)
+                {
+                    <select class="form-select form-select-sm narrow" @onchange="e => this.Set(() => this.Editor.NormalOptionLevel = int.Parse((string)e.Value!, CultureInfo.InvariantCulture))">
+                        @for (var i = 1; i <= this.Editor.NormalOptionMaximumLevel; i++)
+                        {
+                            <option value="@i" selected="@(i == this.Editor.NormalOptionLevel)">+@(i * 4)</option>
+                        }
+                    </select>
+                }
+            </div>
+        </div>
+    }
+
+    @if (this.Editor.ExcellentChoices.Count > 0)
+    {
+        <fieldset class="option-list mb-2">
+            <legend class="form-label">@Resources.AccountManagerExcellentOptions</legend>
+            @foreach (var choice in this.Editor.ExcellentChoices)
+            {
+                <div class="form-check mb-0">
+                    <input class="form-check-input" type="checkbox" id="@($"exc-{choice.Option.GetHashCode()}")" checked="@choice.IsChecked" @onchange="e => this.Set(() => choice.IsChecked = (bool)e.Value!)" />
+                    <label class="form-check-label" for="@($"exc-{choice.Option.GetHashCode()}")">@choice.Caption</label>
+                </div>
+            }
+        </fieldset>
+    }
+
+    @if (this.Editor.WingChoices.Count > 0)
+    {
+        <fieldset class="option-list mb-2">
+            <legend class="form-label">@Resources.AccountManagerWingOptions</legend>
+            @foreach (var choice in this.Editor.WingChoices)
+            {
+                <div class="form-check mb-0">
+                    <input class="form-check-input" type="checkbox" id="@($"wing-{choice.Option.GetHashCode()}")" checked="@choice.IsChecked" @onchange="e => this.Set(() => choice.IsChecked = (bool)e.Value!)" />
+                    <label class="form-check-label" for="@($"wing-{choice.Option.GetHashCode()}")">@choice.Caption</label>
+                </div>
+            }
+        </fieldset>
+    }
+
+    @if (this.Editor.ExcellentChoices.Count + this.Editor.WingChoices.Count > 0)
+    {
+        <button type="button" class="btn btn-sm btn-outline-secondary full-option mb-2" @onclick="() => this.Set(this.Editor.MakeFullOption)">@Resources.AccountManagerFullOption</button>
+    }
+
+    @if (this.Editor.AncientSetChoices.Count > 0)
+    {
+        <div class="mb-2">
+            <label class="form-label">@Resources.AccountManagerAncientSet</label>
+            <select class="form-select form-select-sm" @onchange="e => this.Set(() => this.Editor.AncientSet = Pick(this.Editor.AncientSetChoices, e.Value))">
+                <option value="-1">@Resources.AccountManagerNone</option>
+                @for (var i = 0; i < this.Editor.AncientSetChoices.Count; i++)
+                {
+                    <option value="@i" selected="@(this.Editor.AncientSetChoices[i] == this.Editor.AncientSet)">@this.Editor.AncientSetChoices[i].Name.ToString()</option>
+                }
+            </select>
+        </div>
+    }
+
+    @if (this.Editor.HarmonyOptionChoices.Count > 0)
+    {
+        <div class="mb-2">
+            <label class="form-label">@Resources.AccountManagerHarmonyOption</label>
+            <div class="d-flex gap-1">
+                <select class="form-select form-select-sm flex-grow-1" @onchange="e => this.Set(() => this.Editor.HarmonyOption = Pick(this.Editor.HarmonyOptionChoices, e.Value))">
+                    <option value="-1">@Resources.AccountManagerNone</option>
+                    @for (var i = 0; i < this.Editor.HarmonyOptionChoices.Count; i++)
+                    {
+                        <option value="@i" selected="@(this.Editor.HarmonyOptionChoices[i] == this.Editor.HarmonyOption)">@this.Editor.HarmonyOptionChoices[i]</option>
+                    }
+                </select>
+                @if (this.Editor.HarmonyOption is not null)
+                {
+                    <select class="form-select form-select-sm narrow harmony-level" @onchange="e => this.Set(() => this.Editor.HarmonyOptionLevel = int.Parse((string)e.Value!, CultureInfo.InvariantCulture))">
+                        <option value="@this.Editor.HarmonyOptionDefaultLevel" selected="@(this.Editor.HarmonyOptionLevel == this.Editor.HarmonyOptionDefaultLevel)">@Resources.AccountManagerDefault</option>
+                        @if (this.Editor.HarmonyOptionMaximumLevel != this.Editor.HarmonyOptionDefaultLevel)
+                        {
+                            <option value="@this.Editor.HarmonyOptionMaximumLevel" selected="@(this.Editor.HarmonyOptionLevel == this.Editor.HarmonyOptionMaximumLevel)">@Resources.AccountManagerMax</option>
+                        }
+                        @if (this.Editor.HarmonyOptionLevel != this.Editor.HarmonyOptionDefaultLevel && this.Editor.HarmonyOptionLevel != this.Editor.HarmonyOptionMaximumLevel)
+                        {
+                            <option value="@this.Editor.HarmonyOptionLevel" selected="selected">@string.Format(Resources.AccountManagerLevelNumber, this.Editor.HarmonyOptionLevel)</option>
+                        }
+                    </select>
+                }
+            </div>
+        </div>
+    }
+
+    @if (this.Editor.MaximumSockets > 0)
+    {
+        <div class="mb-2">
+            <label class="form-label">@Resources.AccountManagerSockets</label>
+            <select class="form-select form-select-sm" @onchange="e => this.Set(() => this.Editor.SocketCount = int.Parse((string)e.Value!, CultureInfo.InvariantCulture))">
+                @for (var i = 0; i <= this.Editor.MaximumSockets; i++)
+                {
+                    <option value="@i" selected="@(i == this.Editor.SocketCount)">@i</option>
+                }
+            </select>
+        </div>
+        @foreach (var socket in this.Editor.Sockets)
+        {
+            <div class="d-flex gap-1 align-items-center mb-1 socket">
+                <span class="text-muted small narrow">@socket.Caption</span>
+                <select class="form-select form-select-sm flex-grow-1" @onchange="e => this.Set(() => socket.Option = Pick(socket.Choices, e.Value))">
+                    <option value="-1">@Resources.AccountManagerEmpty</option>
+                    @for (var i = 0; i < socket.Choices.Count; i++)
+                    {
+                        <option value="@i" selected="@(socket.Choices[i] == socket.Option)">@socket.Choices[i]</option>
+                    }
+                </select>
+                <select class="form-select form-select-sm narrow" @onchange="e => this.Set(() => socket.Level = int.Parse((string)e.Value!, CultureInfo.InvariantCulture))">
+                    @for (var i = 0; i <= 4; i++)
+                    {
+                        <option value="@i" selected="@(i == socket.Level)">@string.Format(Resources.AccountManagerLevelNumber, i + 1)</option>
+                    }
+                </select>
+            </div>
+        }
+    }
+</div>
+
+@code {
+    /// <summary>
+    /// Gets or sets the editor of the item.
+    /// </summary>
+    [Parameter]
+    [EditorRequired]
+    public ItemEditorModel Editor { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the item isn't in a storage, e.g. an item of a package.
+    /// </summary>
+    [Parameter]
+    public bool Standalone { get; set; }
+
+    /// <summary>
+    /// Gets or sets the buttons which replace the actions of a storage item (duplicate, move, delete).
+    /// </summary>
+    [Parameter]
+    public RenderFragment? Actions { get; set; }
+
+    private IEnumerable<ItemDefinition> SameGroup => this.State.Definitions.Where(d => d.Group == this.Editor.Definition?.Group);
+
+    private static T? Pick<T>(IReadOnlyList<T> choices, object? value)
+        where T : class
+        => int.TryParse(value as string, out var index) && index >= 0 && index < choices.Count ? choices[index] : null;
+
+    private static byte ParseByte(object? value) => byte.TryParse(value as string, out var b) ? b : (byte)1;
+
+    private static double ParseDouble(object? value) => double.TryParse(value as string, NumberStyles.Float, CultureInfo.InvariantCulture, out var d) ? d : 0;
+
+    private static string ShortTitle(StorageModel storage) => storage.StorageType == StorageType.Vault ? storage.Title : storage.Title.Replace(string.Format(Resources.AccountManagerInventoryOf, string.Empty), string.Empty, StringComparison.Ordinal);
+
+    /// <summary>
+    /// Gets the glow tier of a level: +7, +10, +13 and +15 items shine differently in the game.
+    /// </summary>
+    private static string LevelTier(byte level) => level switch
+    {
+        >= 13 => "tier-4",
+        >= 10 => "tier-3",
+        >= 7 => "tier-2",
+        _ => "tier-1",
+    };
+
+    private void OnDefinitionChanged(ChangeEventArgs e)
+    {
+        if (short.TryParse(e.Value as string, out var number)
+            && this.SameGroup.FirstOrDefault(d => d.Number == number) is { } definition)
+        {
+            this.Set(() => this.Editor.Definition = definition);
+        }
+    }
+}

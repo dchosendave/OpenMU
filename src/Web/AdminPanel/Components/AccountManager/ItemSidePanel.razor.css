@@ -1,0 +1,8 @@
+.side-panel {
+    flex: 1 1 22rem;
+    min-width: 20rem;
+    max-width: 34rem;
+    align-self: flex-start;
+    position: sticky;
+    top: 0.75rem;
+}

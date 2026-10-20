@@ -20,6 +20,7 @@ using MUnique.OpenMU.Persistence.Initialization.Captions;
 using MUnique.OpenMU.Persistence.Initialization.Updates;
 using MUnique.OpenMU.Persistence.Initialization.VersionSeasonSix;
 using MUnique.OpenMU.Telemetry;
+using MUnique.OpenMU.Web.AdminPanel.AccountManager;
 using MUnique.OpenMU.Web.AdminPanel.Auth;
 using MUnique.OpenMU.Web.AdminPanel.Components;
 using MUnique.OpenMU.Web.AdminPanel.Services;
@@ -117,6 +118,7 @@ public static class WebApplicationExtensions
         services.AddScoped<IDataService<OfflineAccount>>(serviceProvider => serviceProvider.GetService<OfflineAccountService>()!);
         services.AddScoped<BotAccountService>();
         services.AddScoped<IDataService<BotAccount>>(serviceProvider => serviceProvider.GetService<BotAccountService>()!);
+        services.AddAccountManager();
 
         StaticWebAssetsLoader.UseStaticWebAssets(builder.Environment, builder.Configuration);
         return builder;

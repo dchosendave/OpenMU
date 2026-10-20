@@ -1,0 +1,31 @@
+@inherits ComponentBase
+
+@* The face of an item tile: its icon from the game client, with the level and amount like the game shows them.
+   An icon which doesn't exist falls back to the plain one, and then to the name of the item. *@
+@{
+    var icon = ItemDisplay.Icon(this.Item);
+    var plain = this.Item.Definition is { } definition ? ItemDisplay.Icon(definition) : string.Empty;
+}
+@if (icon.Length > 0)
+{
+    <img class="tile-icon" @key="icon" src="@icon" alt="" draggable="false" data-fallback="@plain"
+         onerror="if (this.dataset.fallback && !this.src.endsWith(this.dataset.fallback)) { this.src = this.dataset.fallback; } else { this.classList.add('missing'); }" />
+}
+<span class="tile-name @(icon.Length == 0 ? "shown" : string.Empty)">@ItemDisplay.Caption(this.Item)</span>
+@if (this.Item.Level > 0 && this.Item.IsWearable())
+{
+    <span class="tile-level">+@this.Item.Level</span>
+}
+@if (this.Item.IsStackable() && this.Item.Durability > 1)
+{
+    <span class="tile-amount">@this.Item.Durability.ToString("0")</span>
+}
+
+@code {
+    /// <summary>
+    /// Gets or sets the item.
+    /// </summary>
+    [Parameter]
+    [EditorRequired]
+    public Item Item { get; set; } = null!;
+}
