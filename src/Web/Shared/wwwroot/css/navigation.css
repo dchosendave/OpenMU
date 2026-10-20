@@ -14,6 +14,13 @@
     flex-shrink: 0;
     overflow-y: auto;
     border-right: 1px solid var(--sc-sidebar-border);
+    /* A thin scroll bar, which only shows up while the pointer is over the sidebar. */
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+  }
+
+  .sidebar:hover {
+    scrollbar-color: var(--sc-sidebar-border) transparent;
   }
 
   .sidebar > nav {
@@ -145,6 +152,65 @@
 .sidebar li.dropdown > .dropdown-menu > .dropdown-divider {
   margin: 0.25rem 0;
   border-color: var(--sc-sidebar-border);
+}
+
+/* Groups inside a sub menu (e.g. the categories of the game configuration). */
+.sidebar .dropdown-menu > .nav-group-toggle {
+  width: 100%;
+  font-weight: 500;
+  text-align: left;
+  border: 0;
+}
+
+.sidebar .dropdown-menu > .nav-group-toggle::after {
+  content: "";
+  width: 0.375rem;
+  height: 0.375rem;
+  margin-left: auto;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform 0.2s ease;
+  opacity: 0.6;
+}
+
+.sidebar .dropdown-menu > .nav-group-toggle.expanded::after {
+  transform: rotate(45deg);
+}
+
+.sidebar .dropdown-menu > .nav-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin: 0 0 0.25rem 0.875rem;
+  padding-left: 0.625rem;
+  border-left: 1px solid var(--sc-sidebar-border);
+}
+
+.sidebar .dropdown-menu > .nav-group > .dropdown-item {
+  display: flex;
+  align-items: center;
+  min-height: 1.75rem;
+  padding: 0 0.5rem;
+  font-size: 0.875rem;
+  color: var(--sc-sidebar-foreground);
+  background: none;
+  border-radius: 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar .dropdown-menu > .nav-group > .dropdown-item:hover,
+.sidebar .dropdown-menu > .nav-group > .dropdown-item:focus-visible {
+  color: var(--sc-sidebar-accent-foreground);
+  background-color: var(--sc-sidebar-accent);
+}
+
+.sidebar .dropdown-menu > .nav-group > .dropdown-item.active {
+  font-weight: 500;
+  color: var(--sc-sidebar-accent-foreground);
+  background-color: var(--sc-sidebar-accent);
 }
 
 .culture-selector-icon {

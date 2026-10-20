@@ -2995,4 +2995,19 @@
   <data name="AccountManagerNoGameConfiguration" xml:space="preserve">
     <value>The database has no game configuration. Set up the server first.</value>
   </data>
+  <data name="ConfigGroupGeneral" xml:space="preserve">
+    <value>General &amp; server</value>
+  </data>
+  <data name="ConfigGroupCharacters" xml:space="preserve">
+    <value>Characters &amp; skills</value>
+  </data>
+  <data name="ConfigGroupDropsAndShops" xml:space="preserve">
+    <value>Drops &amp; shops</value>
+  </data>
+  <data name="ConfigGroupWorld" xml:space="preserve">
+    <value>World &amp; monsters</value>
+  </data>
+  <data name="ConfigGroupExtensions" xml:space="preserve">
+    <value>Plugins &amp; commands</value>
+  </data>
 </root>
