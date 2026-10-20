@@ -163,8 +163,6 @@ public partial class NetworkAnalyzer : IAsyncDisposable
     private ClientVersion CurrentClientVersion =>
         this._capture?.ConnectionInfo.ClientVersion ?? this._selectedSession?.Metadata.ClientVersion ?? default;
 
-    private string TableColClass => this._isSidebarCollapsed ? "col-12" : "col-10";
-
     /// <inheritdoc />
     public async ValueTask DisposeAsync()
     {
