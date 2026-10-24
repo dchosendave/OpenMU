@@ -183,7 +183,6 @@
 /* Groups inside a sub menu (e.g. the categories of the game configuration). */
 .sidebar .dropdown-menu > .nav-group-toggle {
   width: 100%;
-  font-weight: 500;
   text-align: left;
   border: 0;
 }
