@@ -96,6 +96,9 @@
                     <li class="nav-item">
                         <NavLink class="nav-link" href="logging-configuration" @onclick="() => NavigationHistory.Clear()">@Resources.LoggingConfiguration</NavLink>
                     </li>
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="discord" @onclick="() => NavigationHistory.Clear()">@Resources.Discord</NavLink>
+                    </li>
                 </AuthorizeView>
             }
             @if (AdminPanelEnvironment.IsGrafanaAvailable)
