@@ -62,10 +62,12 @@ public static class AdminMcpExtensions
         var server = services.AddMcpServer()
             .WithHttpTransport(transport => transport.Stateless = true)
             .WithTools<AdminReadTools>()
-            .WithTools<AdminOperationReadTools>();
+            .WithTools<AdminOperationReadTools>()
+            .WithTools<AdminConfigurationReadTools>();
         if (!options.ReadOnly)
         {
             server.WithTools<AdminWriteTools>();
+            server.WithTools<AdminConfigurationWriteTools>();
         }
 
         server.AddAuthorizationFilters();
