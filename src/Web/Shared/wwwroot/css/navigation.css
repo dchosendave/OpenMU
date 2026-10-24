@@ -14,13 +14,31 @@
     flex-shrink: 0;
     overflow-y: auto;
     border-right: 1px solid var(--sc-sidebar-border);
-    /* A thin scroll bar, which only shows up while the pointer is over the sidebar. */
-    scrollbar-width: thin;
-    scrollbar-color: transparent transparent;
   }
 
-  .sidebar:hover {
-    scrollbar-color: var(--sc-sidebar-border) transparent;
+  /* The scroll bar of the sidebar only shows up while the pointer is over it. */
+  .sidebar::-webkit-scrollbar-thumb {
+    background-color: transparent;
+  }
+
+  .sidebar:hover::-webkit-scrollbar-thumb {
+    background-color: var(--sc-sidebar-border);
+  }
+
+  .sidebar:hover::-webkit-scrollbar-thumb:hover {
+    background-color: color-mix(in srgb, var(--sc-muted-foreground) 50%, transparent);
+  }
+
+  /* Browsers without ::-webkit-scrollbar (Firefox) get the same with the standard properties. */
+  @supports not selector(::-webkit-scrollbar) {
+    .sidebar {
+      scrollbar-width: thin;
+      scrollbar-color: transparent transparent;
+    }
+
+    .sidebar:hover {
+      scrollbar-color: var(--sc-sidebar-border) transparent;
+    }
   }
 
   .sidebar > nav {
