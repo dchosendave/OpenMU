@@ -2,7 +2,34 @@
 
 @typeparam TItem where TItem : class
 
-<div class="btn-toolbar" role="toolbar" aria-label="@Resources.Toolbar">
+<div class="data-table">
+    <table class="table table-striped table-hover mb-0">
+        <thead>
+            <tr>@TableHeader</tr>
+            @if (this.FilterHeader != null)
+            {
+                <tr>@FilterHeader</tr>
+            }
+        </thead>
+        <tbody>
+            @if (this._items != null)
+            {
+                @foreach (var item in this._items)
+                {
+                    <tr>@ItemTemplate(item)</tr>
+                }
+            }
+            else if (this._isLoading)
+            {
+                <tr>@Resources.Loading</tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>@TableFooter</tr>
+        </tfoot>
+    </table>
+</div>
+<div class="btn-toolbar data-table-pager" role="toolbar" aria-label="@Resources.Toolbar">
     <div class="btn-group" role="group" aria-label="@Resources.Navigation">
         <button disabled="@(this.Page <= 1 || this._isLoading)" class="btn btn-sm btn-outline-secondary" @onclick=@this.GetPreviousPageAsync><span class="oi oi-arrow-thick-left" aria-hidden="true" /></button>
         <button class="btn btn-sm btn-outline-secondary page-indicator" disabled>
@@ -20,31 +47,7 @@
     </div>
 </div>
 
-<table class="table table-striped table-hover">
-    <thead>
-        <tr>@TableHeader</tr>
-        @if (this.FilterHeader != null)
-        {
-            <tr>@FilterHeader</tr>
-        }
-    </thead>
-    <tbody>
-        @if (this._items != null)
-        {
-            @foreach (var item in this._items)
-            {
-                <tr>@ItemTemplate(item)</tr>
-            }
-        }
-        else if (this._isLoading)
-        {
-            <tr>@Resources.Loading</tr>
-        }
-    </tbody>
-    <tfoot>
-        <tr>@TableFooter</tr>
-    </tfoot>
-</table>
+
 @code {
     private bool _hasMoreEntries;
 

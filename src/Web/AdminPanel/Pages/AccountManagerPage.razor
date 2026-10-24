@@ -1,4 +1,4 @@
-@page "/account-manager"
+﻿@page "/account-manager"
 @page "/account-manager/{LoginName}"
 @attribute [Authorize(Policy = AdminPolicies.Administrator)]
 @inherits MUnique.OpenMU.Web.AdminPanel.Components.AccountManager.AccountManagerComponentBase
@@ -9,8 +9,7 @@
 <PageTitle>OpenMU: @Resources.AccountManagerTitle</PageTitle>
 <Breadcrumb IsFirstFromRoot="true" Caption="@Resources.AccountManagerTitle" />
 <NavigationLock ConfirmExternalNavigation="@(this.State.Session?.HasChanges == true)" />
-<h1>@Resources.AccountManagerTitle</h1>
-<p class="text-muted">@Resources.AccountManagerDescription</p>
+<h1 class="visually-hidden">@Resources.AccountManagerTitle</h1>
 
 @if (!this.State.IsInitialized)
 {
@@ -25,15 +24,9 @@
 }
 else
 {
-    <AccountSearch AccountPicked="this.OnAccountPickedAsync" />
-    @if (this.State.Session is null)
-    {
-        <div class="card">
-            <div class="card-body text-muted">@Resources.AccountManagerPickAccountHint</div>
-        </div>
-    }
-    else
-    {
-        <AccountView />
-    }
+    <AccountView>
+        <Search>
+            <AccountSearch AccountPicked="this.OnAccountPickedAsync" />
+        </Search>
+    </AccountView>
 }

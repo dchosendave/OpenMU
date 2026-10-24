@@ -7,16 +7,18 @@
             <button type="button" class="nav-link show-catalog @(this.State.ShowCatalog ? "active" : string.Empty)" @onclick="() => this.Set(() => this.State.ShowCatalog = true)">@Resources.AccountManagerAddItems</button>
         </li>
     </ul>
-    @if (this.State.ShowCatalog)
-    {
-        <ItemCatalog />
-    }
-    else if (this.State.ItemEditor is { } editor)
-    {
-        <ItemEditorPanel Editor="editor" />
-    }
-    else
-    {
-        <div class="text-muted small p-3">@Resources.AccountManagerSelectItemHint</div>
-    }
+    <div class="side-panel-body">
+        @if (this.State.ShowCatalog)
+        {
+            <ItemCatalog />
+        }
+        else if (this.State.ItemEditor is { } editor)
+        {
+            <ItemEditorPanel Editor="editor" />
+        }
+        else
+        {
+            <div class="text-muted small p-3">@Resources.AccountManagerSelectItemHint</div>
+        }
+    </div>
 </aside>

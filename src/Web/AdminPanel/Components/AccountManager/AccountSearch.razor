@@ -27,8 +27,8 @@
             </div>
         }
     </form>
-    <button type="button" class="btn btn-sm btn-primary new-account" @onclick="this.ShowNewAccountAsync">
-        <span class="oi oi-plus" aria-hidden="true"></span> @Resources.AccountManagerNewAccount
+    <button type="button" class="btn btn-sm btn-outline-secondary new-account" title="@Resources.AccountManagerNewAccount" @onclick="this.ShowNewAccountAsync">
+        <span class="oi oi-plus" aria-hidden="true"></span><span class="new-account-text"> @Resources.AccountManagerNewAccount</span>
     </button>
 </div>
 

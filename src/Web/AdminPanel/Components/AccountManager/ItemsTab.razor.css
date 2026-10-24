@@ -1,13 +1,26 @@
+/* The character, the other storages and the item panel side by side; the item panel takes the remaining width. */
 .items-layout {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: auto auto minmax(26rem, 1fr);
     gap: 1rem;
-    align-items: flex-start;
+    align-items: start;
+}
+
+/* Too narrow for three columns: the item panel goes below the storages. */
+@media (max-width: 1399.98px) {
+    .items-layout {
+        grid-template-columns: auto minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 767.98px) {
+    .items-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
 }
 
 .secondary {
     width: 316px;
-    flex: none;
 }
 
 .storage-placeholder {

@@ -45,11 +45,6 @@ body {
   border-top: 1px solid var(--omu-border) !important;
 }
 
-[data-bs-theme=dark] .add-new-bar {
-  background-color: var(--omu-surface-2) !important;
-  border-top: var(--bs-border-width) solid var(--omu-border) !important;
-}
-
 [data-bs-theme=dark] .sort-indicator,
 [data-bs-theme=dark] .go-first,
 [data-bs-theme=dark] .go-previous,

@@ -9,9 +9,19 @@
                 <h3 class="h6 mb-0">@(this.Title ?? this.Storage.Title)</h3>
                 <span class="text-muted small">@string.Format(Resources.AccountManagerItemCount, this.Storage.Items.Count()) · <span class="zen">@string.Format(Resources.AccountManagerZenAmount, this.Storage.Money)</span></span>
             </div>
-            <div class="storage-actions">
-                <button type="button" class="btn btn-sm btn-outline-secondary storage-to-package" title="@string.Format(Resources.AccountManagerSaveAsPackageTitle, this.Title ?? this.Storage.Title)" disabled="@(!this.Storage.Items.Any())" @onclick="this.ShowSavePackageAsync" @onclick:stopPropagation="true">@Resources.AccountManagerSaveAsPackage</button>
-                <button type="button" class="btn btn-sm btn-outline-danger clear-storage" title="@Resources.AccountManagerClearStorageHint" disabled="@(!this.Storage.Items.Any())" @onclick="() => this.State.ClearStorageAsync(this.Storage)" @onclick:stopPropagation="true">@Resources.AccountManagerClear</button>
+            <div class="storage-actions" @onclick:stopPropagation="true">
+                <button type="button" class="btn btn-sm storage-menu" title="@Resources.Actions" aria-label="@Resources.Actions" aria-expanded="@this._menuOpen"
+                        disabled="@(!this.Storage.Items.Any())" @onclick="() => this._menuOpen = !this._menuOpen">
+                    <span class="oi oi-ellipses" aria-hidden="true"></span>
+                </button>
+                @if (this._menuOpen && this.Storage.Items.Any())
+                {
+                    <div class="menu-backdrop" @onclick="() => this._menuOpen = false"></div>
+                    <div class="dropdown-menu show storage-menu-items">
+                        <button type="button" class="dropdown-item storage-to-package" title="@string.Format(Resources.AccountManagerSaveAsPackageTitle, this.Title ?? this.Storage.Title)" @onclick="this.ShowSavePackageAsync">@Resources.AccountManagerSaveAsPackage</button>
+                        <button type="button" class="dropdown-item text-danger clear-storage" title="@Resources.AccountManagerClearStorageHint" @onclick="this.ClearAsync">@Resources.AccountManagerClear</button>
+                    </div>
+                }
             </div>
         </div>
     }
@@ -57,7 +67,11 @@
 
     @foreach (var area in this.Storage.Areas.Where(a => this.Kinds is null || this.Kinds.Contains(a.Kind)).Where(a => this.Pages is null || this.Pages.Contains(a.Title)))
     {
-        <div class="area-title">@area.Title</div>
+        @if (!this.ShowHeader || area.Title != (this.Title ?? this.Storage.Title))
+        {
+            <div class="area-title">@area.Title</div>
+        }
+
         <div class="grid" data-area="@area.Title" style="width:@(StorageArea.Columns * Cell)px;height:@(area.Rows * Cell)px">
             @for (var i = 0; i < area.SlotCount; i++)
             {
@@ -87,6 +101,8 @@
     /// The character window is as wide as the inventory, see .equipment in the stylesheet.
     /// </summary>
     private const int EquipmentWidth = 8 * Cell;
+
+    private bool _menuOpen;
 
     /// <summary>
     /// The frames of the equipment slots on the background of the character window of the game
@@ -182,8 +198,15 @@
 
     private string Highlight(int slot) => this.State.Dragged is { } dragged && dragged.Item.Definition?.ItemSlot?.ItemSlots.Contains(slot) == true ? "can-drop" : string.Empty;
 
+    private async Task ClearAsync()
+    {
+        this._menuOpen = false;
+        await this.State.ClearStorageAsync(this.Storage).ConfigureAwait(true);
+    }
+
     private async Task ShowSavePackageAsync()
     {
+        this._menuOpen = false;
         var parameters = new ModalParameters();
         parameters.Add(nameof(SavePackageDialog.Storage), this.Storage);
         parameters.Add(nameof(SavePackageDialog.SuggestedName), this.Title ?? this.Storage.Title);

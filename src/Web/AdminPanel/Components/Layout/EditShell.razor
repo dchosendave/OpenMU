@@ -7,10 +7,31 @@
     return;
 }
 
-<Breadcrumb Caption="@this.Model.GetName()" />
-<h1>@Resources.Edit @this.ModelType.GetTypeCaption()</h1>
-@((MarkupString)(this.DownloadMarkup ?? string.Empty))
-@((MarkupString)(this.EditorsMarkup ?? string.Empty))
+@{
+    var name = this.Model.GetName();
+    var editCaption = $"{Resources.Edit} {this.ModelType.GetTypeCaption()}";
+}
+<Breadcrumb Caption="@name" />
+<div class="page-header">
+    <div>
+        @if (string.IsNullOrWhiteSpace(name))
+        {
+            <h1>@editCaption</h1>
+        }
+        else
+        {
+            <div class="page-eyebrow">@editCaption</div>
+            <h1>@name</h1>
+        }
+    </div>
+    @if (this.DownloadMarkup is not null || this.EditorsMarkup is not null)
+    {
+        <div class="page-actions">
+            @((MarkupString)(this.EditorsMarkup ?? string.Empty))
+            @((MarkupString)(this.DownloadMarkup ?? string.Empty))
+        </div>
+    }
+</div>
 
 <CascadingValue TValue="IContext" Value="@this.PersistenceContext" IsFixed="@this.IsOwningContext">
     @this.ChildContent
