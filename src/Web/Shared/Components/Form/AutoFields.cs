@@ -1,4 +1,4 @@
-﻿// <copyright file="AutoFields.cs" company="MUnique">
+// <copyright file="AutoFields.cs" company="MUnique">
 // Licensed under the MIT License. See LICENSE file in the project root for full license information.
 // </copyright>
 
@@ -59,6 +59,24 @@ public class AutoFields : ComponentBase
         Builders.Add(new ByteArrayFieldBuilder());
         Builders.Add(new ValueListFieldBuilder());
         Builders.Add(new InvasionSpawnTableFieldBuilder());
+    }
+
+    private enum FieldLayout
+    {
+        /// <summary>
+        /// A single cell of the field grid.
+        /// </summary>
+        Compact,
+
+        /// <summary>
+        /// A full row of the field grid.
+        /// </summary>
+        Wide,
+
+        /// <summary>
+        /// A full-width section below the field grid, e.g. a nested object or a collection.
+        /// </summary>
+        Section,
     }
 
     /// <summary>
@@ -145,7 +163,6 @@ public class AutoFields : ComponentBase
             .Select(e => (e.Property, Builder: e.Builder!, Layout: this.GetLayout(e.Property, e.Builder!)))
             .ToList();
 
-        int i = 0;
         var fieldGroups = entries
             .Where(e => e.Layout != FieldLayout.Section)
             .GroupBy(e => e.Property.GetCustomAttribute<DisplayAttribute>()?.GetGroupName());
@@ -153,20 +170,20 @@ public class AutoFields : ComponentBase
         {
             if (group.Key is { } groupName)
             {
-                builder.OpenElement(i++, "fieldset");
-                builder.AddAttribute(i++, "class", "auto-field-group");
-                builder.OpenElement(i++, "legend");
-                builder.AddContent(i++, groupName);
+                builder.OpenElement(0, "fieldset");
+                builder.AddAttribute(1, "class", "auto-field-group");
+                builder.OpenElement(2, "legend");
+                builder.AddContent(3, groupName);
                 builder.CloseElement();
             }
 
-            builder.OpenElement(i++, "div");
-            builder.AddAttribute(i++, "class", "auto-fields-grid");
+            builder.OpenElement(4, "div");
+            builder.AddAttribute(5, "class", "auto-fields-grid");
             foreach (var entry in group.Where(e => e.Builder is not BooleanFieldBuilder))
             {
-                builder.OpenElement(i++, "div");
-                builder.AddAttribute(i++, "class", entry.Layout == FieldLayout.Wide ? "auto-field auto-field-wide" : "auto-field");
-                i = this.BuildField(builder, entry.Property, entry.Builder, i);
+                builder.OpenElement(6, "div");
+                builder.AddAttribute(7, "class", entry.Layout == FieldLayout.Wide ? "auto-field auto-field-wide" : "auto-field");
+                this.BuildField(builder, entry.Property, entry.Builder);
                 builder.CloseElement();
             }
 
@@ -174,11 +191,11 @@ public class AutoFields : ComponentBase
             var switches = group.Where(e => e.Builder is BooleanFieldBuilder).ToList();
             if (switches.Count > 0)
             {
-                builder.OpenElement(i++, "div");
-                builder.AddAttribute(i++, "class", "auto-field auto-field-wide auto-field-switches");
+                builder.OpenElement(8, "div");
+                builder.AddAttribute(9, "class", "auto-field auto-field-wide auto-field-switches");
                 foreach (var entry in switches)
                 {
-                    i = this.BuildField(builder, entry.Property, entry.Builder, i);
+                    this.BuildField(builder, entry.Property, entry.Builder);
                 }
 
                 builder.CloseElement();
@@ -194,24 +211,44 @@ public class AutoFields : ComponentBase
 
         foreach (var entry in entries.Where(e => e.Layout == FieldLayout.Section))
         {
-            builder.OpenElement(i++, "div");
-            builder.AddAttribute(i++, "class", "auto-field-section");
-            i = this.BuildField(builder, entry.Property, entry.Builder, i);
+            builder.OpenElement(10, "div");
+            builder.AddAttribute(11, "class", "auto-field-section");
+            this.BuildField(builder, entry.Property, entry.Builder);
             builder.CloseElement();
         }
     }
 
-    private int BuildField(RenderTreeBuilder builder, PropertyInfo propertyInfo, IComponentBuilder componentBuilder, int i)
+    private static IReadOnlyList<PropertyMetadata> CreatePropertyMetadata(Type type)
     {
+        return type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy)
+            .Where(p => p.GetCustomAttribute<TransientAttribute>() is null)
+            .Where(p => p.GetCustomAttribute<BrowsableAttribute>()?.Browsable ?? true)
+            .Where(p => !p.Name.StartsWith("Raw", StringComparison.Ordinal))
+            .Where(p => !p.Name.StartsWith("Joined", StringComparison.Ordinal))
+            .Where(p => !p.GetIndexParameters().Any())
+            .Select(p => new PropertyMetadata(
+                p,
+                p.GetCustomAttribute<DisplayAttribute>(),
+                p.PropertyType.IsGenericType,
+                p.PropertyType == typeof(string),
+                p.PropertyType.IsValueType))
+            .ToList();
+    }
+
+    // The component builders number their frames themselves, so each field gets its own region.
+    private void BuildField(RenderTreeBuilder builder, PropertyInfo propertyInfo, IComponentBuilder componentBuilder)
+    {
+        builder.OpenRegion(0);
         try
         {
-            return componentBuilder.BuildComponent(this.Context.Model, propertyInfo, builder, i, this.NotificationService);
+            componentBuilder.BuildComponent(this.Context.Model, propertyInfo, builder, 0, this.NotificationService);
         }
         catch (Exception ex)
         {
             this.Logger.LogError(ex, $"Error building component for property {this.Context.Model.GetType().Name}.{propertyInfo.Name} with component builder {componentBuilder}: {ex.Message}{Environment.NewLine}{ex.StackTrace}");
-            return i;
         }
+
+        builder.CloseRegion();
     }
 
     private FieldLayout GetLayout(PropertyInfo propertyInfo, IComponentBuilder componentBuilder)
@@ -244,23 +281,6 @@ public class AutoFields : ComponentBase
         }
     }
 
-    private static IReadOnlyList<PropertyMetadata> CreatePropertyMetadata(Type type)
-    {
-        return type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy)
-            .Where(p => p.GetCustomAttribute<TransientAttribute>() is null)
-            .Where(p => p.GetCustomAttribute<BrowsableAttribute>()?.Browsable ?? true)
-            .Where(p => !p.Name.StartsWith("Raw", StringComparison.Ordinal))
-            .Where(p => !p.Name.StartsWith("Joined", StringComparison.Ordinal))
-            .Where(p => !p.GetIndexParameters().Any())
-            .Select(p => new PropertyMetadata(
-                p,
-                p.GetCustomAttribute<DisplayAttribute>(),
-                p.PropertyType.IsGenericType,
-                p.PropertyType == typeof(string),
-                p.PropertyType.IsValueType))
-            .ToList();
-    }
-
     private bool IsMatch(PropertyMetadata metadata)
     {
         if (string.IsNullOrWhiteSpace(this.SearchTerm))
@@ -270,24 +290,6 @@ public class AutoFields : ComponentBase
 
         return metadata.Property.Name.Contains(this.SearchTerm, StringComparison.OrdinalIgnoreCase)
                || (metadata.DisplayAttribute?.GetName()?.Contains(this.SearchTerm, StringComparison.OrdinalIgnoreCase) ?? false);
-    }
-
-    private enum FieldLayout
-    {
-        /// <summary>
-        /// A single cell of the field grid.
-        /// </summary>
-        Compact,
-
-        /// <summary>
-        /// A full row of the field grid.
-        /// </summary>
-        Wide,
-
-        /// <summary>
-        /// A full-width section below the field grid, e.g. a nested object or a collection.
-        /// </summary>
-        Section,
     }
 
     private sealed record PropertyMetadata(
