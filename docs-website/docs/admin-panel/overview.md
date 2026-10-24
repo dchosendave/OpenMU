@@ -68,8 +68,11 @@ example the [server-side AI bots](../server-features/bots.md).
 
 ## Layout
 
-* **Navigation menu** (left) — the pages listed above. The *Configuration*
-  entry is a drop-down with the game configuration pages.
+* **Navigation menu** (left) — the pages listed above, in the sections
+  *Overview*, *Players*, *Game* and *System*. The *Game configuration* entry
+  expands to its pages, grouped by topic (general & server, characters &
+  skills, items, drops & shops, world & monsters, plugins & commands). One
+  group is open at a time, and the group of the current page opens by itself.
 * **Breadcrumb** (top) — the generic edit pages can nest deeply into the
   configuration; the breadcrumb is how you get back out.
 * **Configuration search** — a search box which finds configuration objects by
