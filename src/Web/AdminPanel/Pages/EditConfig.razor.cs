@@ -64,7 +64,7 @@ public sealed partial class EditConfig : EditBase
             {
                 var uri = string.Format(CultureInfo.InvariantCulture, editor.Path, this.Id);
                 stringBuilder ??= new StringBuilder();
-                stringBuilder.Append($@"<p><a href=""{uri}"">{editor.Caption}</a></p>");
+                stringBuilder.Append($@"<a class=""btn btn-sm btn-outline-secondary"" href=""{uri}"">{editor.Caption}</a>");
             }
         }
 

@@ -1,4 +1,4 @@
-/* Sidebar navigation in the look of the shadcn sidebar: layout, menu buttons, collapsible sub menus, and the culture selector. */
+/* Sidebar navigation in the look of the shadcn sidebar: layout, section labels, menu buttons, collapsible sub menus, and the culture selector. */
 .sidebar {
   display: flex;
   flex-direction: column;
@@ -24,6 +24,8 @@
   }
 
   .sidebar > nav {
+    display: flex;
+    flex-direction: column;
     width: 16rem;
     min-height: 100%;
   }
@@ -32,8 +34,15 @@
     display: none;
   }
 
-  .sidebar > nav > .collapse {
-    display: block !important;
+  /* The menu fills the height of the sidebar, so the footer (language, about) sits at the bottom. */
+  .sidebar > nav > .nav-menu {
+    display: flex !important;
+    flex: 1;
+    flex-direction: column;
+  }
+
+  .sidebar .nav-footer {
+    margin-top: auto;
   }
 }
 
@@ -42,12 +51,26 @@
   padding: 0.5rem;
 }
 
+/* The label of a group of links, like the shadcn SidebarGroupLabel. */
+.sidebar .nav-section {
+  padding: 1rem 0.5rem 0.25rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--sc-muted-foreground);
+}
+
+.sidebar .nav-section:first-child {
+  padding-top: 0.25rem;
+}
+
 .sidebar .nav-link {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   width: 100%;
-  height: 2rem;
+  height: 1.875rem;
   padding: 0 0.5rem;
   font-size: 0.875rem;
   line-height: 1.25rem;
@@ -72,10 +95,12 @@
   box-shadow: 0 0 0 2px var(--sc-ring);
 }
 
-.sidebar .nav-link.active {
+/* The current page stands out in the primary color. */
+.sidebar .nav-link.active,
+.sidebar .nav-link.active:hover {
   font-weight: 500;
-  color: var(--sc-sidebar-accent-foreground);
-  background-color: var(--sc-sidebar-accent);
+  color: var(--sc-primary-foreground);
+  background-color: var(--sc-primary);
 }
 
 .sidebar .oi {
@@ -143,10 +168,11 @@
   background-color: var(--sc-sidebar-accent);
 }
 
-.sidebar li.dropdown > .dropdown-menu > .dropdown-item.active {
+.sidebar li.dropdown > .dropdown-menu > .dropdown-item.active,
+.sidebar li.dropdown > .dropdown-menu > .dropdown-item.active:hover {
   font-weight: 500;
-  color: var(--sc-sidebar-accent-foreground);
-  background-color: var(--sc-sidebar-accent);
+  color: var(--sc-primary-foreground);
+  background-color: var(--sc-primary);
 }
 
 .sidebar li.dropdown > .dropdown-menu > .dropdown-divider {
@@ -207,10 +233,11 @@
   background-color: var(--sc-sidebar-accent);
 }
 
-.sidebar .dropdown-menu > .nav-group > .dropdown-item.active {
+.sidebar .dropdown-menu > .nav-group > .dropdown-item.active,
+.sidebar .dropdown-menu > .nav-group > .dropdown-item.active:hover {
   font-weight: 500;
-  color: var(--sc-sidebar-accent-foreground);
-  background-color: var(--sc-sidebar-accent);
+  color: var(--sc-primary-foreground);
+  background-color: var(--sc-primary);
 }
 
 .culture-selector-icon {

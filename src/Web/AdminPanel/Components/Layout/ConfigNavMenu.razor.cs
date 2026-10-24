@@ -82,7 +82,6 @@ public partial class ConfigNavMenu : IDisposable
     private IReadOnlyList<ConfigGroup> CreateGroups() =>
     [
         new(
-            "oi-cog",
             () => Resources.ConfigGroupGeneral,
             [
                 new($"edit-config/{typeof(GameConfiguration).FullName}/{this.GameConfigurationId}/hide-collections", () => Resources.General),
@@ -91,14 +90,12 @@ public partial class ConfigNavMenu : IDisposable
                 new($"edit-config/{typeof(GameConfiguration).FullName}/", () => Resources.FullConfiguration, Match: NavLinkMatch.All),
             ]),
         new(
-            "oi-person",
             () => Resources.ConfigGroupCharacters,
             [
                 GridLink<CharacterClass>(() => Resources.CharacterClasses),
                 GridLink<Skill>(() => Resources.Skills),
             ]),
         new(
-            "oi-tag",
             () => Resources.Items,
             [
                 GridLink<ItemDefinition>(() => Resources.Items),
@@ -108,7 +105,6 @@ public partial class ConfigNavMenu : IDisposable
                 GridLink<JewelMix>(() => Resources.JewelMixes),
             ]),
         new(
-            "oi-dollar",
             () => Resources.ConfigGroupDropsAndShops,
             [
                 GridLink<DropItemGroup>(() => Resources.DropItemGroups),
@@ -117,7 +113,6 @@ public partial class ConfigNavMenu : IDisposable
                 new("cash-shop-catalog", () => Resources.CashShopCatalog, AdminOnly: true),
             ]),
         new(
-            "oi-map",
             () => Resources.ConfigGroupWorld,
             [
                 GridLink<GameMapDefinition>(() => Resources.GameMaps),
@@ -128,7 +123,6 @@ public partial class ConfigNavMenu : IDisposable
                 new("terrain-editor", () => Resources.TerrainEditor),
             ]),
         new(
-            "oi-puzzle-piece",
             () => Resources.ConfigGroupExtensions,
             [
                 new("plugins", () => Resources.Plugins),
@@ -180,7 +174,7 @@ public partial class ConfigNavMenu : IDisposable
         return true;
     }
 
-    private sealed record ConfigGroup(string Icon, Func<string> Caption, IReadOnlyList<ConfigLink> Links);
+    private sealed record ConfigGroup(Func<string> Caption, IReadOnlyList<ConfigLink> Links);
 
     private sealed record ConfigLink(string Href, Func<string> Caption, bool AdminOnly = false, NavLinkMatch Match = NavLinkMatch.Prefix);
 }

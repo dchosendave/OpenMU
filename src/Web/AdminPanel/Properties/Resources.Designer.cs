@@ -7141,5 +7141,41 @@ namespace MUnique.OpenMU.Web.AdminPanel.Properties {
                 return ResourceManager.GetString("ConfigGroupExtensions", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Overview.
+        /// </summary>
+        public static string NavigationOverview {
+            get {
+                return ResourceManager.GetString("NavigationOverview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Players.
+        /// </summary>
+        public static string NavigationPlayers {
+            get {
+                return ResourceManager.GetString("NavigationPlayers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Game.
+        /// </summary>
+        public static string NavigationGame {
+            get {
+                return ResourceManager.GetString("NavigationGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to System.
+        /// </summary>
+        public static string NavigationSystem {
+            get {
+                return ResourceManager.GetString("NavigationSystem", resourceCulture);
+            }
+        }
     }
 }

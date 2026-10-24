@@ -64,12 +64,12 @@
           <td><GuildLink GuildId="@item.GuildId" GuildName="@item.GuildName" EmptyText="@Resources.EmptyValue" /></td>
           <td><PartyBadge PartyMaster="@item.PartyMaster" PartySize="@item.PartySize" /></td>
           <td>
-            <button class="btn btn-warning btn-sm" type="button" @onclick="() => this.AccountService.SetAccountOfflineAsync(item)">
+            <button class="btn btn-outline-warning btn-sm" type="button" @onclick="() => this.AccountService.SetAccountOfflineAsync(item)">
               <span class="oi oi-bolt" aria-hidden="true" /> @Resources.Disconnect
             </button>
             @if (this.IsNetworkAnalyzerAvailable)
             {
-              <a class="btn btn-secondary btn-sm ms-1" title="@Resources.AnalyzeTraffic"
+              <a class="btn btn-outline-secondary btn-sm ms-1" title="@Resources.AnalyzeTraffic"
                  href="@($"{NetworkAnalyzer.PlayerRoute}{item.Server}/{Uri.EscapeDataString(item.LoginName)}")">
                 <span class="oi oi-pulse" aria-hidden="true" /> @Resources.NetworkAnalyzer
               </a>
@@ -100,7 +100,7 @@
           <td><PartyBadge PartyMaster="@item.PartyMaster" PartySize="@item.PartySize" /></td>
           <td>@item.StartedAt.ToString("yyyy-MM-dd HH:mm:ss") UTC</td>
           <td>
-            <button class="btn btn-warning btn-sm" type="button" @onclick="() => this.OfflineService.StopOfflinePlayerAsync(item)">
+            <button class="btn btn-outline-warning btn-sm" type="button" @onclick="() => this.OfflineService.StopOfflinePlayerAsync(item)">
               <span class="oi oi-media-stop" aria-hidden="true" /> @Resources.Stop
             </button>
           </td>

@@ -42,3 +42,51 @@
 .quickgrid tbody tr:has(td:empty) {
   display: none;
 }
+
+/* A framed table, like the lists of the configuration: the paged DataTable and every other table of a page (.table-frame).
+   The rows and their content stay as they are, only the frame, the header and the cell spacing are shared. */
+.data-table,
+.table-frame {
+  border: 1px solid var(--sc-border);
+  border-radius: var(--bs-border-radius);
+  background: var(--sc-card);
+  overflow-x: auto;
+}
+
+.table-frame {
+  margin-bottom: 1rem;
+}
+
+/* Tables which are only as wide as their content (e.g. small input tables) get a frame of the same width. */
+.table-frame-auto {
+  width: fit-content;
+  max-width: 100%;
+}
+
+.data-table .table,
+.table-frame .table {
+  margin-bottom: 0;
+  font-size: 0.875rem;
+}
+
+.data-table .table > :not(caption) > * > *,
+.table-frame .table > :not(caption) > * > * {
+  padding: 0.5rem 0.75rem;
+  vertical-align: middle;
+}
+
+.data-table thead tr:first-child th,
+.table-frame thead tr:first-child th {
+  font-weight: 600;
+  color: var(--sc-foreground);
+}
+
+/* A footer without any content (no footer, or only empty cells) would just be an empty line. */
+.data-table tfoot tr:not(:has(> :not(td:empty))) {
+  display: none;
+}
+
+.data-table-pager {
+  justify-content: flex-end;
+  margin: 0.5rem 0 1rem;
+}

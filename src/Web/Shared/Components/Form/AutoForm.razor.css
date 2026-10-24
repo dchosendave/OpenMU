@@ -9,5 +9,14 @@
 
 .form-actions {
     margin: 1rem -1.5rem -1rem -1.5rem;
-    border-radius: 0;
+    border-radius: 0 0 0.375rem 0.375rem;
+}
+
+/* Long forms: the search stays reachable below the main header while scrolling. */
+.auto-form-search-group {
+    position: sticky;
+    top: 3.5rem;
+    z-index: 4;
+    padding: 0.5rem 0;
+    background: var(--sc-background);
 }

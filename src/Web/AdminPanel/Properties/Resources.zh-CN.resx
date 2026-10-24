@@ -2083,4 +2083,16 @@
   <data name="ConfigGroupExtensions" xml:space="preserve">
     <value>插件与命令</value>
   </data>
+  <data name="NavigationOverview" xml:space="preserve">
+    <value>概览</value>
+  </data>
+  <data name="NavigationPlayers" xml:space="preserve">
+    <value>玩家</value>
+  </data>
+  <data name="NavigationGame" xml:space="preserve">
+    <value>游戏</value>
+  </data>
+  <data name="NavigationSystem" xml:space="preserve">
+    <value>系统</value>
+  </data>
 </root>

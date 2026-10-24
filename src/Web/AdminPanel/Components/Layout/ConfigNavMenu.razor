@@ -2,7 +2,7 @@
 
 <li class="nav-item dropdown@(this._expandGameConfig ? " expanded" : "")">
     <a class="nav-link dropdown-toggle" href="" role="button" aria-haspopup="true" aria-expanded="@(this._expandGameConfig)" @onclick="ToggleGameConfig" @onclick:preventDefault="true">
-        <span class="oi oi-cog" aria-hidden="true"></span> @Resources.GameConfiguration
+        @Resources.GameConfiguration
     </a>
     <div class="dropdown-menu@(this._expandGameConfig ? " show" : "")">
         @foreach (var group in this.Groups)
@@ -10,7 +10,7 @@
             var isOpen = this._openGroup == group;
             <button type="button" class="dropdown-item nav-group-toggle@(isOpen ? " expanded" : "")" aria-expanded="@isOpen"
                     @onclick="() => this.ToggleGroup(group)">
-                <span class="oi @group.Icon" aria-hidden="true"></span> @group.Caption()
+                @group.Caption()
             </button>
             @if (isOpen)
             {

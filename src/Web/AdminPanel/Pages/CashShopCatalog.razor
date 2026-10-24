@@ -28,30 +28,32 @@ else if (this._selectedPackage is not { } package)
     <CascadingValue TValue="IContext" Value="this._persistenceContext">
         <EditForm Model="configuration" OnValidSubmit="this.OnSaveAsync" Context="editContext">
             <h2>@Resources.CashShopVersions</h2>
-            <table class="table table-sm w-auto">
-                <thead>
-                <tr>
-                    <th></th>
-                    <th>@Resources.CashShopSaleZone</th>
-                    <th>@Resources.CashShopYear</th>
-                    <th>@Resources.CashShopYearId</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <th>@Resources.CashShopScriptVersion</th>
-                    <td><InputShort class="form-control" id="scriptSaleZone" @bind-Value="configuration.ScriptSaleZone" /></td>
-                    <td><InputShort class="form-control" id="scriptYear" @bind-Value="configuration.ScriptYear" /></td>
-                    <td><InputShort class="form-control" id="scriptYearId" @bind-Value="configuration.ScriptYearId" /></td>
-                </tr>
-                <tr>
-                    <th>@Resources.CashShopBannerVersion</th>
-                    <td><InputShort class="form-control" id="bannerSaleZone" @bind-Value="configuration.BannerSaleZone" /></td>
-                    <td><InputShort class="form-control" id="bannerYear" @bind-Value="configuration.BannerYear" /></td>
-                    <td><InputShort class="form-control" id="bannerYearId" @bind-Value="configuration.BannerYearId" /></td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="table-frame table-frame-auto">
+                <table class="table table-sm w-auto">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>@Resources.CashShopSaleZone</th>
+                        <th>@Resources.CashShopYear</th>
+                        <th>@Resources.CashShopYearId</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th>@Resources.CashShopScriptVersion</th>
+                        <td><InputShort class="form-control" id="scriptSaleZone" @bind-Value="configuration.ScriptSaleZone" /></td>
+                        <td><InputShort class="form-control" id="scriptYear" @bind-Value="configuration.ScriptYear" /></td>
+                        <td><InputShort class="form-control" id="scriptYearId" @bind-Value="configuration.ScriptYearId" /></td>
+                    </tr>
+                    <tr>
+                        <th>@Resources.CashShopBannerVersion</th>
+                        <td><InputShort class="form-control" id="bannerSaleZone" @bind-Value="configuration.BannerSaleZone" /></td>
+                        <td><InputShort class="form-control" id="bannerYear" @bind-Value="configuration.BannerYear" /></td>
+                        <td><InputShort class="form-control" id="bannerYearId" @bind-Value="configuration.BannerYearId" /></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
 
             <h2>@Resources.CashShopPackages</h2>
             <div class="row g-2 mb-2 align-items-center">
@@ -64,7 +66,7 @@ else if (this._selectedPackage is not { } package)
                 </div>
             </div>
             @* Every cell needs content: the shared grid style hides rows with an empty cell, which are QuickGrid's filler rows. *@
-            <div class="table-responsive">
+            <div class="table-responsive table-frame">
             <QuickGrid Items="@this.FilteredPackages" Pagination="@this._pagination" Theme="none" Class="table table-striped table-sm">
                 <PropertyColumn Title="@Resources.CashShopPackageSequence" Property="@(p => p.PackageSequence)" Sortable="true" />
                 <PropertyColumn Title="@Resources.ConfigurationEntryName" Property="@(p => string.IsNullOrEmpty(GetPackageName(p)) ? NoValue : GetPackageName(p))" Sortable="true" />
@@ -84,7 +86,7 @@ else if (this._selectedPackage is not { } package)
                     }
                 </TemplateColumn>
                 <TemplateColumn>
-                    <button type="button" class="btn btn-sm btn-primary" @onclick="@(() => this.OnEditPackage(context))"><span class="oi oi-pencil" aria-hidden="true"></span> @Resources.Edit</button>
+                    <button type="button" class="btn btn-sm btn-outline-primary" @onclick="@(() => this.OnEditPackage(context))"><span class="oi oi-pencil" aria-hidden="true"></span> @Resources.Edit</button>
                 </TemplateColumn>
             </QuickGrid>
             </div>
@@ -151,7 +153,7 @@ else
 
             <h3>@Resources.CashShopProducts</h3>
             <p class="text-muted">@(package.IsBundle ? Resources.CashShopBundleProductsDescription : Resources.CashShopPriceOptionsDescription)</p>
-            <div class="table-responsive">
+            <div class="table-responsive table-frame">
             <table class="table table-sm">
                 <thead>
                 <tr>

@@ -18,13 +18,13 @@
 
 @if (this._selectedMerchant is null)
 {
-    <div>
+    <div class="table-frame">
         <QuickGrid Items="@this.ViewModels" Pagination="@_merchantPagination" Theme="none">
             <PropertyColumn Title="@Resources.ConfigurationEntryName" Property="@(c => c.Name)" Sortable="true">
             </PropertyColumn>
 
-            <TemplateColumn Align="Align.Start">
-                <button type="button" class="btn btn-primary" @onclick="@(() => this.OnMerchantEditClickAsync(context))"><span class="oi oi-pencil" aria-hidden="true"></span> @Resources.Edit</button>
+            <TemplateColumn Align="Align.End">
+                <button type="button" class="btn btn-sm btn-outline-primary" @onclick="@(() => this.OnMerchantEditClickAsync(context))"><span class="oi oi-pencil" aria-hidden="true"></span> @Resources.Edit</button>
             </TemplateColumn>
         </QuickGrid>
     </div>

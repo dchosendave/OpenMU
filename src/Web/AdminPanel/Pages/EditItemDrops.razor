@@ -9,8 +9,12 @@
 <PageTitle>OpenMU: @Resources.ItemDrops</PageTitle>
 <Breadcrumb IsFirstFromRoot="true" Caption="@Resources.ItemDrops" />
 
-<h1>@Resources.ItemDrops</h1>
-<p class="text-muted">@Resources.ItemDropsPageDescription</p>
+<div class="page-header">
+    <div>
+        <h1>@Resources.ItemDrops</h1>
+        <p class="text-muted small mb-0 mt-1">@Resources.ItemDropsPageDescription</p>
+    </div>
+</div>
 
 @if (this._gameConfiguration is not { } gameConfiguration || this._persistenceContext is null)
 {
@@ -56,7 +60,7 @@
 </CollapsibleSection>
 
 <CollapsibleSection Title="@Resources.MonsterDropChanceOverview" Description="@Resources.MonsterDropChanceOverviewDescription">
-    <div class="table-responsive">
+    <div class="table-responsive table-frame">
         <table class="table table-sm table-hover align-middle">
             <thead>
             <tr>
@@ -181,7 +185,7 @@
         <input id="onlyDroppable" type="checkbox" class="form-check-input" @bind="this._showOnlyDroppableItems" />
         <label for="onlyDroppable" class="form-check-label">@Resources.ShowOnlyDroppableItems</label>
     </div>
-    <div class="table-responsive">
+    <div class="table-responsive table-frame">
         <table class="table table-sm table-hover align-middle">
             <thead>
             <tr>
@@ -207,7 +211,7 @@
 </CollapsibleSection>
 
 <CollapsibleSection Title="@Resources.ItemOptionDropChances" Description="@Resources.ItemOptionDropChancesDescription">
-    <div class="table-responsive">
+    <div class="table-responsive table-frame">
         <table class="table table-sm table-hover align-middle">
             <thead>
             <tr>
