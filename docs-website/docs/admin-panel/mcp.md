@@ -181,8 +181,9 @@ OAuth are planned for a later phase; an API key is required today.
 | Cash shop | `cashshop_get_balance`, `cashshop_grant` |
 | Logs | `logs_search`, `logs_get_level`, `logs_set_level` |
 | Audit | `audit_list` |
-| Plugins | `plugins_list` |
-| Configuration | `config_types`, `config_describe`, `config_search`, `config_query`, `config_get` |
+| Plugins | `plugins_list`, `plugins_set_active` |
+| Configuration | `config_types`, `config_describe`, `config_search`, `config_query`, `config_get`, `config_update` |
+| Rates | `rates_get`, `rates_set` |
 
 Try “Show the server overview and check for unresponsive servers”, “Find the
 account of character Hero”, or “Find the experience rate configuration”.
@@ -228,8 +229,9 @@ agent.
 Tools are filtered by role during discovery and checked again when called.
 The host limits requests per API client and returns HTTP 429 when the configured
 minute allowance is exhausted, or HTTP 413 for oversized request bodies. This
-phase supports audited operational writes. Generic configuration edits, offline
-character edits, live GM commands and OAuth are reserved for later phases.
+phase supports audited operational writes and configuration changes with
+preview and apply. Offline character edits, live GM commands and OAuth are
+reserved for later phases.
 
 ## Operational safety and audit history
 
@@ -280,6 +282,43 @@ managed through Grafana/Loki and game-host configuration instead.
 `logs_set_level` changes the default minimum level while preserving existing
 source overrides and sink settings. The panel's full logging JSON editor is not
 exposed as an agent tool because sink settings may contain credentials.
+
+## Configuration changes
+
+`config_update`, `rates_set` and `plugins_set_active` require the Administrator
+role and work in two steps, so that a change is only applied after the user saw
+it:
+
+1. Call the tool with `apply: false` (the default). Nothing is changed. The
+   result lists each change with its `before` and `after` value and contains a
+   `confirmationToken`.
+2. After the user confirmed, call the tool again with the same arguments,
+   `apply: true` and the token.
+
+The token is valid for five minutes and only once, and only for the same caller,
+tool and arguments; the `reason` may differ. If the configuration changed since
+the preview, or the admin panel has unsaved configuration edits, nothing is
+applied and the change has to be previewed again. Applied changes are saved
+through the panel's configuration, so running game servers receive them through
+the usual configuration update. A few settings only take effect after a
+restart. The audit history records each applied change with its before and
+after values.
+
+`config_update` applies a [JSON merge patch](https://www.rfc-editor.org/rfc/rfc7396)
+to one object of a type from `config_types`, with the field names of
+`config_describe`, for example `{"ExpMultiplier": 2}` for a `GameMapDefinition`.
+Only scalar fields, localized texts and single references can be changed;
+`null` clears a nullable field. A reference is written as
+`{"$ref": "<id>"}`. A localized text accepts a string, which replaces the
+English text and keeps the translations, or an object with texts per language
+like `{"en": "Sword", "de": "Schwert"}`. Collections, identifiers and plugin
+configurations can't be changed with it. A patch changes at most 50 fields.
+
+`rates_get` (Viewer) shows the global experience and master experience rates
+and the experience multiplier of each map. `rates_set` changes the global
+rates; OpenMU doesn't switch them back by itself, so a time limited event needs
+a second call later. `plugins_set_active` activates or deactivates a plugin by
+its id from `plugins_list`.
 
 ## Phase two upgrade notes
 

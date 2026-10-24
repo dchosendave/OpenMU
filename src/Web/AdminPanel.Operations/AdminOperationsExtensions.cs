@@ -37,6 +37,9 @@ public static class AdminOperationsExtensions
         services.AddScoped<CastleSiegeOperations>();
         services.AddScoped<LogOperations>();
         services.AddScoped<AuditReadOperations>();
+        services.AddScoped<ConfigurationWriteOperations>();
+        services.TryAddSingleton(TimeProvider.System);
+        services.TryAddSingleton<ConfigurationConfirmations>();
         services.AddScoped<CashShopCoinService>();
         services.AddScoped<CastleSiegeManagementService>();
         return services;
