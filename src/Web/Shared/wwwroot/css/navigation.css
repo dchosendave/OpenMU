@@ -83,6 +83,13 @@
   padding-top: 0.25rem;
 }
 
+/* The sections are separated by a line, like the footer with the culture selector. */
+.sidebar .nav-section:not(:first-child) {
+  margin-top: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--sc-sidebar-border);
+}
+
 .sidebar .nav-link {
   display: flex;
   align-items: center;
