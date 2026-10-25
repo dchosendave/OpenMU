@@ -1,0 +1,47 @@
+<form @onsubmit="this.CreateAsync">
+    <div class="mb-2">
+        <label class="form-label" for="new-character-name">@Resources.AccountManagerName</label>
+        <input id="new-character-name" class="form-control new-character-name" autocomplete="off" maxlength="10" @bind="this._name" />
+    </div>
+    <div class="mb-2">
+        <label class="form-label" for="new-character-class">@Resources.AccountManagerClass</label>
+        <select id="new-character-class" class="form-select new-character-class" @bind="this._classIndex">
+            @for (var i = 0; i < this._classes.Count; i++)
+            {
+                <option value="@i">@this._classes[i].Name.ToString()</option>
+            }
+        </select>
+    </div>
+    <p class="text-muted small">@Resources.AccountManagerNewCharacterHint</p>
+    <div class="d-flex justify-content-end gap-2">
+        <button type="button" class="btn btn-secondary" @onclick="() => this.Modal.CancelAsync()">@Resources.Cancel</button>
+        <button type="submit" class="btn btn-primary create-character" disabled="@this.State.IsBusy">@Resources.Create</button>
+    </div>
+</form>
+
+@code {
+    private string _name = string.Empty;
+    private int _classIndex;
+    private IReadOnlyList<CharacterClass> _classes = Array.Empty<CharacterClass>();
+
+    /// <summary>
+    /// Gets or sets the modal instance.
+    /// </summary>
+    [Parameter]
+    public ModalInstance Modal { get; set; } = null!;
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        this._classes = this.State.Database?.CharacterClasses.Where(c => c.CanGetCreated).ToList() ?? new List<CharacterClass>();
+    }
+
+    private async Task CreateAsync()
+    {
+        if (this._classes.Count > 0 && await this.State.CreateCharacterAsync(this._name, this._classes[this._classIndex]).ConfigureAwait(true))
+        {
+            await this.Modal.CloseAsync(ModalResult.Ok(this._name.Trim())).ConfigureAwait(true);
+        }
+    }
+}

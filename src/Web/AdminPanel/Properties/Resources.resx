@@ -2185,6 +2185,900 @@
   <data name="DashboardOpen" xml:space="preserve">
     <value>Open</value>
   </data>
+  <data name="AccountManagerInvalidLoginName" xml:space="preserve">
+    <value>A login name has {0} to {1} letters, digits or underscores.</value>
+  </data>
+  <data name="AccountManagerInvalidPassword" xml:space="preserve">
+    <value>A password has {0} to {1} characters.</value>
+  </data>
+  <data name="AccountManagerAccountExists" xml:space="preserve">
+    <value>The account {0} already exists.</value>
+  </data>
+  <data name="AccountManagerAccountNotSaved" xml:space="preserve">
+    <value>The account {0} could not be saved.</value>
+  </data>
+  <data name="AccountManagerAccountIsOnline" xml:space="preserve">
+    <value>{0} is logged in. Disconnect the player first (Online Accounts).</value>
+  </data>
+  <data name="AccountManagerAccountNotFound" xml:space="preserve">
+    <value>The account {0} does not exist.</value>
+  </data>
+  <data name="AccountManagerAreaInventory" xml:space="preserve">
+    <value>Inventory</value>
+  </data>
+  <data name="AccountManagerAreaExpansion" xml:space="preserve">
+    <value>Expansion {0}</value>
+  </data>
+  <data name="AccountManagerAreaPersonalStore" xml:space="preserve">
+    <value>Personal store</value>
+  </data>
+  <data name="AccountManagerAreaVault" xml:space="preserve">
+    <value>Vault</value>
+  </data>
+  <data name="AccountManagerAreaVaultPage2" xml:space="preserve">
+    <value>Vault page 2</value>
+  </data>
+  <data name="AccountManagerSlotLeftHand" xml:space="preserve">
+    <value>Left hand</value>
+  </data>
+  <data name="AccountManagerSlotRightHand" xml:space="preserve">
+    <value>Right hand</value>
+  </data>
+  <data name="AccountManagerSlotHelm" xml:space="preserve">
+    <value>Helm</value>
+  </data>
+  <data name="AccountManagerSlotArmor" xml:space="preserve">
+    <value>Armor</value>
+  </data>
+  <data name="AccountManagerSlotPants" xml:space="preserve">
+    <value>Pants</value>
+  </data>
+  <data name="AccountManagerSlotGloves" xml:space="preserve">
+    <value>Gloves</value>
+  </data>
+  <data name="AccountManagerSlotBoots" xml:space="preserve">
+    <value>Boots</value>
+  </data>
+  <data name="AccountManagerSlotWings" xml:space="preserve">
+    <value>Wings</value>
+  </data>
+  <data name="AccountManagerSlotPet" xml:space="preserve">
+    <value>Pet</value>
+  </data>
+  <data name="AccountManagerSlotPendant" xml:space="preserve">
+    <value>Pendant</value>
+  </data>
+  <data name="AccountManagerSlotRing1" xml:space="preserve">
+    <value>Ring 1</value>
+  </data>
+  <data name="AccountManagerSlotRing2" xml:space="preserve">
+    <value>Ring 2</value>
+  </data>
+  <data name="AccountManagerNotEquippable" xml:space="preserve">
+    <value>{0} is not equippable.</value>
+  </data>
+  <data name="AccountManagerCannotBeEquippedAs" xml:space="preserve">
+    <value>{0} cannot be equipped as {1}.</value>
+  </data>
+  <data name="AccountManagerSlotInUse" xml:space="preserve">
+    <value>{0} is in use.</value>
+  </data>
+  <data name="AccountManagerSlotOutside" xml:space="preserve">
+    <value>Slot {0} is outside of this storage.</value>
+  </data>
+  <data name="AccountManagerItemDoesNotFit" xml:space="preserve">
+    <value>The item does not fit there.</value>
+  </data>
+  <data name="AccountManagerItemInTheWay" xml:space="preserve">
+    <value>Another item is in the way.</value>
+  </data>
+  <data name="AccountManagerInventoryOf" xml:space="preserve">
+    <value>Inventory of {0}</value>
+  </data>
+  <data name="AccountManagerUnknownItemName" xml:space="preserve">
+    <value>Item {0}/{1}</value>
+  </data>
+  <data name="AccountManagerUnknownItem" xml:space="preserve">
+    <value>{0} is not an item of this server.</value>
+  </data>
+  <data name="AccountManagerUnknownOption" xml:space="preserve">
+    <value>{0}: an option is unknown to this server and was left out.</value>
+  </data>
+  <data name="AccountManagerUnknownAncientSet" xml:space="preserve">
+    <value>{0}: an ancient set is unknown to this server and was left out.</value>
+  </data>
+  <data name="AccountManagerSkill" xml:space="preserve">
+    <value>Skill</value>
+  </data>
+  <data name="AccountManagerLuck" xml:space="preserve">
+    <value>Luck</value>
+  </data>
+  <data name="AccountManagerMaxOption" xml:space="preserve">
+    <value>max option</value>
+  </data>
+  <data name="AccountManagerExcellent" xml:space="preserve">
+    <value>Excellent</value>
+  </data>
+  <data name="AccountManagerNoOptions" xml:space="preserve">
+    <value>no options</value>
+  </data>
+  <data name="AccountManagerPackageNeedsName" xml:space="preserve">
+    <value>A package needs a name.</value>
+  </data>
+  <data name="AccountManagerPackageNameExists" xml:space="preserve">
+    <value>There is already a package named {0}.</value>
+  </data>
+  <data name="AccountManagerPresetNeedsName" xml:space="preserve">
+    <value>A preset needs a name.</value>
+  </data>
+  <data name="AccountManagerChangeAccountState" xml:space="preserve">
+    <value>Account state: {0}</value>
+  </data>
+  <data name="AccountManagerChangeEMail" xml:space="preserve">
+    <value>E-mail address</value>
+  </data>
+  <data name="AccountManagerChangeVaultZen" xml:space="preserve">
+    <value>Vault zen</value>
+  </data>
+  <data name="AccountManagerChangeGoblinPoints" xml:space="preserve">
+    <value>Goblin points</value>
+  </data>
+  <data name="AccountManagerChangeVaultExtended" xml:space="preserve">
+    <value>Vault extended</value>
+  </data>
+  <data name="AccountManagerChangeVaultExtensionRemoved" xml:space="preserve">
+    <value>Vault extension removed</value>
+  </data>
+  <data name="AccountManagerChangeEditedItem" xml:space="preserve">
+    <value>Edited {0}</value>
+  </data>
+  <data name="AccountManagerChangeAddedItem" xml:space="preserve">
+    <value>Added {0} to {1}</value>
+  </data>
+  <data name="AccountManagerNotEnoughSpace" xml:space="preserve">
+    <value>{0} has not enough free space for {1} ({2} items); nothing was added.</value>
+  </data>
+  <data name="AccountManagerChangeDuplicatedItem" xml:space="preserve">
+    <value>Duplicated {0} in {1}</value>
+  </data>
+  <data name="AccountManagerPackageIsEmpty" xml:space="preserve">
+    <value>{0} has nothing to add.</value>
+  </data>
+  <data name="AccountManagerPackageHasNothingForClass" xml:space="preserve">
+    <value>{0} has no items for {1}.</value>
+  </data>
+  <data name="AccountManagerNotEnoughSpaceForPackage" xml:space="preserve">
+    <value>{0} has not enough free space for the {1} item(s) of {2}; nothing was added.</value>
+  </data>
+  <data name="AccountManagerChangeAddedPackage" xml:space="preserve">
+    <value>Added package {0} to {1}</value>
+  </data>
+  <data name="AccountManagerChangeDeletedItem" xml:space="preserve">
+    <value>Deleted {0} from {1}</value>
+  </data>
+  <data name="AccountManagerChangeClearedStorage" xml:space="preserve">
+    <value>Removed {0} item(s) from {1}</value>
+  </data>
+  <data name="AccountManagerChangeMovedOverlapping" xml:space="preserve">
+    <value>Moved {0} overlapping item(s) in {1}</value>
+  </data>
+  <data name="AccountManagerChangeMovedItemToSlot" xml:space="preserve">
+    <value>Moved {0} to slot {1}</value>
+  </data>
+  <data name="AccountManagerChangeMovedItem" xml:space="preserve">
+    <value>Moved {0} from {1} to {2}</value>
+  </data>
+  <data name="AccountManagerInvalidCharacterName" xml:space="preserve">
+    <value>'{0}' is not a valid character name ({1}).</value>
+  </data>
+  <data name="AccountManagerCharacterExists" xml:space="preserve">
+    <value>A character named {0} already exists.</value>
+  </data>
+  <data name="AccountManagerClassCannotBeCreated" xml:space="preserve">
+    <value>{0} cannot be created directly; create its base class and change the class afterwards.</value>
+  </data>
+  <data name="AccountManagerNoFreeCharacterSlot" xml:space="preserve">
+    <value>The account has no free character slot (maximum {0}).</value>
+  </data>
+  <data name="AccountManagerChangeCreatedCharacter" xml:space="preserve">
+    <value>Created {0} {1}</value>
+  </data>
+  <data name="AccountManagerChangeDeletedCharacter" xml:space="preserve">
+    <value>Deleted character {0}</value>
+  </data>
+  <data name="AccountManagerChangePassword" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="AccountManagerChangesNotAccepted" xml:space="preserve">
+    <value>The database did not accept the changes.</value>
+  </data>
+  <data name="AccountManagerChangeCharacterData" xml:space="preserve">
+    <value>Character data</value>
+  </data>
+  <data name="AccountManagerNoFreeSpace" xml:space="preserve">
+    <value>There is no free space for {0} in {1}.</value>
+  </data>
+  <data name="AccountManagerCategoryWeapons" xml:space="preserve">
+    <value>Weapons</value>
+  </data>
+  <data name="AccountManagerCategoryArmor" xml:space="preserve">
+    <value>Armor</value>
+  </data>
+  <data name="AccountManagerCategoryMisc" xml:space="preserve">
+    <value>Misc</value>
+  </data>
+  <data name="AccountManagerFilterWings" xml:space="preserve">
+    <value>Wings</value>
+  </data>
+  <data name="AccountManagerFilterOrbsAndOther" xml:space="preserve">
+    <value>Orbs &amp; other</value>
+  </data>
+  <data name="AccountManagerFilterPets" xml:space="preserve">
+    <value>Pets</value>
+  </data>
+  <data name="AccountManagerFilterRings" xml:space="preserve">
+    <value>Rings</value>
+  </data>
+  <data name="AccountManagerFilterPendants" xml:space="preserve">
+    <value>Pendants</value>
+  </data>
+  <data name="AccountManagerFilterOther" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="AccountManagerGroupSwords" xml:space="preserve">
+    <value>Swords</value>
+  </data>
+  <data name="AccountManagerGroupAxes" xml:space="preserve">
+    <value>Axes</value>
+  </data>
+  <data name="AccountManagerGroupScepters" xml:space="preserve">
+    <value>Scepters</value>
+  </data>
+  <data name="AccountManagerGroupSpears" xml:space="preserve">
+    <value>Spears</value>
+  </data>
+  <data name="AccountManagerGroupBows" xml:space="preserve">
+    <value>Bows</value>
+  </data>
+  <data name="AccountManagerGroupStaffs" xml:space="preserve">
+    <value>Staffs</value>
+  </data>
+  <data name="AccountManagerGroupShields" xml:space="preserve">
+    <value>Shields</value>
+  </data>
+  <data name="AccountManagerGroupHelms" xml:space="preserve">
+    <value>Helms</value>
+  </data>
+  <data name="AccountManagerGroupArmors" xml:space="preserve">
+    <value>Armors</value>
+  </data>
+  <data name="AccountManagerGroupPants" xml:space="preserve">
+    <value>Pants</value>
+  </data>
+  <data name="AccountManagerGroupGloves" xml:space="preserve">
+    <value>Gloves</value>
+  </data>
+  <data name="AccountManagerGroupBoots" xml:space="preserve">
+    <value>Boots</value>
+  </data>
+  <data name="AccountManagerGroupWings" xml:space="preserve">
+    <value>Wings &amp; orbs</value>
+  </data>
+  <data name="AccountManagerGroupPets" xml:space="preserve">
+    <value>Pets, rings &amp; pendants</value>
+  </data>
+  <data name="AccountManagerGroupPotions" xml:space="preserve">
+    <value>Potions &amp; misc</value>
+  </data>
+  <data name="AccountManagerGroupScrolls" xml:space="preserve">
+    <value>Scrolls</value>
+  </data>
+  <data name="AccountManagerGroupNumber" xml:space="preserve">
+    <value>Group {0}</value>
+  </data>
+  <data name="AccountManagerUnknownItemCaption" xml:space="preserve">
+    <value>(unknown item)</value>
+  </data>
+  <data name="AccountManagerDurabilityAndSlot" xml:space="preserve">
+    <value>Durability {0}, slot {1}</value>
+  </data>
+  <data name="AccountManagerAncientSetOf" xml:space="preserve">
+    <value>Ancient {0}</value>
+  </data>
+  <data name="AccountManagerOpenedOnlineAccount" xml:space="preserve">
+    <value>{0} is online. You can look around, but saving is blocked until the player logs out.</value>
+  </data>
+  <data name="AccountManagerDiscardChanges" xml:space="preserve">
+    <value>Discard changes?</value>
+  </data>
+  <data name="AccountManagerDiscardChangesOfAccount" xml:space="preserve">
+    <value>{0} unsaved change(s) to {1} will be lost.</value>
+  </data>
+  <data name="AccountManagerDiscardChangesOfPackage" xml:space="preserve">
+    <value>The unsaved changes to {0} will be lost.</value>
+  </data>
+  <data name="AccountManagerSaved" xml:space="preserve">
+    <value>Saved {0}.</value>
+  </data>
+  <data name="AccountManagerSaveBlockedOnline" xml:space="preserve">
+    <value>{0} is logged in, so nothing was saved: the game server keeps the player's data in memory and writes it back on logout. Disconnect the player first (Online Accounts).</value>
+  </data>
+  <data name="AccountManagerAddedItem" xml:space="preserve">
+    <value>Added {0} to {1}.</value>
+  </data>
+  <data name="AccountManagerClearStorageTitle" xml:space="preserve">
+    <value>Empty {0}?</value>
+  </data>
+  <data name="AccountManagerClearStorageQuestion" xml:space="preserve">
+    <value>All {0} items are removed (when you save).</value>
+  </data>
+  <data name="AccountManagerMovedOverlapping" xml:space="preserve">
+    <value>Moved {0} item(s) to free places.</value>
+  </data>
+  <data name="AccountManagerMovedOverlappingPartially" xml:space="preserve">
+    <value>Moved {0} item(s); {1} found no free place.</value>
+  </data>
+  <data name="AccountManagerMovedItem" xml:space="preserve">
+    <value>Moved {0} to {1}.</value>
+  </data>
+  <data name="AccountManagerCreatedAccount" xml:space="preserve">
+    <value>Created the account {0}.</value>
+  </data>
+  <data name="AccountManagerDeleteTitle" xml:space="preserve">
+    <value>Delete {0}?</value>
+  </data>
+  <data name="AccountManagerDeleteAccountQuestion" xml:space="preserve">
+    <value>The account, its {0} character(s) and all their items are deleted from the database right away. This cannot be undone.</value>
+  </data>
+  <data name="AccountManagerDeletedAccount" xml:space="preserve">
+    <value>Deleted {0}.</value>
+  </data>
+  <data name="AccountManagerCreatedCharacter" xml:space="preserve">
+    <value>Created {0}. Save to keep it.</value>
+  </data>
+  <data name="AccountManagerDeleteCharacterQuestion" xml:space="preserve">
+    <value>The character and everything in its inventory are deleted when you save.</value>
+  </data>
+  <data name="AccountManagerPasswordSet" xml:space="preserve">
+    <value>The new password is set; save to apply it.</value>
+  </data>
+  <data name="AccountManagerAddedPackage" xml:space="preserve">
+    <value>Added {0} to {1}: {2} item(s).</value>
+  </data>
+  <data name="AccountManagerAddedPackageZen" xml:space="preserve">
+    <value>Zen: {0:N0}.</value>
+  </data>
+  <data name="AccountManagerAddedPackageSkipped" xml:space="preserve">
+    <value>{0} item(s) are for other classes than {1}.</value>
+  </data>
+  <data name="AccountManagerOnlineSaveBlocked" xml:space="preserve">
+    <value>{0} is online: saving is blocked until the player logs out.</value>
+  </data>
+  <data name="AccountManagerSetDescription" xml:space="preserve">
+    <value>{0} set</value>
+  </data>
+  <data name="AccountManagerAddedSet" xml:space="preserve">
+    <value>Added the {0} ({1} pieces) to {2}.</value>
+  </data>
+  <data name="AccountManagerNewPresetName" xml:space="preserve">
+    <value>New preset</value>
+  </data>
+  <data name="AccountManagerNewPackageName" xml:space="preserve">
+    <value>New package</value>
+  </data>
+  <data name="AccountManagerSavedPackage" xml:space="preserve">
+    <value>Saved the package {0}.</value>
+  </data>
+  <data name="AccountManagerCreatedPackage" xml:space="preserve">
+    <value>Created {0}.</value>
+  </data>
+  <data name="AccountManagerDeletePackageQuestion" xml:space="preserve">
+    <value>The package is deleted. Items which were already given to characters stay.</value>
+  </data>
+  <data name="AccountManagerDeletedPackage" xml:space="preserve">
+    <value>Deleted the package {0}.</value>
+  </data>
+  <data name="AccountManagerAppliedToItems" xml:space="preserve">
+    <value>Applied {0} to {1} item(s).</value>
+  </data>
+  <data name="AccountManagerPickAnItem" xml:space="preserve">
+    <value>Pick at least one item.</value>
+  </data>
+  <data name="AccountManagerCreatedPackageWithItems" xml:space="preserve">
+    <value>Created the package {0} with {1} item(s).</value>
+  </data>
+  <data name="AccountManagerAddedItemsToPackage" xml:space="preserve">
+    <value>Added {0} item(s) to {1}.</value>
+  </data>
+  <data name="AccountManagerItemCount" xml:space="preserve">
+    <value>{0} items</value>
+  </data>
+  <data name="AccountManagerZenAmount" xml:space="preserve">
+    <value>{0:N0} zen</value>
+  </data>
+  <data name="AccountManagerSaveAsPackage" xml:space="preserve">
+    <value>Save as package</value>
+  </data>
+  <data name="AccountManagerSaveAsPackageTitle" xml:space="preserve">
+    <value>Copy items of {0} into a package</value>
+  </data>
+  <data name="AccountManagerClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="AccountManagerClearStorageHint" xml:space="preserve">
+    <value>Remove all items, also in the expansions and the personal store</value>
+  </data>
+  <data name="AccountManagerOverlapping" xml:space="preserve">
+    <value>{0} item(s) overlap another item:</value>
+  </data>
+  <data name="AccountManagerMoveToFreePlaces" xml:space="preserve">
+    <value>Move to free places</value>
+  </data>
+  <data name="AccountManagerSlotNumber" xml:space="preserve">
+    <value>slot {0}</value>
+  </data>
+  <data name="AccountManagerDuplicate" xml:space="preserve">
+    <value>Duplicate</value>
+  </data>
+  <data name="AccountManagerMoveToFirstFreePlace" xml:space="preserve">
+    <value>Move to the first free place</value>
+  </data>
+  <data name="AccountManagerMoveTo" xml:space="preserve">
+    <value>To {0}</value>
+  </data>
+  <data name="AccountManagerItemType" xml:space="preserve">
+    <value>Item type</value>
+  </data>
+  <data name="AccountManagerLevel" xml:space="preserve">
+    <value>Level</value>
+  </data>
+  <data name="AccountManagerAmount" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="AccountManagerDurability" xml:space="preserve">
+    <value>Durability</value>
+  </data>
+  <data name="AccountManagerMaximum" xml:space="preserve">
+    <value>max {0}</value>
+  </data>
+  <data name="AccountManagerOptionNotPossible" xml:space="preserve">
+    <value>This item cannot have this option</value>
+  </data>
+  <data name="AccountManagerGuardianOption" xml:space="preserve">
+    <value>380 option</value>
+  </data>
+  <data name="AccountManagerOption" xml:space="preserve">
+    <value>Option</value>
+  </data>
+  <data name="AccountManagerNone" xml:space="preserve">
+    <value>(none)</value>
+  </data>
+  <data name="AccountManagerExcellentOptions" xml:space="preserve">
+    <value>Excellent options</value>
+  </data>
+  <data name="AccountManagerWingOptions" xml:space="preserve">
+    <value>Wing options</value>
+  </data>
+  <data name="AccountManagerFullOption" xml:space="preserve">
+    <value>Full option</value>
+  </data>
+  <data name="AccountManagerAncientSet" xml:space="preserve">
+    <value>Ancient set</value>
+  </data>
+  <data name="AccountManagerHarmonyOption" xml:space="preserve">
+    <value>Harmony option</value>
+  </data>
+  <data name="AccountManagerDefault" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="AccountManagerMax" xml:space="preserve">
+    <value>Max</value>
+  </data>
+  <data name="AccountManagerLevelNumber" xml:space="preserve">
+    <value>Level {0}</value>
+  </data>
+  <data name="AccountManagerSockets" xml:space="preserve">
+    <value>Sockets</value>
+  </data>
+  <data name="AccountManagerEmpty" xml:space="preserve">
+    <value>(empty)</value>
+  </data>
+  <data name="AccountManagerClassFilterHint" xml:space="preserve">
+    <value>Only items which this class line can use</value>
+  </data>
+  <data name="AccountManagerAllClasses" xml:space="preserve">
+    <value>All classes</value>
+  </data>
+  <data name="AccountManagerPresetHint" xml:space="preserve">
+    <value>Options which added items get</value>
+  </data>
+  <data name="AccountManagerPlainItems" xml:space="preserve">
+    <value>Plain (no options)</value>
+  </data>
+  <data name="AccountManagerManagePresetsHint" xml:space="preserve">
+    <value>Create and change presets</value>
+  </data>
+  <data name="AccountManagerPresets" xml:space="preserve">
+    <value>Presets…</value>
+  </data>
+  <data name="AccountManagerAllItems" xml:space="preserve">
+    <value>All items</value>
+  </data>
+  <data name="AccountManagerSets" xml:space="preserve">
+    <value>Sets</value>
+  </data>
+  <data name="AccountManagerPackages" xml:space="preserve">
+    <value>Packages</value>
+  </data>
+  <data name="AccountManagerPackageCount" xml:space="preserve">
+    <value>{0} item(s)</value>
+  </data>
+  <data name="AccountManagerAddToVault" xml:space="preserve">
+    <value>Add to the vault</value>
+  </data>
+  <data name="AccountManagerAdd" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AccountManagerNoPackagesYet" xml:space="preserve">
+    <value>No packages yet. Create one on the Item Packages page, or with "Save as package" on a character.</value>
+  </data>
+  <data name="AccountManagerNoPackageMatches" xml:space="preserve">
+    <value>No package matches.</value>
+  </data>
+  <data name="AccountManagerPieces" xml:space="preserve">
+    <value>{0} pcs</value>
+  </data>
+  <data name="AccountManagerAddAllPiecesTo" xml:space="preserve">
+    <value>Add all pieces to {0}</value>
+  </data>
+  <data name="AccountManagerNoSetMatches" xml:space="preserve">
+    <value>No set matches.</value>
+  </data>
+  <data name="AccountManagerAddTo" xml:space="preserve">
+    <value>Add to {0}</value>
+  </data>
+  <data name="AccountManagerNoItemMatches" xml:space="preserve">
+    <value>No item matches.</value>
+  </data>
+  <data name="AccountManagerSearchPackageName" xml:space="preserve">
+    <value>Search package name</value>
+  </data>
+  <data name="AccountManagerSearchSetName" xml:space="preserve">
+    <value>Search set name</value>
+  </data>
+  <data name="AccountManagerSearchItemName" xml:space="preserve">
+    <value>Search item name</value>
+  </data>
+  <data name="AccountManagerPackageTarget" xml:space="preserve">
+    <value>Adds to: Vault, items for {0}</value>
+  </data>
+  <data name="AccountManagerAddsTo" xml:space="preserve">
+    <value>Adds to: {0}</value>
+  </data>
+  <data name="AccountManagerNoStorage" xml:space="preserve">
+    <value>no storage</value>
+  </data>
+  <data name="AccountManagerOptionPresets" xml:space="preserve">
+    <value>Option presets</value>
+  </data>
+  <data name="AccountManagerSelectedItem" xml:space="preserve">
+    <value>Selected item</value>
+  </data>
+  <data name="AccountManagerAddItems" xml:space="preserve">
+    <value>Add items</value>
+  </data>
+  <data name="AccountManagerSelectItemHint" xml:space="preserve">
+    <value>Click an item to edit it, or drag it to another slot, the vault or the inventory.</value>
+  </data>
+  <data name="AccountManagerNoCharactersHint" xml:space="preserve">
+    <value>This account has no characters. Create one with New character.</value>
+  </data>
+  <data name="AccountManagerExpansions" xml:space="preserve">
+    <value>Expansions</value>
+  </data>
+  <data name="AccountManagerNoExpansions" xml:space="preserve">
+    <value>{0} has no inventory expansions. Set them on the Character tab (0–4), then reload.</value>
+  </data>
+  <data name="AccountManagerPageNumber" xml:space="preserve">
+    <value>Page {0}</value>
+  </data>
+  <data name="AccountManagerGeneral" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="AccountManagerName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="AccountManagerClass" xml:space="preserve">
+    <value>Class</value>
+  </data>
+  <data name="AccountManagerStatus" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="AccountManagerZen" xml:space="preserve">
+    <value>Zen</value>
+  </data>
+  <data name="AccountManagerLevelRange" xml:space="preserve">
+    <value>Level (1–{0})</value>
+  </data>
+  <data name="AccountManagerExperience" xml:space="preserve">
+    <value>Experience</value>
+  </data>
+  <data name="AccountManagerLevelUpPoints" xml:space="preserve">
+    <value>Level-up points</value>
+  </data>
+  <data name="AccountManagerInventoryExtensions" xml:space="preserve">
+    <value>Inventory extensions (0–4)</value>
+  </data>
+  <data name="AccountManagerInventoryExtensionsHint" xml:space="preserve">
+    <value>The bigger inventory shows after reloading the account</value>
+  </data>
+  <data name="AccountManagerMasterExperience" xml:space="preserve">
+    <value>Master experience</value>
+  </data>
+  <data name="AccountManagerMasterPoints" xml:space="preserve">
+    <value>Master points</value>
+  </data>
+  <data name="AccountManagerPosition" xml:space="preserve">
+    <value>Position</value>
+  </data>
+  <data name="AccountManagerPositionHint" xml:space="preserve">
+    <value>choosing a map puts the character at its spawn point, like a warp</value>
+  </data>
+  <data name="AccountManagerMap" xml:space="preserve">
+    <value>Map</value>
+  </data>
+  <data name="AccountManagerStats" xml:space="preserve">
+    <value>Stats</value>
+  </data>
+  <data name="AccountManagerMaxStats" xml:space="preserve">
+    <value>Max stats</value>
+  </data>
+  <data name="AccountManagerMaxStatsHint" xml:space="preserve">
+    <value>Set the base stats to the maximum of the server ({0})</value>
+  </data>
+  <data name="AccountManagerDeleteCharacterHint" xml:space="preserve">
+    <value>Deleting removes {0} and its inventory when you save.</value>
+  </data>
+  <data name="AccountManagerDeleteCharacter" xml:space="preserve">
+    <value>Delete character</value>
+  </data>
+  <data name="AccountManagerAccount" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="AccountManagerState" xml:space="preserve">
+    <value>State</value>
+  </data>
+  <data name="AccountManagerEMail" xml:space="preserve">
+    <value>E-mail</value>
+  </data>
+  <data name="AccountManagerExtendedVault" xml:space="preserve">
+    <value>Extended vault</value>
+  </data>
+  <data name="AccountManagerVaultZen" xml:space="preserve">
+    <value>Vault zen</value>
+  </data>
+  <data name="AccountManagerPassword" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="AccountManagerNewPassword" xml:space="preserve">
+    <value>New password ({0}–{1} characters)</value>
+  </data>
+  <data name="AccountManagerSetPassword" xml:space="preserve">
+    <value>Set password</value>
+  </data>
+  <data name="AccountManagerDeleteAccountHint" xml:space="preserve">
+    <value>Deleting removes the account, its characters and all their items right away.</value>
+  </data>
+  <data name="AccountManagerDeleteAccount" xml:space="preserve">
+    <value>Delete account</value>
+  </data>
+  <data name="AccountManagerOnline" xml:space="preserve">
+    <value>online</value>
+  </data>
+  <data name="AccountManagerOnlineHint" xml:space="preserve">
+    <value>Saving is blocked until the player logs out</value>
+  </data>
+  <data name="AccountManagerOffline" xml:space="preserve">
+    <value>offline</value>
+  </data>
+  <data name="AccountManagerRegistered" xml:space="preserve">
+    <value>registered {0}</value>
+  </data>
+  <data name="AccountManagerUnsaved" xml:space="preserve">
+    <value>unsaved</value>
+  </data>
+  <data name="AccountManagerNoChanges" xml:space="preserve">
+    <value>No changes</value>
+  </data>
+  <data name="AccountManagerUnsavedChanges" xml:space="preserve">
+    <value>Unsaved changes</value>
+  </data>
+  <data name="AccountManagerReloadHint" xml:space="preserve">
+    <value>Load the account again from the database</value>
+  </data>
+  <data name="AccountManagerNewCharacter" xml:space="preserve">
+    <value>New character</value>
+  </data>
+  <data name="AccountManagerItems" xml:space="preserve">
+    <value>Items</value>
+  </data>
+  <data name="AccountManagerCharacter" xml:space="preserve">
+    <value>Character</value>
+  </data>
+  <data name="AccountManagerLoginName" xml:space="preserve">
+    <value>Login name</value>
+  </data>
+  <data name="AccountManagerLoginNameHint" xml:space="preserve">
+    <value>{0}–{1} letters, digits or _</value>
+  </data>
+  <data name="AccountManagerPasswordHint" xml:space="preserve">
+    <value>{0}–{1} characters</value>
+  </data>
+  <data name="AccountManagerOptional" xml:space="preserve">
+    <value>optional</value>
+  </data>
+  <data name="AccountManagerCreateAccount" xml:space="preserve">
+    <value>Create account</value>
+  </data>
+  <data name="AccountManagerNewCharacterHint" xml:space="preserve">
+    <value>Starts like a new character in the game: base stats of the class, at its home map, with an empty inventory.</value>
+  </data>
+  <data name="AccountManagerPackage" xml:space="preserve">
+    <value>Package</value>
+  </data>
+  <data name="AccountManagerAddToPackage" xml:space="preserve">
+    <value>Add to {0}</value>
+  </data>
+  <data name="AccountManagerSelectedOf" xml:space="preserve">
+    <value>{0} of {1}</value>
+  </data>
+  <data name="AccountManagerAll" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="AccountManagerNoItems" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="AccountManagerSaveAsPackageHint" xml:space="preserve">
+    <value>The package gets copies of the items with all their options; {0} stays as it is.</value>
+  </data>
+  <data name="AccountManagerSavePackage" xml:space="preserve">
+    <value>Save package</value>
+  </data>
+  <data name="AccountManagerPresetsHint" xml:space="preserve">
+    <value>Items which are added from the catalog get the options of the chosen preset; options which an item cannot have are left out. Changes are saved right away.</value>
+  </data>
+  <data name="AccountManagerPresetLevelHint" xml:space="preserve">
+    <value>Catalog: the level which is chosen in the catalog</value>
+  </data>
+  <data name="AccountManagerPresetOptionHint" xml:space="preserve">
+    <value>Capped at what the item allows (+16 for most armor)</value>
+  </data>
+  <data name="AccountManagerPresetExcellentHint" xml:space="preserve">
+    <value>Every excellent option; wing options on wings</value>
+  </data>
+  <data name="AccountManagerCatalogLevel" xml:space="preserve">
+    <value>Catalog</value>
+  </data>
+  <data name="AccountManagerNoPresets" xml:space="preserve">
+    <value>No presets.</value>
+  </data>
+  <data name="AccountManagerDone" xml:space="preserve">
+    <value>Done</value>
+  </data>
+  <data name="AccountManagerSearchLoginName" xml:space="preserve">
+    <value>Login name</value>
+  </data>
+  <data name="AccountManagerNewAccount" xml:space="preserve">
+    <value>New account</value>
+  </data>
+  <data name="AccountManagerNoAccountMatches" xml:space="preserve">
+    <value>No account matches "{0}".</value>
+  </data>
+  <data name="AccountManagerFirstMatches" xml:space="preserve">
+    <value>First {0} matches; refine the search.</value>
+  </data>
+  <data name="AccountManagerMatches" xml:space="preserve">
+    <value>{0} match(es).</value>
+  </data>
+  <data name="AccountManagerNoPackages" xml:space="preserve">
+    <value>No packages yet.</value>
+  </data>
+  <data name="AccountManagerPackagesUnavailable" xml:space="preserve">
+    <value>Packages need the database of the admin panel, which is not available.</value>
+  </data>
+  <data name="AccountManagerRevert" xml:space="preserve">
+    <value>Revert</value>
+  </data>
+  <data name="AccountManagerPackageZenHint" xml:space="preserve">
+    <value>added to the vault</value>
+  </data>
+  <data name="AccountManagerPackageDescriptionHint" xml:space="preserve">
+    <value>optional, e.g. what a donation tier costs</value>
+  </data>
+  <data name="AccountManagerPackageClassHint" xml:space="preserve">
+    <value>A package goes to the vault of the account, with only the items which the class line of the selected character can use (a Dark Knight also gets Blade Knight items); items without class requirement go to everyone.</value>
+  </data>
+  <data name="AccountManagerKeepLevel" xml:space="preserve">
+    <value>Level: keep</value>
+  </data>
+  <data name="AccountManagerKeepOptions" xml:space="preserve">
+    <value>Options: keep</value>
+  </data>
+  <data name="AccountManagerApply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="AccountManagerRemove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="AccountManagerSelectGroupHint" xml:space="preserve">
+    <value>Tick all items of the group</value>
+  </data>
+  <data name="AccountManagerRemoveFromPackage" xml:space="preserve">
+    <value>Remove from the package</value>
+  </data>
+  <data name="AccountManagerPackageEmptyHint" xml:space="preserve">
+    <value>No items yet. Add them from the catalog on the right: pick a class and an options preset, then add whole armor sets (Armor, Sets) and weapons. Or open a character in the Account Manager and use "Save as package" to copy what it has.</value>
+  </data>
+  <data name="AccountManagerSelectPackageItemHint" xml:space="preserve">
+    <value>Click an item of the package to edit its level and options.</value>
+  </data>
+  <data name="AccountManagerPackagesHint" xml:space="preserve">
+    <value>A package is a set of items (and zen) which you add to a character in one go: a freebie set, a donation reward, an event prize. Pick a package on the left or create a new one. Add a package to an account in the Account Manager: select the character, then Add items, Packages; it goes to the vault.</value>
+  </data>
+  <data name="AccountManagerTitle" xml:space="preserve">
+    <value>Account Manager</value>
+  </data>
+  <data name="AccountManagerDescription" xml:space="preserve">
+    <value>Edit accounts, characters, inventories and vaults. Nothing is written before you save; accounts which are online can't be saved.</value>
+  </data>
+  <data name="AccountManagerPickAccountHint" xml:space="preserve">
+    <value>Search an account by its login name, or create a new one.</value>
+  </data>
+  <data name="AccountManagerLoading" xml:space="preserve">
+    <value>Loading the game configuration ...</value>
+  </data>
+  <data name="ItemPackagesTitle" xml:space="preserve">
+    <value>Item Packages</value>
+  </data>
+  <data name="ItemPackagesDescription" xml:space="preserve">
+    <value>Named sets of items and zen (freebies, donation tiers, event prizes) which the Account Manager adds to a vault in one go.</value>
+  </data>
+  <data name="AccountManagerOpen" xml:space="preserve">
+    <value>Account manager</value>
+  </data>
+  <data name="AccountManagerStore" xml:space="preserve">
+    <value>Store</value>
+  </data>
+  <data name="AccountManagerNoGameConfiguration" xml:space="preserve">
+    <value>The database has no game configuration. Set up the server first.</value>
+  </data>
+  <data name="ConfigGroupGeneral" xml:space="preserve">
+    <value>General &amp; server</value>
+  </data>
+  <data name="ConfigGroupCharacters" xml:space="preserve">
+    <value>Characters &amp; skills</value>
+  </data>
+  <data name="ConfigGroupDropsAndShops" xml:space="preserve">
+    <value>Drops &amp; shops</value>
+  </data>
+  <data name="ConfigGroupWorld" xml:space="preserve">
+    <value>World &amp; monsters</value>
+  </data>
+  <data name="ConfigGroupExtensions" xml:space="preserve">
+    <value>Plugins &amp; commands</value>
+  </data>
+  <data name="NavigationOverview" xml:space="preserve">
+    <value>Overview</value>
+  </data>
+  <data name="NavigationPlayers" xml:space="preserve">
+    <value>Players</value>
+  </data>
+  <data name="NavigationGame" xml:space="preserve">
+    <value>Game</value>
+  </data>
+  <data name="NavigationSystem" xml:space="preserve">
+    <value>System</value>
+  </data>
   <data name="ExternalLinks" xml:space="preserve">
     <value>Links</value>
   </data>

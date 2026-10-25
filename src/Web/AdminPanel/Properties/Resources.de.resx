@@ -2094,6 +2094,33 @@
   <data name="DashboardOpen" xml:space="preserve">
     <value>Öffnen</value>
   </data>
+  <data name="ConfigGroupGeneral" xml:space="preserve">
+    <value>Allgemein &amp; Server</value>
+  </data>
+  <data name="ConfigGroupCharacters" xml:space="preserve">
+    <value>Charaktere &amp; Fertigkeiten</value>
+  </data>
+  <data name="ConfigGroupDropsAndShops" xml:space="preserve">
+    <value>Drops &amp; Shops</value>
+  </data>
+  <data name="ConfigGroupWorld" xml:space="preserve">
+    <value>Welt &amp; Monster</value>
+  </data>
+  <data name="ConfigGroupExtensions" xml:space="preserve">
+    <value>Plugins &amp; Befehle</value>
+  </data>
+  <data name="NavigationOverview" xml:space="preserve">
+    <value>Übersicht</value>
+  </data>
+  <data name="NavigationPlayers" xml:space="preserve">
+    <value>Spieler</value>
+  </data>
+  <data name="NavigationGame" xml:space="preserve">
+    <value>Spiel</value>
+  </data>
+  <data name="NavigationSystem" xml:space="preserve">
+    <value>System</value>
+  </data>
   <data name="ExternalLinks" xml:space="preserve">
     <value>Verknüpfungen</value>
   </data>

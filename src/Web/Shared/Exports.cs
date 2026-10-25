@@ -51,6 +51,7 @@ public static class Exports
             yield return $"{prefix}/css/forms.css";
             yield return $"{prefix}/css/tables.css";
             yield return $"{prefix}/css/common.css";
+            yield return $"{prefix}/css/shadcn.css";
             yield return $"{prefix}/css/log.css";
             yield return $"{prefix}/css/map-editor.css";
             yield return $"{prefix}/css/terrain-editor.css";

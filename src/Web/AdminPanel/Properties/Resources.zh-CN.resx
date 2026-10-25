@@ -1900,6 +1900,21 @@
   <data name="DashboardOpen" xml:space="preserve">
     <value>打开</value>
   </data>
+  <data name="ConfigGroupGeneral" xml:space="preserve">
+    <value>常规与服务器</value>
+  </data>
+  <data name="ConfigGroupCharacters" xml:space="preserve">
+    <value>角色与技能</value>
+  </data>
+  <data name="ConfigGroupDropsAndShops" xml:space="preserve">
+    <value>掉落与商店</value>
+  </data>
+  <data name="ConfigGroupWorld" xml:space="preserve">
+    <value>世界与怪物</value>
+  </data>
+  <data name="ConfigGroupExtensions" xml:space="preserve">
+    <value>插件与命令</value>
+  </data>
   <data name="RoleCashShop" xml:space="preserve">
     <value>仅管理商城币</value>
   </data>
@@ -2691,5 +2706,17 @@
   </data>
   <data name="LogLevelOverridesInvalid" xml:space="preserve">
     <value>每个日志来源都必须填写名称，且名称不能重复。</value>
+  </data>
+  <data name="NavigationOverview" xml:space="preserve">
+    <value>概览</value>
+  </data>
+  <data name="NavigationPlayers" xml:space="preserve">
+    <value>玩家</value>
+  </data>
+  <data name="NavigationGame" xml:space="preserve">
+    <value>游戏</value>
+  </data>
+  <data name="NavigationSystem" xml:space="preserve">
+    <value>系统</value>
   </data>
 </root>

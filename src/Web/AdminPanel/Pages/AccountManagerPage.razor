@@ -1,0 +1,32 @@
+﻿@page "/account-manager"
+@page "/account-manager/{LoginName}"
+@attribute [Authorize(Policy = AdminPolicies.Administrator)]
+@inherits MUnique.OpenMU.Web.AdminPanel.Components.AccountManager.AccountManagerComponentBase
+
+@using MUnique.OpenMU.Web.AdminPanel.Components.AccountManager
+@using MUnique.OpenMU.Web.AdminPanel.Properties
+
+<PageTitle>OpenMU: @Resources.AccountManagerTitle</PageTitle>
+<Breadcrumb IsFirstFromRoot="true" Caption="@Resources.AccountManagerTitle" />
+<NavigationLock ConfirmExternalNavigation="@(this.State.Session?.HasChanges == true)" />
+<h1 class="visually-hidden">@Resources.AccountManagerTitle</h1>
+
+@if (!this.State.IsInitialized)
+{
+    @if (this.State.InitializationError is { } error)
+    {
+        <div class="alert alert-danger">@error</div>
+    }
+    else
+    {
+        <p>@Resources.AccountManagerLoading</p>
+    }
+}
+else
+{
+    <AccountView>
+        <Search>
+            <AccountSearch AccountPicked="this.OnAccountPickedAsync" />
+        </Search>
+    </AccountView>
+}

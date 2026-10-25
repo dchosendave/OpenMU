@@ -49,7 +49,7 @@
       <div class="btn-group" role="group" aria-label="@Resources.ServerControl">
       @if (this.Server.ServerState == ServerState.Started)
       {
-        <button type="button" class="btn btn-secondary btn-sm" title="@Resources.Start" disabled>
+        <button type="button" class="btn btn-outline-secondary btn-sm" title="@Resources.Start" disabled>
           <span class="oi oi-media-play"></span>
         </button>
         <button type="button" class="btn btn-warning btn-sm" title="@Resources.Stop" @onclick="this.OnPauseClickAsync">
@@ -57,7 +57,7 @@
         </button>
         @if (this.Server.Type is ServerType.GameServer or ServerType.ConnectServer)
         {
-          <button type="button" class="btn btn-secondary btn-sm" title="@Resources.Remove" disabled>
+          <button type="button" class="btn btn-outline-secondary btn-sm" title="@Resources.Remove" disabled>
             <span class="oi oi-trash"></span>
           </button>
         }
@@ -67,7 +67,7 @@
         <button type="button" class="btn btn-success btn-sm" title="@Resources.Start" @onclick="this.OnStartClickAsync">
           <span class="oi oi-media-play"></span>
         </button>
-        <button type="button" class="btn btn-secondary btn-sm" title="@Resources.Stop" disabled>
+        <button type="button" class="btn btn-outline-secondary btn-sm" title="@Resources.Stop" disabled>
           <span class="oi oi-media-pause"></span>
         </button>
         @if (this.Server.Type is ServerType.GameServer or ServerType.ConnectServer)
@@ -79,15 +79,15 @@
       }
       else
       {
-        <button type="button" class="btn btn-secondary btn-sm" title="@Resources.Start" disabled>
+        <button type="button" class="btn btn-outline-secondary btn-sm" title="@Resources.Start" disabled>
           <span class="oi oi-media-play"></span>
         </button>
-        <button type="button" class="btn btn-secondary btn-sm" title="@Resources.Stop" disabled>
+        <button type="button" class="btn btn-outline-secondary btn-sm" title="@Resources.Stop" disabled>
           <span class="oi oi-media-pause"></span>
         </button>
         @if (this.Server.Type is ServerType.GameServer or ServerType.ConnectServer)
         {
-          <button type="button" class="btn btn-secondary btn-sm" title="@Resources.Remove" disabled>
+          <button type="button" class="btn btn-outline-secondary btn-sm" title="@Resources.Remove" disabled>
             <span class="oi oi-trash"></span>
           </button>
         }

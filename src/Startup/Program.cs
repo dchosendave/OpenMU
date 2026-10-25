@@ -31,6 +31,7 @@ using MUnique.OpenMU.Network.Analyzer;
 using MUnique.OpenMU.Persistence;
 using MUnique.OpenMU.Persistence.AdminAuth;
 using MUnique.OpenMU.Persistence.EntityFramework;
+using MUnique.OpenMU.Persistence.EntityFramework.AccountManager;
 using MUnique.OpenMU.Persistence.EntityFramework.AdminAuth;
 using MUnique.OpenMU.Persistence.EntityFramework.Json;
 using MUnique.OpenMU.Persistence.Initialization.Updates;
@@ -368,6 +369,7 @@ internal sealed class Program : IDisposable
             // The storage of the admin panel users has to be registered before the panel itself,
             // which only adds a fallback when nothing else is registered.
             builder.Services.AddAdminUserRepository();
+            builder.Services.AddAccountManagerRepositories();
             builder.Services.AddSingleton<IBackupService>(s =>
             {
                 var contextProvider = s.GetRequiredService<IMigratableDatabaseContextProvider>();

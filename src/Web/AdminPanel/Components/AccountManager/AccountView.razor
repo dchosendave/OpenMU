@@ -1,0 +1,142 @@
+<div class="account-workspace">
+    @* One bar which stays on top: which account and character is edited, and saving it. *@
+    <div class="account-bar">
+        <div class="bar-search">
+            @this.Search
+            <span class="oi oi-info text-muted description" title="@Resources.AccountManagerDescription" aria-label="@Resources.AccountManagerDescription"></span>
+        </div>
+        @if (this.State.Session is { } session)
+        {
+            <div class="account-identity" title="@string.Format(Resources.AccountManagerRegistered, session.Account.RegistrationDate.ToLocalTime().ToString("d"))">
+                <h2 class="login-name">@session.Account.LoginName</h2>
+                @if (session.State != AccountState.Normal)
+                {
+                    <span class="badge @StateBadge(session.State)">@session.State.GetEnumCaption()</span>
+                }
+
+                @if (session.WasOnline)
+                {
+                    <span class="badge text-bg-danger" title="@Resources.AccountManagerOnlineHint">@Resources.AccountManagerOnline</span>
+                }
+                else
+                {
+                    <span class="badge text-bg-secondary">@Resources.AccountManagerOffline</span>
+                }
+            </div>
+
+            <div class="character-bar">
+                @foreach (var character in session.Characters)
+                {
+                    <button type="button" class="character-chip @(this.State.SelectedCharacter == character ? "active" : string.Empty)" @key="character" @onclick="() => this.State.SelectCharacter(character)">
+                        <span class="fw-semibold">@character.Name</span>
+                        <span class="small opacity-75">@(character.CharacterClass?.Name.ToString()) · @character.Level</span>
+                    </button>
+                }
+                <button type="button" class="btn btn-sm btn-outline-secondary new-character" title="@Resources.AccountManagerNewCharacter" @onclick="this.ShowNewCharacterAsync">
+                    <span class="oi oi-plus" aria-hidden="true"></span><span class="new-character-text"> @Resources.AccountManagerNewCharacter</span>
+                </button>
+            </div>
+
+            <div class="account-actions">
+                <div class="changes">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" disabled="@(!session.HasChanges)" @onclick="() => this._showChanges = !this._showChanges">
+                        @if (session.HasChanges)
+                        {
+                            <span class="badge text-bg-warning me-1">@session.PendingChanges.Count</span>
+                            @Resources.AccountManagerUnsaved
+                        }
+                        else
+                        {
+                            @Resources.AccountManagerNoChanges
+                        }
+                    </button>
+                    @if (this._showChanges && session.HasChanges)
+                    {
+                        <div class="changes-popover card" @onclick="() => this._showChanges = false">
+                            <div class="fw-semibold small mb-1">@Resources.AccountManagerUnsavedChanges</div>
+                            <ul class="small text-muted mb-0 ps-3">
+                                @foreach (var change in session.PendingChanges)
+                                {
+                                    <li>@change</li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                </div>
+                <button type="button" class="btn btn-sm btn-outline-secondary" title="@Resources.AccountManagerReloadHint" @onclick="this.State.ReloadAsync">@Resources.Reload</button>
+                <button type="button" class="btn btn-sm btn-primary save" disabled="@(!session.HasChanges || this.State.IsBusy)" @onclick="this.State.SaveAsync">
+                    @if (this.State.IsBusy)
+                    {
+                        <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                    }
+                    @Resources.Save
+                </button>
+            </div>
+        }
+    </div>
+
+    @if (this.State.Session is null)
+    {
+        <div class="card">
+            <div class="card-body text-muted">@Resources.AccountManagerPickAccountHint</div>
+        </div>
+    }
+    else
+    {
+        <ul class="nav nav-tabs mb-3">
+            <li class="nav-item">
+                <button type="button" class="nav-link @(this.State.Tab == AccountTab.Items ? "active" : string.Empty)" @onclick="() => this.Set(() => this.State.Tab = AccountTab.Items)">@Resources.AccountManagerItems</button>
+            </li>
+            <li class="nav-item">
+                <button type="button" class="nav-link @(this.State.Tab == AccountTab.Character ? "active" : string.Empty)" @onclick="() => this.Set(() => this.State.Tab = AccountTab.Character)">@Resources.AccountManagerCharacter</button>
+            </li>
+            <li class="nav-item">
+                <button type="button" class="nav-link @(this.State.Tab == AccountTab.Account ? "active" : string.Empty)" @onclick="() => this.Set(() => this.State.Tab = AccountTab.Account)">@Resources.AccountManagerAccount</button>
+            </li>
+        </ul>
+
+        @switch (this.State.Tab)
+        {
+            case AccountTab.Items:
+                <ItemsTab />
+                break;
+            case AccountTab.Character:
+                <CharacterTab />
+                break;
+            default:
+                <AccountSettingsTab />
+                break;
+        }
+    }
+</div>
+
+@code {
+    private bool _showChanges;
+
+    /// <summary>
+    /// Gets or sets the account search, which is shown at the start of the bar.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? Search { get; set; }
+
+    [Inject]
+    private IModalService ModalService { get; set; } = null!;
+
+    /// <summary>
+    /// Gets the CSS class of the badge of an account state.
+    /// </summary>
+    /// <param name="state">The state.</param>
+    /// <returns>The CSS class.</returns>
+    public static string StateBadge(AccountState state) => state switch
+    {
+        AccountState.Banned or AccountState.TemporarilyBanned => "text-bg-danger",
+        AccountState.GameMaster or AccountState.GameMasterInvisible => "text-bg-warning",
+        _ => "text-bg-secondary",
+    };
+
+    private async Task ShowNewCharacterAsync()
+    {
+        var modal = this.ModalService.Show<NewCharacterDialog>(Resources.AccountManagerNewCharacter);
+        await modal.Result.ConfigureAwait(true);
+    }
+}

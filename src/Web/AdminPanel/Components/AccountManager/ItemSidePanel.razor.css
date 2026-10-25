@@ -1,0 +1,44 @@
+.side-panel {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.side-panel-body {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+/* Below the storages it takes the whole row. */
+@media (max-width: 1399.98px) {
+    .side-panel {
+        grid-column: 1 / -1;
+    }
+}
+
+/* Next to the storages it stays in view below the account bar and fills the screen; only its lists scroll. */
+@media (min-width: 1400px) {
+    .side-panel {
+        position: sticky;
+        top: calc(var(--main-header-height, 3.5rem) + var(--account-bar-height, 3.5rem) + 1rem);
+        height: calc(100dvh - var(--main-header-height, 3.5rem) - var(--account-bar-height, 3.5rem) - 2rem);
+        min-height: 28rem;
+    }
+
+    .side-panel-body {
+        flex: 1;
+        overflow-y: auto;
+    }
+
+    .side-panel-body ::deep .catalog {
+        flex: 1;
+        min-height: 0;
+    }
+
+    .side-panel-body ::deep .catalog-body {
+        flex: 1;
+        min-height: 12rem;
+        max-height: none;
+    }
+}

@@ -8141,5 +8141,2683 @@ namespace MUnique.OpenMU.Web.AdminPanel.Properties {
                 return ResourceManager.GetString("YesCreateTestAccounts", resourceCulture);
             }
         }
+        /// <summary>
+        ///   Looks up a localized string similar to A login name has {0} to {1} letters, digits or underscores..
+        /// </summary>
+        public static string AccountManagerInvalidLoginName {
+            get {
+                return ResourceManager.GetString("AccountManagerInvalidLoginName", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to A password has {0} to {1} characters..
+        /// </summary>
+        public static string AccountManagerInvalidPassword {
+            get {
+                return ResourceManager.GetString("AccountManagerInvalidPassword", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The account {0} already exists..
+        /// </summary>
+        public static string AccountManagerAccountExists {
+            get {
+                return ResourceManager.GetString("AccountManagerAccountExists", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The account {0} could not be saved..
+        /// </summary>
+        public static string AccountManagerAccountNotSaved {
+            get {
+                return ResourceManager.GetString("AccountManagerAccountNotSaved", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0} is logged in. Disconnect the player first (Online Accounts)..
+        /// </summary>
+        public static string AccountManagerAccountIsOnline {
+            get {
+                return ResourceManager.GetString("AccountManagerAccountIsOnline", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The account {0} does not exist..
+        /// </summary>
+        public static string AccountManagerAccountNotFound {
+            get {
+                return ResourceManager.GetString("AccountManagerAccountNotFound", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Inventory.
+        /// </summary>
+        public static string AccountManagerAreaInventory {
+            get {
+                return ResourceManager.GetString("AccountManagerAreaInventory", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Expansion {0}.
+        /// </summary>
+        public static string AccountManagerAreaExpansion {
+            get {
+                return ResourceManager.GetString("AccountManagerAreaExpansion", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Personal store.
+        /// </summary>
+        public static string AccountManagerAreaPersonalStore {
+            get {
+                return ResourceManager.GetString("AccountManagerAreaPersonalStore", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Vault.
+        /// </summary>
+        public static string AccountManagerAreaVault {
+            get {
+                return ResourceManager.GetString("AccountManagerAreaVault", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Vault page 2.
+        /// </summary>
+        public static string AccountManagerAreaVaultPage2 {
+            get {
+                return ResourceManager.GetString("AccountManagerAreaVaultPage2", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Left hand.
+        /// </summary>
+        public static string AccountManagerSlotLeftHand {
+            get {
+                return ResourceManager.GetString("AccountManagerSlotLeftHand", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Right hand.
+        /// </summary>
+        public static string AccountManagerSlotRightHand {
+            get {
+                return ResourceManager.GetString("AccountManagerSlotRightHand", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Helm.
+        /// </summary>
+        public static string AccountManagerSlotHelm {
+            get {
+                return ResourceManager.GetString("AccountManagerSlotHelm", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Armor.
+        /// </summary>
+        public static string AccountManagerSlotArmor {
+            get {
+                return ResourceManager.GetString("AccountManagerSlotArmor", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Pants.
+        /// </summary>
+        public static string AccountManagerSlotPants {
+            get {
+                return ResourceManager.GetString("AccountManagerSlotPants", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Gloves.
+        /// </summary>
+        public static string AccountManagerSlotGloves {
+            get {
+                return ResourceManager.GetString("AccountManagerSlotGloves", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Boots.
+        /// </summary>
+        public static string AccountManagerSlotBoots {
+            get {
+                return ResourceManager.GetString("AccountManagerSlotBoots", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Wings.
+        /// </summary>
+        public static string AccountManagerSlotWings {
+            get {
+                return ResourceManager.GetString("AccountManagerSlotWings", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Pet.
+        /// </summary>
+        public static string AccountManagerSlotPet {
+            get {
+                return ResourceManager.GetString("AccountManagerSlotPet", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Pendant.
+        /// </summary>
+        public static string AccountManagerSlotPendant {
+            get {
+                return ResourceManager.GetString("AccountManagerSlotPendant", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Ring 1.
+        /// </summary>
+        public static string AccountManagerSlotRing1 {
+            get {
+                return ResourceManager.GetString("AccountManagerSlotRing1", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Ring 2.
+        /// </summary>
+        public static string AccountManagerSlotRing2 {
+            get {
+                return ResourceManager.GetString("AccountManagerSlotRing2", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0} is not equippable..
+        /// </summary>
+        public static string AccountManagerNotEquippable {
+            get {
+                return ResourceManager.GetString("AccountManagerNotEquippable", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0} cannot be equipped as {1}..
+        /// </summary>
+        public static string AccountManagerCannotBeEquippedAs {
+            get {
+                return ResourceManager.GetString("AccountManagerCannotBeEquippedAs", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0} is in use..
+        /// </summary>
+        public static string AccountManagerSlotInUse {
+            get {
+                return ResourceManager.GetString("AccountManagerSlotInUse", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Slot {0} is outside of this storage..
+        /// </summary>
+        public static string AccountManagerSlotOutside {
+            get {
+                return ResourceManager.GetString("AccountManagerSlotOutside", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The item does not fit there..
+        /// </summary>
+        public static string AccountManagerItemDoesNotFit {
+            get {
+                return ResourceManager.GetString("AccountManagerItemDoesNotFit", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Another item is in the way..
+        /// </summary>
+        public static string AccountManagerItemInTheWay {
+            get {
+                return ResourceManager.GetString("AccountManagerItemInTheWay", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Inventory of {0}.
+        /// </summary>
+        public static string AccountManagerInventoryOf {
+            get {
+                return ResourceManager.GetString("AccountManagerInventoryOf", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Item {0}/{1}.
+        /// </summary>
+        public static string AccountManagerUnknownItemName {
+            get {
+                return ResourceManager.GetString("AccountManagerUnknownItemName", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0} is not an item of this server..
+        /// </summary>
+        public static string AccountManagerUnknownItem {
+            get {
+                return ResourceManager.GetString("AccountManagerUnknownItem", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0}: an option is unknown to this server and was left out..
+        /// </summary>
+        public static string AccountManagerUnknownOption {
+            get {
+                return ResourceManager.GetString("AccountManagerUnknownOption", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0}: an ancient set is unknown to this server and was left out..
+        /// </summary>
+        public static string AccountManagerUnknownAncientSet {
+            get {
+                return ResourceManager.GetString("AccountManagerUnknownAncientSet", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Skill.
+        /// </summary>
+        public static string AccountManagerSkill {
+            get {
+                return ResourceManager.GetString("AccountManagerSkill", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Luck.
+        /// </summary>
+        public static string AccountManagerLuck {
+            get {
+                return ResourceManager.GetString("AccountManagerLuck", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to max option.
+        /// </summary>
+        public static string AccountManagerMaxOption {
+            get {
+                return ResourceManager.GetString("AccountManagerMaxOption", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Excellent.
+        /// </summary>
+        public static string AccountManagerExcellent {
+            get {
+                return ResourceManager.GetString("AccountManagerExcellent", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to no options.
+        /// </summary>
+        public static string AccountManagerNoOptions {
+            get {
+                return ResourceManager.GetString("AccountManagerNoOptions", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to A package needs a name..
+        /// </summary>
+        public static string AccountManagerPackageNeedsName {
+            get {
+                return ResourceManager.GetString("AccountManagerPackageNeedsName", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to There is already a package named {0}..
+        /// </summary>
+        public static string AccountManagerPackageNameExists {
+            get {
+                return ResourceManager.GetString("AccountManagerPackageNameExists", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to A preset needs a name..
+        /// </summary>
+        public static string AccountManagerPresetNeedsName {
+            get {
+                return ResourceManager.GetString("AccountManagerPresetNeedsName", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Account state: {0}.
+        /// </summary>
+        public static string AccountManagerChangeAccountState {
+            get {
+                return ResourceManager.GetString("AccountManagerChangeAccountState", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to E-mail address.
+        /// </summary>
+        public static string AccountManagerChangeEMail {
+            get {
+                return ResourceManager.GetString("AccountManagerChangeEMail", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Vault zen.
+        /// </summary>
+        public static string AccountManagerChangeVaultZen {
+            get {
+                return ResourceManager.GetString("AccountManagerChangeVaultZen", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Goblin points.
+        /// </summary>
+        public static string AccountManagerChangeGoblinPoints {
+            get {
+                return ResourceManager.GetString("AccountManagerChangeGoblinPoints", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Vault extended.
+        /// </summary>
+        public static string AccountManagerChangeVaultExtended {
+            get {
+                return ResourceManager.GetString("AccountManagerChangeVaultExtended", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Vault extension removed.
+        /// </summary>
+        public static string AccountManagerChangeVaultExtensionRemoved {
+            get {
+                return ResourceManager.GetString("AccountManagerChangeVaultExtensionRemoved", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Edited {0}.
+        /// </summary>
+        public static string AccountManagerChangeEditedItem {
+            get {
+                return ResourceManager.GetString("AccountManagerChangeEditedItem", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Added {0} to {1}.
+        /// </summary>
+        public static string AccountManagerChangeAddedItem {
+            get {
+                return ResourceManager.GetString("AccountManagerChangeAddedItem", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0} has not enough free space for {1} ({2} items); nothing was added..
+        /// </summary>
+        public static string AccountManagerNotEnoughSpace {
+            get {
+                return ResourceManager.GetString("AccountManagerNotEnoughSpace", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Duplicated {0} in {1}.
+        /// </summary>
+        public static string AccountManagerChangeDuplicatedItem {
+            get {
+                return ResourceManager.GetString("AccountManagerChangeDuplicatedItem", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0} has nothing to add..
+        /// </summary>
+        public static string AccountManagerPackageIsEmpty {
+            get {
+                return ResourceManager.GetString("AccountManagerPackageIsEmpty", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0} has no items for {1}..
+        /// </summary>
+        public static string AccountManagerPackageHasNothingForClass {
+            get {
+                return ResourceManager.GetString("AccountManagerPackageHasNothingForClass", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0} has not enough free space for the {1} item(s) of {2}; nothing was added..
+        /// </summary>
+        public static string AccountManagerNotEnoughSpaceForPackage {
+            get {
+                return ResourceManager.GetString("AccountManagerNotEnoughSpaceForPackage", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Added package {0} to {1}.
+        /// </summary>
+        public static string AccountManagerChangeAddedPackage {
+            get {
+                return ResourceManager.GetString("AccountManagerChangeAddedPackage", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Deleted {0} from {1}.
+        /// </summary>
+        public static string AccountManagerChangeDeletedItem {
+            get {
+                return ResourceManager.GetString("AccountManagerChangeDeletedItem", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Removed {0} item(s) from {1}.
+        /// </summary>
+        public static string AccountManagerChangeClearedStorage {
+            get {
+                return ResourceManager.GetString("AccountManagerChangeClearedStorage", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Moved {0} overlapping item(s) in {1}.
+        /// </summary>
+        public static string AccountManagerChangeMovedOverlapping {
+            get {
+                return ResourceManager.GetString("AccountManagerChangeMovedOverlapping", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Moved {0} to slot {1}.
+        /// </summary>
+        public static string AccountManagerChangeMovedItemToSlot {
+            get {
+                return ResourceManager.GetString("AccountManagerChangeMovedItemToSlot", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Moved {0} from {1} to {2}.
+        /// </summary>
+        public static string AccountManagerChangeMovedItem {
+            get {
+                return ResourceManager.GetString("AccountManagerChangeMovedItem", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to '{0}' is not a valid character name ({1})..
+        /// </summary>
+        public static string AccountManagerInvalidCharacterName {
+            get {
+                return ResourceManager.GetString("AccountManagerInvalidCharacterName", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to A character named {0} already exists..
+        /// </summary>
+        public static string AccountManagerCharacterExists {
+            get {
+                return ResourceManager.GetString("AccountManagerCharacterExists", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0} cannot be created directly; create its base class and change the class afterwards..
+        /// </summary>
+        public static string AccountManagerClassCannotBeCreated {
+            get {
+                return ResourceManager.GetString("AccountManagerClassCannotBeCreated", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The account has no free character slot (maximum {0})..
+        /// </summary>
+        public static string AccountManagerNoFreeCharacterSlot {
+            get {
+                return ResourceManager.GetString("AccountManagerNoFreeCharacterSlot", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Created {0} {1}.
+        /// </summary>
+        public static string AccountManagerChangeCreatedCharacter {
+            get {
+                return ResourceManager.GetString("AccountManagerChangeCreatedCharacter", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Deleted character {0}.
+        /// </summary>
+        public static string AccountManagerChangeDeletedCharacter {
+            get {
+                return ResourceManager.GetString("AccountManagerChangeDeletedCharacter", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        public static string AccountManagerChangePassword {
+            get {
+                return ResourceManager.GetString("AccountManagerChangePassword", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The database did not accept the changes..
+        /// </summary>
+        public static string AccountManagerChangesNotAccepted {
+            get {
+                return ResourceManager.GetString("AccountManagerChangesNotAccepted", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Character data.
+        /// </summary>
+        public static string AccountManagerChangeCharacterData {
+            get {
+                return ResourceManager.GetString("AccountManagerChangeCharacterData", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to There is no free space for {0} in {1}..
+        /// </summary>
+        public static string AccountManagerNoFreeSpace {
+            get {
+                return ResourceManager.GetString("AccountManagerNoFreeSpace", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Weapons.
+        /// </summary>
+        public static string AccountManagerCategoryWeapons {
+            get {
+                return ResourceManager.GetString("AccountManagerCategoryWeapons", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Armor.
+        /// </summary>
+        public static string AccountManagerCategoryArmor {
+            get {
+                return ResourceManager.GetString("AccountManagerCategoryArmor", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Misc.
+        /// </summary>
+        public static string AccountManagerCategoryMisc {
+            get {
+                return ResourceManager.GetString("AccountManagerCategoryMisc", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Wings.
+        /// </summary>
+        public static string AccountManagerFilterWings {
+            get {
+                return ResourceManager.GetString("AccountManagerFilterWings", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Orbs &amp; other.
+        /// </summary>
+        public static string AccountManagerFilterOrbsAndOther {
+            get {
+                return ResourceManager.GetString("AccountManagerFilterOrbsAndOther", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Pets.
+        /// </summary>
+        public static string AccountManagerFilterPets {
+            get {
+                return ResourceManager.GetString("AccountManagerFilterPets", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Rings.
+        /// </summary>
+        public static string AccountManagerFilterRings {
+            get {
+                return ResourceManager.GetString("AccountManagerFilterRings", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Pendants.
+        /// </summary>
+        public static string AccountManagerFilterPendants {
+            get {
+                return ResourceManager.GetString("AccountManagerFilterPendants", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Other.
+        /// </summary>
+        public static string AccountManagerFilterOther {
+            get {
+                return ResourceManager.GetString("AccountManagerFilterOther", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Swords.
+        /// </summary>
+        public static string AccountManagerGroupSwords {
+            get {
+                return ResourceManager.GetString("AccountManagerGroupSwords", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Axes.
+        /// </summary>
+        public static string AccountManagerGroupAxes {
+            get {
+                return ResourceManager.GetString("AccountManagerGroupAxes", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Scepters.
+        /// </summary>
+        public static string AccountManagerGroupScepters {
+            get {
+                return ResourceManager.GetString("AccountManagerGroupScepters", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Spears.
+        /// </summary>
+        public static string AccountManagerGroupSpears {
+            get {
+                return ResourceManager.GetString("AccountManagerGroupSpears", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Bows.
+        /// </summary>
+        public static string AccountManagerGroupBows {
+            get {
+                return ResourceManager.GetString("AccountManagerGroupBows", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Staffs.
+        /// </summary>
+        public static string AccountManagerGroupStaffs {
+            get {
+                return ResourceManager.GetString("AccountManagerGroupStaffs", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Shields.
+        /// </summary>
+        public static string AccountManagerGroupShields {
+            get {
+                return ResourceManager.GetString("AccountManagerGroupShields", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Helms.
+        /// </summary>
+        public static string AccountManagerGroupHelms {
+            get {
+                return ResourceManager.GetString("AccountManagerGroupHelms", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Armors.
+        /// </summary>
+        public static string AccountManagerGroupArmors {
+            get {
+                return ResourceManager.GetString("AccountManagerGroupArmors", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Pants.
+        /// </summary>
+        public static string AccountManagerGroupPants {
+            get {
+                return ResourceManager.GetString("AccountManagerGroupPants", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Gloves.
+        /// </summary>
+        public static string AccountManagerGroupGloves {
+            get {
+                return ResourceManager.GetString("AccountManagerGroupGloves", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Boots.
+        /// </summary>
+        public static string AccountManagerGroupBoots {
+            get {
+                return ResourceManager.GetString("AccountManagerGroupBoots", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Wings &amp; orbs.
+        /// </summary>
+        public static string AccountManagerGroupWings {
+            get {
+                return ResourceManager.GetString("AccountManagerGroupWings", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Pets, rings &amp; pendants.
+        /// </summary>
+        public static string AccountManagerGroupPets {
+            get {
+                return ResourceManager.GetString("AccountManagerGroupPets", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Potions &amp; misc.
+        /// </summary>
+        public static string AccountManagerGroupPotions {
+            get {
+                return ResourceManager.GetString("AccountManagerGroupPotions", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Scrolls.
+        /// </summary>
+        public static string AccountManagerGroupScrolls {
+            get {
+                return ResourceManager.GetString("AccountManagerGroupScrolls", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Group {0}.
+        /// </summary>
+        public static string AccountManagerGroupNumber {
+            get {
+                return ResourceManager.GetString("AccountManagerGroupNumber", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to (unknown item).
+        /// </summary>
+        public static string AccountManagerUnknownItemCaption {
+            get {
+                return ResourceManager.GetString("AccountManagerUnknownItemCaption", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Durability {0}, slot {1}.
+        /// </summary>
+        public static string AccountManagerDurabilityAndSlot {
+            get {
+                return ResourceManager.GetString("AccountManagerDurabilityAndSlot", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Ancient {0}.
+        /// </summary>
+        public static string AccountManagerAncientSetOf {
+            get {
+                return ResourceManager.GetString("AccountManagerAncientSetOf", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0} is online. You can look around, but saving is blocked until the player logs out..
+        /// </summary>
+        public static string AccountManagerOpenedOnlineAccount {
+            get {
+                return ResourceManager.GetString("AccountManagerOpenedOnlineAccount", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Discard changes?.
+        /// </summary>
+        public static string AccountManagerDiscardChanges {
+            get {
+                return ResourceManager.GetString("AccountManagerDiscardChanges", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0} unsaved change(s) to {1} will be lost..
+        /// </summary>
+        public static string AccountManagerDiscardChangesOfAccount {
+            get {
+                return ResourceManager.GetString("AccountManagerDiscardChangesOfAccount", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The unsaved changes to {0} will be lost..
+        /// </summary>
+        public static string AccountManagerDiscardChangesOfPackage {
+            get {
+                return ResourceManager.GetString("AccountManagerDiscardChangesOfPackage", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Saved {0}..
+        /// </summary>
+        public static string AccountManagerSaved {
+            get {
+                return ResourceManager.GetString("AccountManagerSaved", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0} is logged in, so nothing was saved: the game server keeps the player's data in memory and writes it back on logout. Disconnect the player first (Online Accounts)..
+        /// </summary>
+        public static string AccountManagerSaveBlockedOnline {
+            get {
+                return ResourceManager.GetString("AccountManagerSaveBlockedOnline", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Added {0} to {1}..
+        /// </summary>
+        public static string AccountManagerAddedItem {
+            get {
+                return ResourceManager.GetString("AccountManagerAddedItem", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Empty {0}?.
+        /// </summary>
+        public static string AccountManagerClearStorageTitle {
+            get {
+                return ResourceManager.GetString("AccountManagerClearStorageTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to All {0} items are removed (when you save)..
+        /// </summary>
+        public static string AccountManagerClearStorageQuestion {
+            get {
+                return ResourceManager.GetString("AccountManagerClearStorageQuestion", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Moved {0} item(s) to free places..
+        /// </summary>
+        public static string AccountManagerMovedOverlapping {
+            get {
+                return ResourceManager.GetString("AccountManagerMovedOverlapping", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Moved {0} item(s); {1} found no free place..
+        /// </summary>
+        public static string AccountManagerMovedOverlappingPartially {
+            get {
+                return ResourceManager.GetString("AccountManagerMovedOverlappingPartially", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Moved {0} to {1}..
+        /// </summary>
+        public static string AccountManagerMovedItem {
+            get {
+                return ResourceManager.GetString("AccountManagerMovedItem", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Created the account {0}..
+        /// </summary>
+        public static string AccountManagerCreatedAccount {
+            get {
+                return ResourceManager.GetString("AccountManagerCreatedAccount", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Delete {0}?.
+        /// </summary>
+        public static string AccountManagerDeleteTitle {
+            get {
+                return ResourceManager.GetString("AccountManagerDeleteTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The account, its {0} character(s) and all their items are deleted from the database right away. This cannot be undone..
+        /// </summary>
+        public static string AccountManagerDeleteAccountQuestion {
+            get {
+                return ResourceManager.GetString("AccountManagerDeleteAccountQuestion", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Deleted {0}..
+        /// </summary>
+        public static string AccountManagerDeletedAccount {
+            get {
+                return ResourceManager.GetString("AccountManagerDeletedAccount", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Created {0}. Save to keep it..
+        /// </summary>
+        public static string AccountManagerCreatedCharacter {
+            get {
+                return ResourceManager.GetString("AccountManagerCreatedCharacter", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The character and everything in its inventory are deleted when you save..
+        /// </summary>
+        public static string AccountManagerDeleteCharacterQuestion {
+            get {
+                return ResourceManager.GetString("AccountManagerDeleteCharacterQuestion", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The new password is set; save to apply it..
+        /// </summary>
+        public static string AccountManagerPasswordSet {
+            get {
+                return ResourceManager.GetString("AccountManagerPasswordSet", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Added {0} to {1}: {2} item(s)..
+        /// </summary>
+        public static string AccountManagerAddedPackage {
+            get {
+                return ResourceManager.GetString("AccountManagerAddedPackage", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Zen: {0:N0}..
+        /// </summary>
+        public static string AccountManagerAddedPackageZen {
+            get {
+                return ResourceManager.GetString("AccountManagerAddedPackageZen", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0} item(s) are for other classes than {1}..
+        /// </summary>
+        public static string AccountManagerAddedPackageSkipped {
+            get {
+                return ResourceManager.GetString("AccountManagerAddedPackageSkipped", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0} is online: saving is blocked until the player logs out..
+        /// </summary>
+        public static string AccountManagerOnlineSaveBlocked {
+            get {
+                return ResourceManager.GetString("AccountManagerOnlineSaveBlocked", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0} set.
+        /// </summary>
+        public static string AccountManagerSetDescription {
+            get {
+                return ResourceManager.GetString("AccountManagerSetDescription", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Added the {0} ({1} pieces) to {2}..
+        /// </summary>
+        public static string AccountManagerAddedSet {
+            get {
+                return ResourceManager.GetString("AccountManagerAddedSet", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to New preset.
+        /// </summary>
+        public static string AccountManagerNewPresetName {
+            get {
+                return ResourceManager.GetString("AccountManagerNewPresetName", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to New package.
+        /// </summary>
+        public static string AccountManagerNewPackageName {
+            get {
+                return ResourceManager.GetString("AccountManagerNewPackageName", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Saved the package {0}..
+        /// </summary>
+        public static string AccountManagerSavedPackage {
+            get {
+                return ResourceManager.GetString("AccountManagerSavedPackage", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Created {0}..
+        /// </summary>
+        public static string AccountManagerCreatedPackage {
+            get {
+                return ResourceManager.GetString("AccountManagerCreatedPackage", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The package is deleted. Items which were already given to characters stay..
+        /// </summary>
+        public static string AccountManagerDeletePackageQuestion {
+            get {
+                return ResourceManager.GetString("AccountManagerDeletePackageQuestion", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Deleted the package {0}..
+        /// </summary>
+        public static string AccountManagerDeletedPackage {
+            get {
+                return ResourceManager.GetString("AccountManagerDeletedPackage", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Applied {0} to {1} item(s)..
+        /// </summary>
+        public static string AccountManagerAppliedToItems {
+            get {
+                return ResourceManager.GetString("AccountManagerAppliedToItems", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Pick at least one item..
+        /// </summary>
+        public static string AccountManagerPickAnItem {
+            get {
+                return ResourceManager.GetString("AccountManagerPickAnItem", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Created the package {0} with {1} item(s)..
+        /// </summary>
+        public static string AccountManagerCreatedPackageWithItems {
+            get {
+                return ResourceManager.GetString("AccountManagerCreatedPackageWithItems", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Added {0} item(s) to {1}..
+        /// </summary>
+        public static string AccountManagerAddedItemsToPackage {
+            get {
+                return ResourceManager.GetString("AccountManagerAddedItemsToPackage", resourceCulture);
+            }
+        }
+        /// <summary>
+        ///   Looks up a localized string similar to {0} items.
+        /// </summary>
+        public static string AccountManagerItemCount {
+            get {
+                return ResourceManager.GetString("AccountManagerItemCount", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0:N0} zen.
+        /// </summary>
+        public static string AccountManagerZenAmount {
+            get {
+                return ResourceManager.GetString("AccountManagerZenAmount", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Save as package.
+        /// </summary>
+        public static string AccountManagerSaveAsPackage {
+            get {
+                return ResourceManager.GetString("AccountManagerSaveAsPackage", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Copy items of {0} into a package.
+        /// </summary>
+        public static string AccountManagerSaveAsPackageTitle {
+            get {
+                return ResourceManager.GetString("AccountManagerSaveAsPackageTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Clear.
+        /// </summary>
+        public static string AccountManagerClear {
+            get {
+                return ResourceManager.GetString("AccountManagerClear", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Remove all items, also in the expansions and the personal store.
+        /// </summary>
+        public static string AccountManagerClearStorageHint {
+            get {
+                return ResourceManager.GetString("AccountManagerClearStorageHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0} item(s) overlap another item:.
+        /// </summary>
+        public static string AccountManagerOverlapping {
+            get {
+                return ResourceManager.GetString("AccountManagerOverlapping", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Move to free places.
+        /// </summary>
+        public static string AccountManagerMoveToFreePlaces {
+            get {
+                return ResourceManager.GetString("AccountManagerMoveToFreePlaces", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to slot {0}.
+        /// </summary>
+        public static string AccountManagerSlotNumber {
+            get {
+                return ResourceManager.GetString("AccountManagerSlotNumber", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Duplicate.
+        /// </summary>
+        public static string AccountManagerDuplicate {
+            get {
+                return ResourceManager.GetString("AccountManagerDuplicate", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Move to the first free place.
+        /// </summary>
+        public static string AccountManagerMoveToFirstFreePlace {
+            get {
+                return ResourceManager.GetString("AccountManagerMoveToFirstFreePlace", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to To {0}.
+        /// </summary>
+        public static string AccountManagerMoveTo {
+            get {
+                return ResourceManager.GetString("AccountManagerMoveTo", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Item type.
+        /// </summary>
+        public static string AccountManagerItemType {
+            get {
+                return ResourceManager.GetString("AccountManagerItemType", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Level.
+        /// </summary>
+        public static string AccountManagerLevel {
+            get {
+                return ResourceManager.GetString("AccountManagerLevel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Amount.
+        /// </summary>
+        public static string AccountManagerAmount {
+            get {
+                return ResourceManager.GetString("AccountManagerAmount", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Durability.
+        /// </summary>
+        public static string AccountManagerDurability {
+            get {
+                return ResourceManager.GetString("AccountManagerDurability", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to max {0}.
+        /// </summary>
+        public static string AccountManagerMaximum {
+            get {
+                return ResourceManager.GetString("AccountManagerMaximum", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to This item cannot have this option.
+        /// </summary>
+        public static string AccountManagerOptionNotPossible {
+            get {
+                return ResourceManager.GetString("AccountManagerOptionNotPossible", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to 380 option.
+        /// </summary>
+        public static string AccountManagerGuardianOption {
+            get {
+                return ResourceManager.GetString("AccountManagerGuardianOption", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Option.
+        /// </summary>
+        public static string AccountManagerOption {
+            get {
+                return ResourceManager.GetString("AccountManagerOption", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to (none).
+        /// </summary>
+        public static string AccountManagerNone {
+            get {
+                return ResourceManager.GetString("AccountManagerNone", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Excellent options.
+        /// </summary>
+        public static string AccountManagerExcellentOptions {
+            get {
+                return ResourceManager.GetString("AccountManagerExcellentOptions", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Wing options.
+        /// </summary>
+        public static string AccountManagerWingOptions {
+            get {
+                return ResourceManager.GetString("AccountManagerWingOptions", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Full option.
+        /// </summary>
+        public static string AccountManagerFullOption {
+            get {
+                return ResourceManager.GetString("AccountManagerFullOption", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Ancient set.
+        /// </summary>
+        public static string AccountManagerAncientSet {
+            get {
+                return ResourceManager.GetString("AccountManagerAncientSet", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Harmony option.
+        /// </summary>
+        public static string AccountManagerHarmonyOption {
+            get {
+                return ResourceManager.GetString("AccountManagerHarmonyOption", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Default.
+        /// </summary>
+        public static string AccountManagerDefault {
+            get {
+                return ResourceManager.GetString("AccountManagerDefault", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Max.
+        /// </summary>
+        public static string AccountManagerMax {
+            get {
+                return ResourceManager.GetString("AccountManagerMax", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Level {0}.
+        /// </summary>
+        public static string AccountManagerLevelNumber {
+            get {
+                return ResourceManager.GetString("AccountManagerLevelNumber", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Sockets.
+        /// </summary>
+        public static string AccountManagerSockets {
+            get {
+                return ResourceManager.GetString("AccountManagerSockets", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to (empty).
+        /// </summary>
+        public static string AccountManagerEmpty {
+            get {
+                return ResourceManager.GetString("AccountManagerEmpty", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Only items which this class line can use.
+        /// </summary>
+        public static string AccountManagerClassFilterHint {
+            get {
+                return ResourceManager.GetString("AccountManagerClassFilterHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to All classes.
+        /// </summary>
+        public static string AccountManagerAllClasses {
+            get {
+                return ResourceManager.GetString("AccountManagerAllClasses", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Options which added items get.
+        /// </summary>
+        public static string AccountManagerPresetHint {
+            get {
+                return ResourceManager.GetString("AccountManagerPresetHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Plain (no options).
+        /// </summary>
+        public static string AccountManagerPlainItems {
+            get {
+                return ResourceManager.GetString("AccountManagerPlainItems", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Create and change presets.
+        /// </summary>
+        public static string AccountManagerManagePresetsHint {
+            get {
+                return ResourceManager.GetString("AccountManagerManagePresetsHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Presets….
+        /// </summary>
+        public static string AccountManagerPresets {
+            get {
+                return ResourceManager.GetString("AccountManagerPresets", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to All items.
+        /// </summary>
+        public static string AccountManagerAllItems {
+            get {
+                return ResourceManager.GetString("AccountManagerAllItems", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Sets.
+        /// </summary>
+        public static string AccountManagerSets {
+            get {
+                return ResourceManager.GetString("AccountManagerSets", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Packages.
+        /// </summary>
+        public static string AccountManagerPackages {
+            get {
+                return ResourceManager.GetString("AccountManagerPackages", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0} item(s).
+        /// </summary>
+        public static string AccountManagerPackageCount {
+            get {
+                return ResourceManager.GetString("AccountManagerPackageCount", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Add to the vault.
+        /// </summary>
+        public static string AccountManagerAddToVault {
+            get {
+                return ResourceManager.GetString("AccountManagerAddToVault", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        public static string AccountManagerAdd {
+            get {
+                return ResourceManager.GetString("AccountManagerAdd", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to No packages yet. Create one on the Item Packages page, or with "Save as package" on a character..
+        /// </summary>
+        public static string AccountManagerNoPackagesYet {
+            get {
+                return ResourceManager.GetString("AccountManagerNoPackagesYet", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to No package matches..
+        /// </summary>
+        public static string AccountManagerNoPackageMatches {
+            get {
+                return ResourceManager.GetString("AccountManagerNoPackageMatches", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0} pcs.
+        /// </summary>
+        public static string AccountManagerPieces {
+            get {
+                return ResourceManager.GetString("AccountManagerPieces", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Add all pieces to {0}.
+        /// </summary>
+        public static string AccountManagerAddAllPiecesTo {
+            get {
+                return ResourceManager.GetString("AccountManagerAddAllPiecesTo", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to No set matches..
+        /// </summary>
+        public static string AccountManagerNoSetMatches {
+            get {
+                return ResourceManager.GetString("AccountManagerNoSetMatches", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Add to {0}.
+        /// </summary>
+        public static string AccountManagerAddTo {
+            get {
+                return ResourceManager.GetString("AccountManagerAddTo", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to No item matches..
+        /// </summary>
+        public static string AccountManagerNoItemMatches {
+            get {
+                return ResourceManager.GetString("AccountManagerNoItemMatches", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Search package name.
+        /// </summary>
+        public static string AccountManagerSearchPackageName {
+            get {
+                return ResourceManager.GetString("AccountManagerSearchPackageName", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Search set name.
+        /// </summary>
+        public static string AccountManagerSearchSetName {
+            get {
+                return ResourceManager.GetString("AccountManagerSearchSetName", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Search item name.
+        /// </summary>
+        public static string AccountManagerSearchItemName {
+            get {
+                return ResourceManager.GetString("AccountManagerSearchItemName", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Adds to: Vault, items for {0}.
+        /// </summary>
+        public static string AccountManagerPackageTarget {
+            get {
+                return ResourceManager.GetString("AccountManagerPackageTarget", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Adds to: {0}.
+        /// </summary>
+        public static string AccountManagerAddsTo {
+            get {
+                return ResourceManager.GetString("AccountManagerAddsTo", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to no storage.
+        /// </summary>
+        public static string AccountManagerNoStorage {
+            get {
+                return ResourceManager.GetString("AccountManagerNoStorage", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Option presets.
+        /// </summary>
+        public static string AccountManagerOptionPresets {
+            get {
+                return ResourceManager.GetString("AccountManagerOptionPresets", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Selected item.
+        /// </summary>
+        public static string AccountManagerSelectedItem {
+            get {
+                return ResourceManager.GetString("AccountManagerSelectedItem", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Add items.
+        /// </summary>
+        public static string AccountManagerAddItems {
+            get {
+                return ResourceManager.GetString("AccountManagerAddItems", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Click an item to edit it, or drag it to another slot, the vault or the inventory..
+        /// </summary>
+        public static string AccountManagerSelectItemHint {
+            get {
+                return ResourceManager.GetString("AccountManagerSelectItemHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to This account has no characters. Create one with New character..
+        /// </summary>
+        public static string AccountManagerNoCharactersHint {
+            get {
+                return ResourceManager.GetString("AccountManagerNoCharactersHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Expansions.
+        /// </summary>
+        public static string AccountManagerExpansions {
+            get {
+                return ResourceManager.GetString("AccountManagerExpansions", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0} has no inventory expansions. Set them on the Character tab (0–4), then reload..
+        /// </summary>
+        public static string AccountManagerNoExpansions {
+            get {
+                return ResourceManager.GetString("AccountManagerNoExpansions", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Page {0}.
+        /// </summary>
+        public static string AccountManagerPageNumber {
+            get {
+                return ResourceManager.GetString("AccountManagerPageNumber", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        public static string AccountManagerGeneral {
+            get {
+                return ResourceManager.GetString("AccountManagerGeneral", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string AccountManagerName {
+            get {
+                return ResourceManager.GetString("AccountManagerName", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Class.
+        /// </summary>
+        public static string AccountManagerClass {
+            get {
+                return ResourceManager.GetString("AccountManagerClass", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Status.
+        /// </summary>
+        public static string AccountManagerStatus {
+            get {
+                return ResourceManager.GetString("AccountManagerStatus", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Zen.
+        /// </summary>
+        public static string AccountManagerZen {
+            get {
+                return ResourceManager.GetString("AccountManagerZen", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Level (1–{0}).
+        /// </summary>
+        public static string AccountManagerLevelRange {
+            get {
+                return ResourceManager.GetString("AccountManagerLevelRange", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Experience.
+        /// </summary>
+        public static string AccountManagerExperience {
+            get {
+                return ResourceManager.GetString("AccountManagerExperience", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Level-up points.
+        /// </summary>
+        public static string AccountManagerLevelUpPoints {
+            get {
+                return ResourceManager.GetString("AccountManagerLevelUpPoints", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Inventory extensions (0–4).
+        /// </summary>
+        public static string AccountManagerInventoryExtensions {
+            get {
+                return ResourceManager.GetString("AccountManagerInventoryExtensions", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The bigger inventory shows after reloading the account.
+        /// </summary>
+        public static string AccountManagerInventoryExtensionsHint {
+            get {
+                return ResourceManager.GetString("AccountManagerInventoryExtensionsHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Master experience.
+        /// </summary>
+        public static string AccountManagerMasterExperience {
+            get {
+                return ResourceManager.GetString("AccountManagerMasterExperience", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Master points.
+        /// </summary>
+        public static string AccountManagerMasterPoints {
+            get {
+                return ResourceManager.GetString("AccountManagerMasterPoints", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Position.
+        /// </summary>
+        public static string AccountManagerPosition {
+            get {
+                return ResourceManager.GetString("AccountManagerPosition", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to choosing a map puts the character at its spawn point, like a warp.
+        /// </summary>
+        public static string AccountManagerPositionHint {
+            get {
+                return ResourceManager.GetString("AccountManagerPositionHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Map.
+        /// </summary>
+        public static string AccountManagerMap {
+            get {
+                return ResourceManager.GetString("AccountManagerMap", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Stats.
+        /// </summary>
+        public static string AccountManagerStats {
+            get {
+                return ResourceManager.GetString("AccountManagerStats", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Max stats.
+        /// </summary>
+        public static string AccountManagerMaxStats {
+            get {
+                return ResourceManager.GetString("AccountManagerMaxStats", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Set the base stats to the maximum of the server ({0}).
+        /// </summary>
+        public static string AccountManagerMaxStatsHint {
+            get {
+                return ResourceManager.GetString("AccountManagerMaxStatsHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Deleting removes {0} and its inventory when you save..
+        /// </summary>
+        public static string AccountManagerDeleteCharacterHint {
+            get {
+                return ResourceManager.GetString("AccountManagerDeleteCharacterHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Delete character.
+        /// </summary>
+        public static string AccountManagerDeleteCharacter {
+            get {
+                return ResourceManager.GetString("AccountManagerDeleteCharacter", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Account.
+        /// </summary>
+        public static string AccountManagerAccount {
+            get {
+                return ResourceManager.GetString("AccountManagerAccount", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to State.
+        /// </summary>
+        public static string AccountManagerState {
+            get {
+                return ResourceManager.GetString("AccountManagerState", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to E-mail.
+        /// </summary>
+        public static string AccountManagerEMail {
+            get {
+                return ResourceManager.GetString("AccountManagerEMail", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Extended vault.
+        /// </summary>
+        public static string AccountManagerExtendedVault {
+            get {
+                return ResourceManager.GetString("AccountManagerExtendedVault", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Vault zen.
+        /// </summary>
+        public static string AccountManagerVaultZen {
+            get {
+                return ResourceManager.GetString("AccountManagerVaultZen", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        public static string AccountManagerPassword {
+            get {
+                return ResourceManager.GetString("AccountManagerPassword", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to New password ({0}–{1} characters).
+        /// </summary>
+        public static string AccountManagerNewPassword {
+            get {
+                return ResourceManager.GetString("AccountManagerNewPassword", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Set password.
+        /// </summary>
+        public static string AccountManagerSetPassword {
+            get {
+                return ResourceManager.GetString("AccountManagerSetPassword", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Deleting removes the account, its characters and all their items right away..
+        /// </summary>
+        public static string AccountManagerDeleteAccountHint {
+            get {
+                return ResourceManager.GetString("AccountManagerDeleteAccountHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Delete account.
+        /// </summary>
+        public static string AccountManagerDeleteAccount {
+            get {
+                return ResourceManager.GetString("AccountManagerDeleteAccount", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to online.
+        /// </summary>
+        public static string AccountManagerOnline {
+            get {
+                return ResourceManager.GetString("AccountManagerOnline", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Saving is blocked until the player logs out.
+        /// </summary>
+        public static string AccountManagerOnlineHint {
+            get {
+                return ResourceManager.GetString("AccountManagerOnlineHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to offline.
+        /// </summary>
+        public static string AccountManagerOffline {
+            get {
+                return ResourceManager.GetString("AccountManagerOffline", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to registered {0}.
+        /// </summary>
+        public static string AccountManagerRegistered {
+            get {
+                return ResourceManager.GetString("AccountManagerRegistered", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to unsaved.
+        /// </summary>
+        public static string AccountManagerUnsaved {
+            get {
+                return ResourceManager.GetString("AccountManagerUnsaved", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to No changes.
+        /// </summary>
+        public static string AccountManagerNoChanges {
+            get {
+                return ResourceManager.GetString("AccountManagerNoChanges", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Unsaved changes.
+        /// </summary>
+        public static string AccountManagerUnsavedChanges {
+            get {
+                return ResourceManager.GetString("AccountManagerUnsavedChanges", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Load the account again from the database.
+        /// </summary>
+        public static string AccountManagerReloadHint {
+            get {
+                return ResourceManager.GetString("AccountManagerReloadHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to New character.
+        /// </summary>
+        public static string AccountManagerNewCharacter {
+            get {
+                return ResourceManager.GetString("AccountManagerNewCharacter", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Items.
+        /// </summary>
+        public static string AccountManagerItems {
+            get {
+                return ResourceManager.GetString("AccountManagerItems", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Character.
+        /// </summary>
+        public static string AccountManagerCharacter {
+            get {
+                return ResourceManager.GetString("AccountManagerCharacter", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Login name.
+        /// </summary>
+        public static string AccountManagerLoginName {
+            get {
+                return ResourceManager.GetString("AccountManagerLoginName", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0}–{1} letters, digits or _.
+        /// </summary>
+        public static string AccountManagerLoginNameHint {
+            get {
+                return ResourceManager.GetString("AccountManagerLoginNameHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0}–{1} characters.
+        /// </summary>
+        public static string AccountManagerPasswordHint {
+            get {
+                return ResourceManager.GetString("AccountManagerPasswordHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to optional.
+        /// </summary>
+        public static string AccountManagerOptional {
+            get {
+                return ResourceManager.GetString("AccountManagerOptional", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Create account.
+        /// </summary>
+        public static string AccountManagerCreateAccount {
+            get {
+                return ResourceManager.GetString("AccountManagerCreateAccount", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Starts like a new character in the game: base stats of the class, at its home map, with an empty inventory..
+        /// </summary>
+        public static string AccountManagerNewCharacterHint {
+            get {
+                return ResourceManager.GetString("AccountManagerNewCharacterHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Package.
+        /// </summary>
+        public static string AccountManagerPackage {
+            get {
+                return ResourceManager.GetString("AccountManagerPackage", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Add to {0}.
+        /// </summary>
+        public static string AccountManagerAddToPackage {
+            get {
+                return ResourceManager.GetString("AccountManagerAddToPackage", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0} of {1}.
+        /// </summary>
+        public static string AccountManagerSelectedOf {
+            get {
+                return ResourceManager.GetString("AccountManagerSelectedOf", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to All.
+        /// </summary>
+        public static string AccountManagerAll {
+            get {
+                return ResourceManager.GetString("AccountManagerAll", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to None.
+        /// </summary>
+        public static string AccountManagerNoItems {
+            get {
+                return ResourceManager.GetString("AccountManagerNoItems", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The package gets copies of the items with all their options; {0} stays as it is..
+        /// </summary>
+        public static string AccountManagerSaveAsPackageHint {
+            get {
+                return ResourceManager.GetString("AccountManagerSaveAsPackageHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Save package.
+        /// </summary>
+        public static string AccountManagerSavePackage {
+            get {
+                return ResourceManager.GetString("AccountManagerSavePackage", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Items which are added from the catalog get the options of the chosen preset; options which an item cannot have are left out. Changes are saved right away..
+        /// </summary>
+        public static string AccountManagerPresetsHint {
+            get {
+                return ResourceManager.GetString("AccountManagerPresetsHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Catalog: the level which is chosen in the catalog.
+        /// </summary>
+        public static string AccountManagerPresetLevelHint {
+            get {
+                return ResourceManager.GetString("AccountManagerPresetLevelHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Capped at what the item allows (+16 for most armor).
+        /// </summary>
+        public static string AccountManagerPresetOptionHint {
+            get {
+                return ResourceManager.GetString("AccountManagerPresetOptionHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Every excellent option; wing options on wings.
+        /// </summary>
+        public static string AccountManagerPresetExcellentHint {
+            get {
+                return ResourceManager.GetString("AccountManagerPresetExcellentHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Catalog.
+        /// </summary>
+        public static string AccountManagerCatalogLevel {
+            get {
+                return ResourceManager.GetString("AccountManagerCatalogLevel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to No presets..
+        /// </summary>
+        public static string AccountManagerNoPresets {
+            get {
+                return ResourceManager.GetString("AccountManagerNoPresets", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Done.
+        /// </summary>
+        public static string AccountManagerDone {
+            get {
+                return ResourceManager.GetString("AccountManagerDone", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Login name.
+        /// </summary>
+        public static string AccountManagerSearchLoginName {
+            get {
+                return ResourceManager.GetString("AccountManagerSearchLoginName", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to New account.
+        /// </summary>
+        public static string AccountManagerNewAccount {
+            get {
+                return ResourceManager.GetString("AccountManagerNewAccount", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to No account matches "{0}"..
+        /// </summary>
+        public static string AccountManagerNoAccountMatches {
+            get {
+                return ResourceManager.GetString("AccountManagerNoAccountMatches", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to First {0} matches; refine the search..
+        /// </summary>
+        public static string AccountManagerFirstMatches {
+            get {
+                return ResourceManager.GetString("AccountManagerFirstMatches", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0} match(es)..
+        /// </summary>
+        public static string AccountManagerMatches {
+            get {
+                return ResourceManager.GetString("AccountManagerMatches", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to No packages yet..
+        /// </summary>
+        public static string AccountManagerNoPackages {
+            get {
+                return ResourceManager.GetString("AccountManagerNoPackages", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Packages need the database of the admin panel, which is not available..
+        /// </summary>
+        public static string AccountManagerPackagesUnavailable {
+            get {
+                return ResourceManager.GetString("AccountManagerPackagesUnavailable", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Revert.
+        /// </summary>
+        public static string AccountManagerRevert {
+            get {
+                return ResourceManager.GetString("AccountManagerRevert", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to added to the vault.
+        /// </summary>
+        public static string AccountManagerPackageZenHint {
+            get {
+                return ResourceManager.GetString("AccountManagerPackageZenHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to optional, e.g. what a donation tier costs.
+        /// </summary>
+        public static string AccountManagerPackageDescriptionHint {
+            get {
+                return ResourceManager.GetString("AccountManagerPackageDescriptionHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to A package goes to the vault of the account, with only the items which the class line of the selected character can use (a Dark Knight also gets Blade Knight items); items without class requirement go to everyone..
+        /// </summary>
+        public static string AccountManagerPackageClassHint {
+            get {
+                return ResourceManager.GetString("AccountManagerPackageClassHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Level: keep.
+        /// </summary>
+        public static string AccountManagerKeepLevel {
+            get {
+                return ResourceManager.GetString("AccountManagerKeepLevel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Options: keep.
+        /// </summary>
+        public static string AccountManagerKeepOptions {
+            get {
+                return ResourceManager.GetString("AccountManagerKeepOptions", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Apply.
+        /// </summary>
+        public static string AccountManagerApply {
+            get {
+                return ResourceManager.GetString("AccountManagerApply", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Remove.
+        /// </summary>
+        public static string AccountManagerRemove {
+            get {
+                return ResourceManager.GetString("AccountManagerRemove", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Tick all items of the group.
+        /// </summary>
+        public static string AccountManagerSelectGroupHint {
+            get {
+                return ResourceManager.GetString("AccountManagerSelectGroupHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Remove from the package.
+        /// </summary>
+        public static string AccountManagerRemoveFromPackage {
+            get {
+                return ResourceManager.GetString("AccountManagerRemoveFromPackage", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to No items yet. Add them from the catalog on the right: pick a class and an options preset, then add whole armor sets (Armor, Sets) and weapons. Or open a character in the Account Manager and use "Save as package" to copy what it has..
+        /// </summary>
+        public static string AccountManagerPackageEmptyHint {
+            get {
+                return ResourceManager.GetString("AccountManagerPackageEmptyHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Click an item of the package to edit its level and options..
+        /// </summary>
+        public static string AccountManagerSelectPackageItemHint {
+            get {
+                return ResourceManager.GetString("AccountManagerSelectPackageItemHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to A package is a set of items (and zen) which you add to a character in one go: a freebie set, a donation reward, an event prize. Pick a package on the left or create a new one. Add a package to an account in the Account Manager: select the character, then Add items, Packages; it goes to the vault..
+        /// </summary>
+        public static string AccountManagerPackagesHint {
+            get {
+                return ResourceManager.GetString("AccountManagerPackagesHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Account Manager.
+        /// </summary>
+        public static string AccountManagerTitle {
+            get {
+                return ResourceManager.GetString("AccountManagerTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Edit accounts, characters, inventories and vaults. Nothing is written before you save; accounts which are online can't be saved..
+        /// </summary>
+        public static string AccountManagerDescription {
+            get {
+                return ResourceManager.GetString("AccountManagerDescription", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Search an account by its login name, or create a new one..
+        /// </summary>
+        public static string AccountManagerPickAccountHint {
+            get {
+                return ResourceManager.GetString("AccountManagerPickAccountHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Loading the game configuration ....
+        /// </summary>
+        public static string AccountManagerLoading {
+            get {
+                return ResourceManager.GetString("AccountManagerLoading", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Item Packages.
+        /// </summary>
+        public static string ItemPackagesTitle {
+            get {
+                return ResourceManager.GetString("ItemPackagesTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Named sets of items and zen (freebies, donation tiers, event prizes) which the Account Manager adds to a vault in one go..
+        /// </summary>
+        public static string ItemPackagesDescription {
+            get {
+                return ResourceManager.GetString("ItemPackagesDescription", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Account manager.
+        /// </summary>
+        public static string AccountManagerOpen {
+            get {
+                return ResourceManager.GetString("AccountManagerOpen", resourceCulture);
+            }
+        }
+        /// <summary>
+        ///   Looks up a localized string similar to Store.
+        /// </summary>
+        public static string AccountManagerStore {
+            get {
+                return ResourceManager.GetString("AccountManagerStore", resourceCulture);
+            }
+        }
+        /// <summary>
+        ///   Looks up a localized string similar to The database has no game configuration. Set up the server first..
+        /// </summary>
+        public static string AccountManagerNoGameConfiguration {
+            get {
+                return ResourceManager.GetString("AccountManagerNoGameConfiguration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General &amp; server.
+        /// </summary>
+        public static string ConfigGroupGeneral {
+            get {
+                return ResourceManager.GetString("ConfigGroupGeneral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Characters &amp; skills.
+        /// </summary>
+        public static string ConfigGroupCharacters {
+            get {
+                return ResourceManager.GetString("ConfigGroupCharacters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Drops &amp; shops.
+        /// </summary>
+        public static string ConfigGroupDropsAndShops {
+            get {
+                return ResourceManager.GetString("ConfigGroupDropsAndShops", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to World &amp; monsters.
+        /// </summary>
+        public static string ConfigGroupWorld {
+            get {
+                return ResourceManager.GetString("ConfigGroupWorld", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Plugins &amp; commands.
+        /// </summary>
+        public static string ConfigGroupExtensions {
+            get {
+                return ResourceManager.GetString("ConfigGroupExtensions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Overview.
+        /// </summary>
+        public static string NavigationOverview {
+            get {
+                return ResourceManager.GetString("NavigationOverview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Players.
+        /// </summary>
+        public static string NavigationPlayers {
+            get {
+                return ResourceManager.GetString("NavigationPlayers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Game.
+        /// </summary>
+        public static string NavigationGame {
+            get {
+                return ResourceManager.GetString("NavigationGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to System.
+        /// </summary>
+        public static string NavigationSystem {
+            get {
+                return ResourceManager.GetString("NavigationSystem", resourceCulture);
+            }
+        }
     }
 }

@@ -21,9 +21,8 @@ else
   {
     <div class="alert alert-warning">@Resources.ConnectionNotFound</div>
   }
-  <div class="container">
-    <div class="row g-2 network-analyzer">
-      <div class="@(this._isSidebarCollapsed ? "col-auto" : "col-2")">
+  <div class="network-analyzer d-flex gap-3 align-items-start">
+      <div class="flex-shrink-0" style="width: @(this._isSidebarCollapsed ? "auto" : "18rem")">
         <button type="button" class="btn btn-outline-secondary btn-sm mb-2 w-100"
                 title="@Resources.Connections" @onclick="() => this._isSidebarCollapsed = !this._isSidebarCollapsed">
           <span class="oi @(this._isSidebarCollapsed ? "oi-chevron-right" : "oi-chevron-left")" aria-hidden="true"></span>
@@ -52,7 +51,7 @@ else
         }
       </div>
 
-            <div class="@TableColClass">
+      <div class="flex-grow-1" style="min-width: 0">
         @if (this._capture is null && this._selectedSession is null)
         {
           <p class="text-muted"><em>@Resources.SelectAConnection</em></p>
@@ -126,6 +125,5 @@ else
                       OnAtBottomChanged="this.OnAtBottomChanged"/>
         }
       </div>
-    </div>
   </div>
 }

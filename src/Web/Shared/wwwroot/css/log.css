@@ -1,36 +1,39 @@
-/* Log viewer colors per log level, and log notification icons. */
+/* Log viewer colors per log level, and log notification icons. The viewer is a dark code block in both themes. */
 .log {
-  color: #0f0;
-  background-color: #333;
+  color: #05df72;
+  background-color: #0a0a0a;
+  border: 1px solid var(--sc-border);
+  border-radius: var(--sc-radius);
 }
 
 .log table {
-  font-family: "Lucida Console";
+  font-family: var(--sc-font-mono);
   font-size: 12px;
-  color: #0f0;
-  border-color: var(--omu-text);
+  color: #05df72;
+  border-color: rgba(255, 255, 255, 0.1);
   border-width: 1px 0 0 0;
-  background-color: #333;
+  background-color: #0a0a0a;
 }
 
 .log tr.INFO {
-  color: #0f0;
+  color: #05df72;
 }
 
 .log tr.DEBUG {
-  color: var(--omu-text);
+  color: #a1a1a1;
 }
 
 .log tr.WARN {
-  color: #F88017;
+  color: #ffb900;
 }
 
 .log tr.ERROR {
-  color: #FF0000;
+  color: #ff6467;
 }
 
 .log tr.FATAL {
-  background-color: #FF0000;
+  color: #ffffff;
+  background-color: #c10007;
 }
 
 #logger {
@@ -38,7 +41,7 @@
 }
 
 .verticalLine {
-  border-left: thick solid #ff0000;
+  border-left: thick solid var(--sc-destructive);
 }
 
 div.log-notifications {
@@ -47,9 +50,9 @@ div.log-notifications {
 }
 
 .log-notifications .oi-fire {
-  color: orangered;
+  color: var(--sc-destructive);
 }
 
 .log-notifications .oi-warning {
-  color: orange;
+  color: var(--bs-warning);
 }

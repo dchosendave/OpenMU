@@ -9,10 +9,10 @@
         @foreach (var toast in this.ToastService.Toasts)
         {
             var (iconClass, accentClass) = this.GetStyling(toast.Level);
-            <div @key="toast.Key" class="toast @accentClass @(toast.IsClosing ? "closing" : "show")" role="alert" aria-live="assertive" aria-atomic="true">
+            <div @key="toast.Key" class="toast @(toast.IsClosing ? "closing" : "show")" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="d-flex">
                     <div class="toast-body d-flex align-items-start">
-                        <span class="oi @iconClass toast__icon" aria-hidden="true"></span>
+                        <span class="oi @iconClass @accentClass toast__icon" aria-hidden="true"></span>
                         <div class="ms-2 w-100">
                             @if (toast.Heading is { } heading)
                             {

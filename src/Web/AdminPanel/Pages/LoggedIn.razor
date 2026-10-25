@@ -71,7 +71,7 @@
             </button>
             @if (this.IsNetworkAnalyzerAvailable)
             {
-              <a class="btn btn-secondary btn-sm ms-1" title="@Resources.AnalyzeTraffic"
+              <a class="btn btn-outline-secondary btn-sm ms-1" title="@Resources.AnalyzeTraffic"
                  href="@($"{NetworkAnalyzer.PlayerRoute}{item.Server}/{Uri.EscapeDataString(item.LoginName)}")">
                 <span class="oi oi-pulse" aria-hidden="true" /> @Resources.NetworkAnalyzer
               </a>

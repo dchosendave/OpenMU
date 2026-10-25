@@ -16,7 +16,7 @@
 }
 else
 {
-    <div>
+    <div class="table-frame">
         <table class="table table-striped table-hover">
             <thead>
             <tr>
@@ -53,14 +53,14 @@ else
                     </td>
                     <td>@(user.LastLoginAt?.ToString("yyyy-MM-dd HH:mm") ?? "-")</td>
                     <td>
-                        <button type="button" class="btn btn-sm btn-primary me-1" @onclick="@(() => this.OnChangePasswordAsync(user))">@Resources.ChangePassword</button>
+                        <button type="button" class="btn btn-sm btn-outline-primary me-1" @onclick="@(() => this.OnChangePasswordAsync(user))">@Resources.ChangePassword</button>
                         @if (user.IsTwoFactorEnabled)
                         {
-                            <button type="button" class="btn btn-sm btn-warning me-1" @onclick="@(() => this.OnResetTwoFactorAsync(user))">@Resources.ResetTwoFactor</button>
+                            <button type="button" class="btn btn-sm btn-outline-warning me-1" @onclick="@(() => this.OnResetTwoFactorAsync(user))">@Resources.ResetTwoFactor</button>
                         }
                         @if (this._users.Count > 1)
                         {
-                            <button type="button" class="btn btn-sm btn-danger" @onclick="@(() => this.OnDeleteAsync(user))">@Resources.Delete</button>
+                            <button type="button" class="btn btn-sm btn-outline-danger" @onclick="@(() => this.OnDeleteAsync(user))">@Resources.Delete</button>
                         }
                     </td>
                 </tr>

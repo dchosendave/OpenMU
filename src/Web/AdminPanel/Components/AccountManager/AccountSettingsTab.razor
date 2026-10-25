@@ -1,0 +1,67 @@
+@if (this.State.Session is { } session)
+{
+    <div class="sheet">
+        <h3 class="sheet-title">@Resources.AccountManagerAccount</h3>
+        <div class="fields">
+            <div>
+                <label class="form-label" for="account-state">@Resources.AccountManagerState</label>
+                <select id="account-state" class="form-select form-select-sm account-state" @onchange="e => this.Set(() => session.State = Enum.Parse<AccountState>((string)e.Value!))">
+                    @foreach (var state in Enum.GetValues<AccountState>())
+                    {
+                        <option value="@state" selected="@(state == session.State)">@state.GetEnumCaption()</option>
+                    }
+                </select>
+            </div>
+            <div class="wide">
+                <label class="form-label" for="account-email">@Resources.AccountManagerEMail</label>
+                <input id="account-email" class="form-control form-control-sm" value="@session.EMail" @onchange="e => this.Set(() => session.EMail = (string)e.Value!)" />
+            </div>
+            <div class="form-check form-switch align-self-center mb-0 mt-3">
+                <input class="form-check-input" type="checkbox" role="switch" id="account-vault-extended" checked="@session.IsVaultExtended" @onchange="e => this.Set(() => session.IsVaultExtended = (bool)e.Value!)" />
+                <label class="form-check-label" for="account-vault-extended">@Resources.AccountManagerExtendedVault</label>
+            </div>
+            <div>
+                <label class="form-label">@Resources.AccountManagerVaultZen</label>
+                <NumberInput TValue="int" Class="vault-zen" Min="0" Value="session.VaultZen" ValueChanged="v => this.Set(() => session.VaultZen = v)" />
+            </div>
+            <div>
+                <label class="form-label">@Resources.AccountManagerChangeGoblinPoints</label>
+                <NumberInput TValue="int" Min="0" Value="session.GoblinPoints" ValueChanged="v => this.Set(() => session.GoblinPoints = v)" />
+            </div>
+            <div>
+                <label class="form-label">WCoin (C)</label>
+                <NumberInput TValue="int" Min="0" Value="session.WCoinC" ValueChanged="v => this.Set(() => session.WCoinC = v)" />
+            </div>
+            <div>
+                <label class="form-label">WCoin (P)</label>
+                <NumberInput TValue="int" Min="0" Value="session.WCoinP" ValueChanged="v => this.Set(() => session.WCoinP = v)" />
+            </div>
+        </div>
+
+        <h3 class="sheet-title">@Resources.AccountManagerPassword</h3>
+        <div class="fields">
+            <div class="wide">
+                <label class="form-label" for="account-password">@string.Format(Resources.AccountManagerNewPassword, AccountManagerDatabase.MinimumLength, AccountManagerDatabase.PasswordMaximumLength)</label>
+                <input id="account-password" class="form-control form-control-sm new-password" type="password" autocomplete="new-password" maxlength="@AccountManagerDatabase.PasswordMaximumLength" @bind="this._password" @bind:event="oninput" />
+            </div>
+            <div>
+                <button type="button" class="btn btn-sm btn-outline-secondary set-password" disabled="@(this._password.Length == 0)" @onclick="this.SetPassword">@Resources.AccountManagerSetPassword</button>
+            </div>
+        </div>
+
+        <div class="sheet-footer">
+            <span class="text-muted small">@Resources.AccountManagerDeleteAccountHint</span>
+            <button type="button" class="btn btn-sm btn-outline-danger delete-account" @onclick="this.State.DeleteAccountAsync">@Resources.AccountManagerDeleteAccount</button>
+        </div>
+    </div>
+}
+
+@code {
+    private string _password = string.Empty;
+
+    private void SetPassword()
+    {
+        this.State.SetPassword(this._password);
+        this._password = string.Empty;
+    }
+}

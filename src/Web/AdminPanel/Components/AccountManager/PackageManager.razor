@@ -1,0 +1,183 @@
+<div class="packages-view">
+    <aside class="card package-sidebar">
+        <div class="card-header d-flex align-items-center gap-2">
+            <span class="flex-grow-1">@Resources.AccountManagerPackages</span>
+            <span class="badge text-bg-secondary">@this.State.Packages.Packages.Count</span>
+        </div>
+        <div class="list-group list-group-flush package-index">
+            @foreach (var package in this.State.Packages.Packages)
+            {
+                <button type="button" class="list-group-item list-group-item-action package-row @(this.State.PackageEditor?.Package.Id == package.Id ? "active" : string.Empty)" @key="package.Id" data-package="@package.Name"
+                        @onclick="() => this.State.OpenPackageAsync(package)">
+                    <span class="flex-grow-1 text-truncate">@package.Name</span>
+                    <span class="small opacity-75">@package.Items.Count</span>
+                </button>
+            }
+        </div>
+        @if (this.State.Packages.Packages.Count == 0)
+        {
+            <div class="text-muted small px-3 py-2">@Resources.AccountManagerNoPackages</div>
+        }
+        <div class="p-2">
+            <button type="button" class="btn btn-sm btn-primary w-100 new-package" disabled="@(!this.State.Packages.IsAvailable)" @onclick="this.State.NewPackageAsync">
+                <span class="oi oi-plus" aria-hidden="true"></span> @Resources.AccountManagerNewPackageName
+            </button>
+            @if (!this.State.Packages.IsAvailable)
+            {
+                <div class="text-muted small mt-2">@Resources.AccountManagerPackagesUnavailable</div>
+            }
+        </div>
+    </aside>
+
+    @if (this.State.PackageEditor is { } editor)
+    {
+        <section class="card package-detail">
+            <div class="card-header d-flex align-items-center flex-wrap gap-2">
+                <h2 class="h6 mb-0 text-truncate package-title">@editor.Name</h2>
+                @if (editor.HasChanges)
+                {
+                    <span class="badge text-bg-warning">@Resources.AccountManagerUnsaved</span>
+                }
+
+                <div class="ms-auto d-flex flex-wrap gap-1">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" @onclick="this.State.DuplicatePackageAsync">@Resources.AccountManagerDuplicate</button>
+                    <button type="button" class="btn btn-sm btn-outline-danger delete-package" @onclick="this.State.DeletePackageAsync">@Resources.Delete</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" disabled="@(!editor.HasChanges)" @onclick="this.State.RevertPackageAsync">@Resources.AccountManagerRevert</button>
+                    <button type="button" class="btn btn-sm btn-primary save-package" disabled="@(!editor.HasChanges || this.State.IsBusy)" @onclick="this.State.SavePackageAsync">@Resources.AccountManagerSavePackage</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="package-form">
+                    <div>
+                        <label class="form-label" for="package-name">@Resources.AccountManagerName</label>
+                        <input id="package-name" class="form-control form-control-sm package-name-input" maxlength="@ItemPackage.NameMaximumLength" value="@editor.Name" @onchange="e => this.Set(() => editor.Name = (string)e.Value!)" />
+                    </div>
+                    <div>
+                        <label class="form-label">@Resources.AccountManagerZen <span class="text-muted small">@Resources.AccountManagerPackageZenHint</span></label>
+                        <NumberInput TValue="int" Class="package-zen" Min="0" Value="editor.Zen" ValueChanged="v => this.Set(() => editor.Zen = v)" />
+                    </div>
+                    <div class="wide">
+                        <label class="form-label" for="package-description">@Resources.Description <span class="text-muted small">@Resources.AccountManagerPackageDescriptionHint</span></label>
+                        <textarea id="package-description" class="form-control form-control-sm" rows="2" maxlength="@ItemPackage.DescriptionMaximumLength" @onchange="e => this.Set(() => editor.Description = (string)e.Value!)">@editor.Description</textarea>
+                    </div>
+                </div>
+                <p class="text-muted small mt-2 mb-3">@Resources.AccountManagerPackageClassHint</p>
+
+                @if (editor.Items.Count > 0)
+                {
+                    <div class="bulk-bar">
+                        <div class="form-check mb-0 text-nowrap">
+                            <input class="form-check-input select-all" type="checkbox" id="package-select-all" checked="@(this.State.PackageSelection.Count == editor.Items.Count)"
+                                   @onchange="e => this.State.SetPackageSelection(editor.Items, (bool)e.Value!)" />
+                            <label class="form-check-label small" for="package-select-all">@string.Format(Resources.AccountManagerSelectedOf, this.State.PackageSelection.Count, editor.Items.Count)</label>
+                        </div>
+                        <select class="form-select form-select-sm bulk-level" disabled="@(this.State.PackageSelection.Count == 0)" @bind="this._bulkLevel">
+                            <option value="-1">@Resources.AccountManagerKeepLevel</option>
+                            @for (var i = 0; i <= 15; i++)
+                            {
+                                <option value="@i">+@i</option>
+                            }
+                        </select>
+                        <select class="form-select form-select-sm bulk-preset" disabled="@(this.State.PackageSelection.Count == 0)" @bind="this._bulkPreset">
+                            <option value="">@Resources.AccountManagerKeepOptions</option>
+                            @foreach (var preset in this.State.Presets.Presets)
+                            {
+                                <option value="@preset.Id" title="@preset.GetSummary()">@preset.Name</option>
+                            }
+                        </select>
+                        <button type="button" class="btn btn-sm btn-outline-secondary apply-bulk" disabled="@(this.State.PackageSelection.Count == 0 || (this._bulkLevel < 0 && this.BulkPreset is null))"
+                                @onclick="() => this.State.ApplyToPackageSelection(this.BulkPreset, this._bulkLevel < 0 ? null : (byte)this._bulkLevel)">@Resources.AccountManagerApply</button>
+                        <button type="button" class="btn btn-sm btn-outline-danger remove-bulk" disabled="@(this.State.PackageSelection.Count == 0)" @onclick="this.State.RemovePackageSelection">@Resources.AccountManagerRemove</button>
+                    </div>
+                }
+
+                <div class="package-items">
+                    @foreach (var group in Groups(editor))
+                    {
+                        var groupItems = group.ToList();
+                        <div class="package-group-title">
+                            <input class="form-check-input select-group" type="checkbox" title="@Resources.AccountManagerSelectGroupHint" checked="@groupItems.All(this.State.PackageSelection.Contains)"
+                                   @onchange="e => this.State.SetPackageSelection(groupItems, (bool)e.Value!)" />
+                            @(group.Key ?? Resources.AccountManagerAllClasses) <span class="text-muted fw-normal">@groupItems.Count</span>
+                        </div>
+                        @foreach (var item in groupItems)
+                        {
+                            <div class="package-item @ItemDisplay.Kind(item) @(this.State.SelectedPackageItem == item ? "selected" : string.Empty)" @key="item" title="@ItemDisplay.Tooltip(item)"
+                                 @onclick="() => this.State.SelectPackageItem(item)">
+                                <input class="form-check-input select-item flex-none" type="checkbox" checked="@this.State.PackageSelection.Contains(item)" @onclick:stopPropagation="true"
+                                       @onchange="e => this.State.SetPackageSelection(new[] { item }, (bool)e.Value!)" />
+                                @if (item.Definition is { } definition)
+                                {
+                                    <CatalogIcon Definition="definition" />
+                                }
+                                <span class="flex-grow-1 d-flex flex-column min-width-0">
+                                    <span class="package-item-name">@ItemDisplay.Caption(item)</span>
+                                    <span class="text-muted small text-truncate">@ItemDisplay.OptionSummary(item)</span>
+                                </span>
+                                <button type="button" class="btn btn-sm btn-link text-danger remove-package-item" title="@Resources.AccountManagerRemoveFromPackage" @onclick="() => this.State.RemovePackageItem(item)" @onclick:stopPropagation="true"><span class="oi oi-x" aria-hidden="true"></span></button>
+                            </div>
+                        }
+                    }
+                    @if (editor.Items.Count == 0)
+                    {
+                        <div class="text-muted small">@Resources.AccountManagerPackageEmptyHint</div>
+                    }
+                </div>
+            </div>
+        </section>
+
+        <aside class="card side-panel">
+            <ul class="nav nav-tabs px-2 pt-2">
+                <li class="nav-item">
+                    <button type="button" class="nav-link @(!this.State.PackageShowCatalog ? "active" : string.Empty)" @onclick="() => this.Set(() => this.State.PackageShowCatalog = false)">@Resources.AccountManagerSelectedItem</button>
+                </li>
+                <li class="nav-item">
+                    <button type="button" class="nav-link show-catalog @(this.State.PackageShowCatalog ? "active" : string.Empty)" @onclick="() => this.Set(() => this.State.PackageShowCatalog = true)">@Resources.AccountManagerAddItems</button>
+                </li>
+            </ul>
+            @if (this.State.PackageShowCatalog)
+            {
+                <ItemCatalog ForPackage="true" />
+            }
+            else if (this.State.PackageItemEditor is { } itemEditor && this.State.SelectedPackageItem is { } selected)
+            {
+                <ItemEditorPanel Editor="itemEditor" Standalone="true">
+                    <Actions>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" @onclick="() => this.State.DuplicatePackageItem(selected)">@Resources.AccountManagerDuplicate</button>
+                        <button type="button" class="btn btn-sm btn-outline-danger" @onclick="() => this.State.RemovePackageItem(selected)">@Resources.AccountManagerRemove</button>
+                    </Actions>
+                </ItemEditorPanel>
+            }
+            else
+            {
+                <div class="text-muted small p-3">@Resources.AccountManagerSelectPackageItemHint</div>
+            }
+        </aside>
+    }
+    else
+    {
+        <div class="card package-detail">
+            <div class="card-body text-muted">@Resources.AccountManagerPackagesHint</div>
+        </div>
+    }
+</div>
+
+@code {
+    private int _bulkLevel = -1;
+    private string _bulkPreset = string.Empty;
+
+    private ItemOptionPreset? BulkPreset => Guid.TryParse(this._bulkPreset, out var id) ? this.State.Presets.Find(id) : null;
+
+    /// <summary>
+    /// Groups the items by the classes which get them, so a package for every class stays readable.
+    /// The key is <c>null</c> for the items which every class gets.
+    /// </summary>
+    private static IEnumerable<IGrouping<string?, Item>> Groups(PackageEditor editor) => editor.Items
+        .GroupBy(item =>
+        {
+            var classes = editor.Converter.ClassesOf(PackageConverter.FromItem(item));
+            return classes.Count == 0 ? null : string.Join(", ", classes);
+        })
+        .OrderBy(g => g.Key is null ? 1 : 0)
+        .ThenBy(g => g.Key);
+}

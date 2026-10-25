@@ -1,0 +1,76 @@
+@using System.Globalization
+
+<p class="text-muted small">@Resources.AccountManagerPresetsHint</p>
+<div class="table-responsive">
+    <table class="table table-sm align-middle preset-table">
+        <thead>
+        <tr>
+            <th>@Resources.AccountManagerName</th>
+            <th title="@Resources.AccountManagerPresetLevelHint">@Resources.AccountManagerLevel</th>
+            <th class="text-center">@Resources.AccountManagerSkill</th>
+            <th class="text-center">@Resources.AccountManagerLuck</th>
+            <th title="@Resources.AccountManagerPresetOptionHint">@Resources.AccountManagerOption</th>
+            <th class="text-center" title="@Resources.AccountManagerPresetExcellentHint">@Resources.AccountManagerExcellent</th>
+            <th class="text-center" title="@Resources.AccountManagerGuardianOption">380</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var preset in this.State.Presets.Presets)
+        {
+            <tr class="preset-row" @key="preset.Id" data-preset="@preset.Name">
+                <td><input class="form-control form-control-sm preset-name" maxlength="@ItemOptionPreset.NameMaximumLength" value="@preset.Name" @onchange="e => this.ChangeAsync(preset, p => p.Name = (string)e.Value!)" /></td>
+                <td>
+                    <select class="form-select form-select-sm preset-level" @onchange="e => this.ChangeAsync(preset, p => p.Level = byte.TryParse((string?)e.Value, out var l) ? l : null)">
+                        <option value="" selected="@(preset.Level is null)">@Resources.AccountManagerCatalogLevel</option>
+                        @for (var i = 0; i <= 15; i++)
+                        {
+                            var value = (byte)i;
+                            <option value="@i" selected="@(preset.Level == value)">+@i</option>
+                        }
+                    </select>
+                </td>
+                <td class="text-center"><input class="form-check-input preset-skill" type="checkbox" checked="@preset.Skill" @onchange="e => this.ChangeAsync(preset, p => p.Skill = (bool)e.Value!)" /></td>
+                <td class="text-center"><input class="form-check-input preset-luck" type="checkbox" checked="@preset.Luck" @onchange="e => this.ChangeAsync(preset, p => p.Luck = (bool)e.Value!)" /></td>
+                <td>
+                    <select class="form-select form-select-sm preset-option" @onchange="e => this.ChangeAsync(preset, p => p.OptionLevel = int.Parse((string)e.Value!, CultureInfo.InvariantCulture))">
+                        <option value="0" selected="@(preset.OptionLevel == 0)">@Resources.AccountManagerNone</option>
+                        @for (var i = 1; i < ItemOptionPreset.MaximumOptionLevel; i++)
+                        {
+                            var value = i;
+                            <option value="@i" selected="@(preset.OptionLevel == value)">+@(i * 4)</option>
+                        }
+                        <option value="@ItemOptionPreset.MaximumOptionLevel" selected="@(preset.OptionLevel >= ItemOptionPreset.MaximumOptionLevel)">@Resources.AccountManagerMax</option>
+                    </select>
+                </td>
+                <td class="text-center"><input class="form-check-input preset-excellent" type="checkbox" checked="@preset.Excellent" @onchange="e => this.ChangeAsync(preset, p => p.Excellent = (bool)e.Value!)" /></td>
+                <td class="text-center"><input class="form-check-input preset-guardian" type="checkbox" checked="@preset.Guardian" @onchange="e => this.ChangeAsync(preset, p => p.Guardian = (bool)e.Value!)" /></td>
+                <td class="text-end"><button type="button" class="btn btn-sm btn-outline-danger delete-preset" title="@Resources.Delete" @onclick="() => this.State.DeletePresetAsync(preset)"><span class="oi oi-trash" aria-hidden="true"></span></button></td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+@if (this.State.Presets.Presets.Count == 0)
+{
+    <p class="text-muted small">@Resources.AccountManagerNoPresets</p>
+}
+<div class="d-flex justify-content-between gap-2">
+    <button type="button" class="btn btn-outline-secondary new-preset" @onclick="this.State.NewPresetAsync"><span class="oi oi-plus" aria-hidden="true"></span> @Resources.AccountManagerNewPresetName</button>
+    <button type="button" class="btn btn-primary" @onclick="() => this.Modal.CloseAsync(ModalResult.Ok(true))">@Resources.AccountManagerDone</button>
+</div>
+
+@code {
+    /// <summary>
+    /// Gets or sets the modal instance.
+    /// </summary>
+    [Parameter]
+    public ModalInstance Modal { get; set; } = null!;
+
+    private Task ChangeAsync(ItemOptionPreset preset, Action<ItemOptionPreset> change)
+    {
+        var copy = preset.Clone();
+        change(copy);
+        return this.State.SavePresetAsync(copy);
+    }
+}

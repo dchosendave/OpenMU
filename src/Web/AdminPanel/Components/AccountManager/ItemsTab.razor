@@ -1,0 +1,78 @@
+@if (this.State.Session is { } session)
+{
+    <div class="items-layout">
+        @* Left: what the character wears and carries, laid out like the character window of the game. *@
+        @if (this.State.SelectedCharacter is { } character)
+        {
+            <StorageView Storage="character.Inventory" Kinds="InventoryOnly" Title="@character.Name" />
+        }
+        else
+        {
+            <div class="storage-placeholder text-muted small">@Resources.AccountManagerNoCharactersHint</div>
+        }
+
+        @* Middle: the other storages, one at a time, like the separate windows of the game. *@
+        <div class="secondary">
+            <div class="btn-group btn-group-sm w-100 mb-2" role="group">
+                <button type="button" class="btn vault-tab @this.PageButton(Page.Vault)" @onclick="() => this._page = Page.Vault">@Resources.AccountManagerAreaVault</button>
+                <button type="button" class="btn expansions-tab @this.PageButton(Page.Expansions)" disabled="@(this.State.SelectedCharacter is null)" @onclick="() => this._page = Page.Expansions">
+                    @Resources.AccountManagerExpansions <span class="opacity-75">@(this.State.SelectedCharacter?.Inventory.AreasOf(StorageAreaKind.Expansion).Count() ?? 0)/4</span>
+                </button>
+                <button type="button" class="btn store-tab @this.PageButton(Page.Store)" disabled="@(this.State.SelectedCharacter is null)" @onclick="() => this._page = Page.Store">@Resources.AccountManagerStore</button>
+            </div>
+            @switch (this._page)
+            {
+                case Page.Expansions when this.State.SelectedCharacter is { } owner:
+                    @if (owner.Inventory.AreasOf(StorageAreaKind.Expansion).Any())
+                    {
+                        <StorageView Storage="owner.Inventory" Kinds="ExpansionsOnly" ShowEquipment="false" ShowHeader="false" />
+                    }
+                    else
+                    {
+                        <div class="text-muted small p-2">@string.Format(Resources.AccountManagerNoExpansions, owner.Name)</div>
+                    }
+
+                    break;
+                case Page.Store when this.State.SelectedCharacter is { } storeOwner:
+                    <StorageView Storage="storeOwner.Inventory" Kinds="StoreOnly" ShowEquipment="false" ShowHeader="false" />
+                    break;
+                default:
+                    var vaultPages = session.Vault.Areas.Select(a => a.Title).ToList();
+                    var currentPage = Math.Min(this._vaultPage, vaultPages.Count - 1);
+                    <StorageView Storage="session.Vault" Pages="@(vaultPages.Count > 1 ? new[] { vaultPages[currentPage] } : null)" />
+                    @if (vaultPages.Count > 1)
+                    {
+                        <div class="btn-group btn-group-sm mt-2" role="group">
+                            @for (var i = 0; i < vaultPages.Count; i++)
+                            {
+                                var index = i;
+                                <button type="button" class="btn @(currentPage == index ? "btn-primary" : "btn-outline-secondary")" @onclick="() => this._vaultPage = index">@string.Format(Resources.AccountManagerPageNumber, index + 1)</button>
+                            }
+                        </div>
+                    }
+
+                    break;
+            }
+        </div>
+
+        <ItemSidePanel />
+    </div>
+}
+
+@code {
+    private static readonly StorageAreaKind[] InventoryOnly = { StorageAreaKind.Inventory };
+    private static readonly StorageAreaKind[] ExpansionsOnly = { StorageAreaKind.Expansion };
+    private static readonly StorageAreaKind[] StoreOnly = { StorageAreaKind.PersonalStore };
+
+    private Page _page = Page.Vault;
+    private int _vaultPage;
+
+    private enum Page
+    {
+        Vault,
+        Expansions,
+        Store,
+    }
+
+    private string PageButton(Page page) => this._page == page ? "btn-primary" : "btn-outline-secondary";
+}

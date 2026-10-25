@@ -1,0 +1,97 @@
+.item-editor {
+    padding: 0.75rem;
+}
+
+.item-title {
+    padding: 0.375rem 0.625rem;
+    margin-bottom: 0.625rem;
+    border-left: 3px solid var(--sc-border);
+    border-radius: 0.375rem;
+    background: var(--sc-muted);
+}
+
+.item-title.excellent {
+    border-left-color: #3fa35b;
+}
+
+.item-title.ancient {
+    border-left-color: #4a7fd0;
+}
+
+.item-title.socket {
+    border-left-color: #9064d0;
+}
+
+.form-label {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.narrow {
+    width: 5.5rem;
+    flex: none;
+}
+
+.level-picker {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 0.25rem;
+}
+
+.level {
+    height: 1.75rem;
+    padding: 0;
+    border: 1px solid var(--sc-input);
+    border-radius: 0.375rem;
+    background: var(--sc-control-bg);
+    color: var(--sc-foreground);
+    font-size: 0.75rem;
+    cursor: pointer;
+}
+
+.level:hover:not(:disabled) {
+    background: var(--sc-control-hover-bg);
+}
+
+.level:disabled {
+    opacity: 0.35;
+    cursor: default;
+}
+
+.level.tier-2 {
+    color: #3b82c4;
+}
+
+.level.tier-3 {
+    color: #b8860b;
+}
+
+.level.tier-4 {
+    color: #d9731a;
+}
+
+.level.active {
+    background: var(--sc-primary);
+    border-color: var(--sc-primary);
+    color: var(--sc-primary-foreground);
+    font-weight: 600;
+}
+
+.option-list {
+    border: 1px solid var(--sc-border);
+    border-radius: 0.5rem;
+    padding: 0.375rem 0.625rem 0.5rem;
+}
+
+.option-list legend {
+    float: none;
+    width: auto;
+    padding: 0 0.25rem;
+    margin-bottom: 0;
+}
+
+.form-check-label {
+    font-size: 0.875rem;
+    font-weight: 400;
+}

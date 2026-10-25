@@ -1,0 +1,95 @@
+<div class="account-toolbar">
+    <form class="account-search" @onsubmit="this.SearchAsync">
+        <div class="input-group input-group-sm">
+            <span class="input-group-text"><span class="oi oi-magnifying-glass" aria-hidden="true"></span></span>
+            <input class="form-control search" type="search" placeholder="@Resources.AccountManagerSearchLoginName" autocomplete="off"
+                   @bind="this.State.AccountSearch" @bind:event="oninput" @onfocus="() => this._showResults = this.State.SearchedFor is not null" />
+            <button type="submit" class="btn btn-outline-secondary search-button" disabled="@(string.IsNullOrWhiteSpace(this.State.AccountSearch))">@Resources.Search</button>
+        </div>
+        @if (this._showResults && this.State.SearchedFor is not null)
+        {
+            <div class="results card">
+                <div class="list-group list-group-flush account-list">
+                    @foreach (var account in this.State.Accounts)
+                    {
+                        <button type="button" class="list-group-item list-group-item-action account @this.ActiveClass(account)"
+                                @key="account.LoginName" data-login="@account.LoginName" title="@Tooltip(account)"
+                                @onclick="() => this.OpenAsync(account.LoginName)">
+                            <span class="flex-grow-1 text-truncate">@account.LoginName</span>
+                            @if (account.State != AccountState.Normal)
+                            {
+                                <span class="badge @AccountView.StateBadge(account.State)">@account.State.GetEnumCaption()</span>
+                            }
+                        </button>
+                    }
+                </div>
+                <div class="list-status text-muted small">@this.StatusText</div>
+            </div>
+        }
+    </form>
+    <button type="button" class="btn btn-sm btn-outline-secondary new-account" title="@Resources.AccountManagerNewAccount" @onclick="this.ShowNewAccountAsync">
+        <span class="oi oi-plus" aria-hidden="true"></span><span class="new-account-text"> @Resources.AccountManagerNewAccount</span>
+    </button>
+</div>
+
+@code {
+    private bool _showResults;
+
+    /// <summary>
+    /// Gets or sets the callback which is called when the user picks an account.
+    /// </summary>
+    [Parameter]
+    public EventCallback<string> AccountPicked { get; set; }
+
+    [Inject]
+    private IModalService ModalService { get; set; } = null!;
+
+    private string StatusText
+    {
+        get
+        {
+            if (this.State.Accounts.Count == 0)
+            {
+                return string.Format(Resources.AccountManagerNoAccountMatches, this.State.SearchedFor);
+            }
+
+            return this.State.Accounts.Count >= AccountManagerState.AccountSearchLimit
+                ? string.Format(Resources.AccountManagerFirstMatches, this.State.Accounts.Count)
+                : string.Format(Resources.AccountManagerMatches, this.State.Accounts.Count);
+        }
+    }
+
+    private static string Tooltip(AccountSummary account)
+    {
+        var registered = string.Format(Resources.AccountManagerRegistered, account.RegistrationDate.ToLocalTime().ToString("d"));
+        return string.IsNullOrEmpty(account.EMail) ? registered : $"{account.EMail}, {registered}";
+    }
+
+    private string ActiveClass(AccountSummary account)
+        => string.Equals(this.State.Session?.Account.LoginName, account.LoginName, StringComparison.OrdinalIgnoreCase) ? "active" : string.Empty;
+
+    private async Task SearchAsync()
+    {
+        if (!string.IsNullOrWhiteSpace(this.State.AccountSearch))
+        {
+            await this.State.SearchAccountsAsync().ConfigureAwait(true);
+            this._showResults = true;
+        }
+    }
+
+    private async Task OpenAsync(string loginName)
+    {
+        this._showResults = false;
+        await this.AccountPicked.InvokeAsync(loginName).ConfigureAwait(true);
+    }
+
+    private async Task ShowNewAccountAsync()
+    {
+        var modal = this.ModalService.Show<NewAccountDialog>(Resources.AccountManagerNewAccount);
+        if ((await modal.Result.ConfigureAwait(true)).Data is string loginName)
+        {
+            this._showResults = false;
+            await this.AccountPicked.InvokeAsync(loginName).ConfigureAwait(true);
+        }
+    }
+}

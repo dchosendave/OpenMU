@@ -3,10 +3,8 @@
 }
 
 .toast {
-    min-width: 18rem;
-    border-left: 4px solid currentColor;
-    background-color: var(--bs-body-bg);
-    box-shadow: var(--bs-box-shadow-lg);
+    width: 356px;
+    max-width: calc(100vw - 2rem);
     animation: toast-slide-in 0.2s ease-out;
     opacity: 1;
     transition: opacity 0.3s ease;
@@ -17,18 +15,18 @@
 }
 
 .toast__icon {
-    font-size: 1.1rem;
+    font-size: 0.875rem;
     line-height: 1;
-    align-self: center;
+    margin-top: 0.1875rem;
 }
 
 @keyframes toast-slide-in {
     from {
-        transform: translateX(100%);
+        transform: translateY(-0.5rem);
         opacity: 0;
     }
     to {
-        transform: translateX(0);
+        transform: translateY(0);
         opacity: 1;
     }
 }

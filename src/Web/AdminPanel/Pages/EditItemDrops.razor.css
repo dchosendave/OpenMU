@@ -1,8 +1,10 @@
+/* Sticks below the main header of the admin panel (see MainLayout), so saving stays in reach on this long page. */
 .item-drops-toolbar {
     position: sticky;
-    top: 0;
+    top: 3.5rem;
     z-index: 10;
     padding: 0.5rem 0;
+    border-bottom: 1px solid var(--sc-border);
     background-color: var(--bs-body-bg, #fff);
 }
 

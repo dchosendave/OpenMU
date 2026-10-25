@@ -14,26 +14,17 @@
 }
 
 .col-title:hover {
-    background-color: rgba(128, 128, 128, 0.15);
+    background-color: var(--sc-muted);
 }
 
 .col-title-text {
     font-weight: bold;
 }
 
-.col-search {
-    width: 50%;
-}
-
-.add-new-bar {
-    position: sticky;
-    bottom: 0;
-    background-color: var(--omu-surface-2);
-    padding: 0.5rem 1.5rem;
-    margin: 1rem -1.5rem -1rem -1.5rem;
-    border-top: var(--bs-border-width) solid var(--omu-border);
-}
-
-.add-new-bar hr {
-    display: none;
+/* The list in a frame, so it reads as one block between the toolbar and the paginator. */
+.config-grid {
+    border: 1px solid var(--omu-border);
+    border-radius: var(--bs-border-radius);
+    overflow: hidden;
+    background: var(--sc-card);
 }
