@@ -275,6 +275,7 @@ public class TargetedSkillDefaultPlugin : TargetedSkillPluginBase
             isCombo = await comboState.RegisterSkillAsync(skill).ConfigureAwait(false);
         }
 
+        var hitTargets = isCombo ? new List<IAttackable>() : null;
         foreach (var target in targets)
         {
             if (this.IsDirectHitSkill(skill))
@@ -288,6 +289,7 @@ public class TargetedSkillDefaultPlugin : TargetedSkillPluginBase
                 {
                     var hitInfo = await target.AttackByAsync(player, skillEntry, isCombo, 1, skill.NumberOfHitsPerAttack > 1 ? false : null).ConfigureAwait(false);
                     player.LastAttackedTarget.SetTarget(target);
+                    hitTargets?.Add(target);
                     success = await target.TryApplyElementalEffectsAsync(player, skillEntry, hitInfo).ConfigureAwait(false) || success;
 
                     for (int hit = 2; hit <= skill.NumberOfHitsPerAttack; hit++)
@@ -330,6 +332,7 @@ public class TargetedSkillDefaultPlugin : TargetedSkillPluginBase
         if (isCombo)
         {
             await player.ForEachWorldObserverAsync<IShowSkillAnimationPlugIn>(p => p.ShowComboAnimationAsync(player, targetedTarget), true).ConfigureAwait(false);
+            ComboChainPlugIn.TriggerFollowUps(player, skillEntry, targetedTarget, hitTargets!);
         }
 
         return success;
