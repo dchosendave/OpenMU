@@ -729,6 +729,45 @@
     }
   },
   {
+    "Name": "config_update_batch",
+    "InputSchema": {
+      "type": "object",
+      "properties": {
+        "changes": {
+          "description": "JSON array of changes, each an object with type, id and patch."
+        },
+        "reason": {
+          "description": "Mandatory audit reason, 1-1000 characters.",
+          "type": "string"
+        },
+        "apply": {
+          "description": "false (default) only previews the change and returns a confirmationToken; true applies the previewed change.",
+          "type": "boolean",
+          "default": false
+        },
+        "confirmationToken": {
+          "description": "The confirmationToken of the preview; required when apply is true.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "changes",
+        "reason"
+      ]
+    },
+    "Annotations": {
+      "title": null,
+      "destructiveHint": true,
+      "idempotentHint": false,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    }
+  },
+  {
     "Name": "diagnostics_check",
     "InputSchema": {
       "type": "object",
@@ -985,6 +1024,29 @@
     }
   },
   {
+    "Name": "plugins_get_configuration",
+    "InputSchema": {
+      "type": "object",
+      "properties": {
+        "plugInId": {
+          "description": "Plugin id from plugins_list.",
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "plugInId"
+      ]
+    },
+    "Annotations": {
+      "title": null,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    }
+  },
+  {
     "Name": "plugins_list",
     "InputSchema": {
       "type": "object",
@@ -1056,6 +1118,51 @@
       "title": null,
       "destructiveHint": true,
       "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    }
+  },
+  {
+    "Name": "plugins_update_configuration",
+    "InputSchema": {
+      "type": "object",
+      "properties": {
+        "plugInId": {
+          "description": "Plugin id from plugins_list.",
+          "type": "string",
+          "format": "uuid"
+        },
+        "patch": {
+          "description": "JSON object with the new field values; null clears a nullable field."
+        },
+        "reason": {
+          "description": "Mandatory audit reason, 1-1000 characters.",
+          "type": "string"
+        },
+        "apply": {
+          "description": "false (default) only previews the change and returns a confirmationToken; true applies the previewed change.",
+          "type": "boolean",
+          "default": false
+        },
+        "confirmationToken": {
+          "description": "The confirmationToken of the preview; required when apply is true.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "plugInId",
+        "patch",
+        "reason"
+      ]
+    },
+    "Annotations": {
+      "title": null,
+      "destructiveHint": true,
+      "idempotentHint": false,
       "openWorldHint": false,
       "readOnlyHint": false
     }
@@ -1258,6 +1365,143 @@
       "required": [
         "serverId",
         "serverType"
+      ]
+    },
+    "Annotations": {
+      "title": null,
+      "destructiveHint": true,
+      "idempotentHint": false,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    }
+  },
+  {
+    "Name": "spawns_create",
+    "InputSchema": {
+      "type": "object",
+      "properties": {
+        "mapId": {
+          "description": "Map id: a GameMapDefinition from config_query.",
+          "type": "string",
+          "format": "uuid"
+        },
+        "monsterId": {
+          "description": "Monster id: a MonsterDefinition from config_query.",
+          "type": "string",
+          "format": "uuid"
+        },
+        "x1": {
+          "description": "Lowest x coordinate, 0-255.",
+          "type": "integer"
+        },
+        "y1": {
+          "description": "Lowest y coordinate, 0-255.",
+          "type": "integer"
+        },
+        "x2": {
+          "description": "Highest x coordinate, 0-255; equal to x1 for a single column.",
+          "type": "integer"
+        },
+        "y2": {
+          "description": "Highest y coordinate, 0-255; equal to y1 for a single row.",
+          "type": "integer"
+        },
+        "quantity": {
+          "description": "Number of monsters, 1-1000.",
+          "type": "integer"
+        },
+        "reason": {
+          "description": "Mandatory audit reason, 1-1000 characters.",
+          "type": "string"
+        },
+        "maximumHealthOverride": {
+          "description": "Maximum health of the spawned monsters; omit for the monster's own health.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "default": null
+        },
+        "direction": {
+          "description": "Direction the monsters face: Undefined (default), West, SouthWest, South, SouthEast, East, NorthEast, North or NorthWest.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "spawnTrigger": {
+          "description": "Automatic (default) or another SpawnTrigger from config_describe of MonsterSpawnArea.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "apply": {
+          "description": "false (default) only previews the change and returns a confirmationToken; true applies the previewed change.",
+          "type": "boolean",
+          "default": false
+        },
+        "confirmationToken": {
+          "description": "The confirmationToken of the preview; required when apply is true.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "mapId",
+        "monsterId",
+        "x1",
+        "y1",
+        "x2",
+        "y2",
+        "quantity",
+        "reason"
+      ]
+    },
+    "Annotations": {
+      "title": null,
+      "destructiveHint": true,
+      "idempotentHint": false,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    }
+  },
+  {
+    "Name": "spawns_delete",
+    "InputSchema": {
+      "type": "object",
+      "properties": {
+        "spawnId": {
+          "description": "Spawn area id: a MonsterSpawnArea from config_query.",
+          "type": "string",
+          "format": "uuid"
+        },
+        "reason": {
+          "description": "Mandatory audit reason, 1-1000 characters.",
+          "type": "string"
+        },
+        "apply": {
+          "description": "false (default) only previews the change and returns a confirmationToken; true applies the previewed change.",
+          "type": "boolean",
+          "default": false
+        },
+        "confirmationToken": {
+          "description": "The confirmationToken of the preview; required when apply is true.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "spawnId",
+        "reason"
       ]
     },
     "Annotations": {

@@ -181,8 +181,9 @@ OAuth are planned for a later phase; an API key is required today.
 | Cash shop | `cashshop_get_balance`, `cashshop_grant` |
 | Logs | `logs_search`, `logs_get_level`, `logs_set_level` |
 | Audit | `audit_list` |
-| Plugins | `plugins_list`, `plugins_set_active` |
-| Configuration | `config_types`, `config_describe`, `config_search`, `config_query`, `config_get`, `config_update` |
+| Plugins | `plugins_list`, `plugins_set_active`, `plugins_get_configuration`, `plugins_update_configuration` |
+| Configuration | `config_types`, `config_describe`, `config_search`, `config_query`, `config_get`, `config_update`, `config_update_batch` |
+| Monster spawns | `spawns_create`, `spawns_delete` |
 | Rates | `rates_get`, `rates_set` |
 
 Try “Show the server overview and check for unresponsive servers”, “Find the
@@ -285,9 +286,10 @@ exposed as an agent tool because sink settings may contain credentials.
 
 ## Configuration changes
 
-`config_update`, `rates_set` and `plugins_set_active` require the Administrator
-role and work in two steps, so that a change is only applied after the user saw
-it:
+`config_update`, `config_update_batch`, `rates_set`, `plugins_set_active`,
+`plugins_update_configuration`, `spawns_create` and `spawns_delete` require the
+Administrator role and work in two steps, so that a change is only applied after
+the user saw it:
 
 1. Call the tool with `apply: false` (the default). Nothing is changed. The
    result lists each change with its `before` and `after` value and contains a
@@ -313,6 +315,30 @@ Only scalar fields, localized texts and single references can be changed;
 English text and keeps the translations, or an object with texts per language
 like `{"en": "Sword", "de": "Schwert"}`. Collections, identifiers and plugin
 configurations can't be changed with it. A patch changes at most 50 fields.
+
+`config_update_batch` takes up to 50 changes like `config_update` takes them,
+each `{"type": "...", "id": "...", "patch": {...}}` with at most 500 fields in
+total, e.g. the same field of every character class. All changes are previewed
+together and applied with one confirmation and one save. Every object may only
+appear once in a batch.
+
+`plugins_get_configuration` (Administrator) lists the fields of a plugin's custom
+configuration with their values, and whether they can be changed.
+`plugins_update_configuration` changes scalar fields of it with a JSON merge
+patch, e.g. `{"RequiredLevel": 400}` for the reset feature. Without a stored
+configuration, the plugin's default configuration is the starting point and is
+stored with the change. Fields whose names suggest a secret (tokens, passwords,
+keys, webhooks, URLs, connection strings) are shown as `(hidden)` and can only
+be changed in the admin panel, as can collections and references. Running game
+servers apply the new configuration immediately.
+
+`spawns_create` adds a monster spawn area to a map: a `MonsterDefinition`, the
+rectangle `x1`..`x2`, `y1`..`y2` (0-255), a quantity (1-1000), and optionally a
+maximum health override, a direction and a spawn trigger. A new spawn area
+appears after the game server restarts. `spawns_delete` removes a spawn area of
+a map by its `MonsterSpawnArea` id; running game servers remove its monsters
+immediately. Spawn areas which belong to mini game waves rather than to a map
+are changed in the admin panel.
 
 `rates_get` (Viewer) shows the global experience and master experience rates
 and the experience multiplier of each map. `rates_set` changes the global

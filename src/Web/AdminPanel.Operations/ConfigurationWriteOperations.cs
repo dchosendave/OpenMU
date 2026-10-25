@@ -30,7 +30,7 @@ using MUnique.OpenMU.PlugIns;
 /// <param name="executor">The authorization and audit executor.</param>
 /// <param name="settings">The write safety policy.</param>
 /// <param name="logger">The logger.</param>
-public sealed class ConfigurationWriteOperations(IDataSource<GameConfiguration> configurations, PlugInManager plugins, ConfigurationConfirmations confirmations, AdminOperationExecutor executor, AdminWriteSettings settings, ILogger<ConfigurationWriteOperations> logger)
+public sealed partial class ConfigurationWriteOperations(IDataSource<GameConfiguration> configurations, PlugInManager plugins, ConfigurationConfirmations confirmations, AdminOperationExecutor executor, AdminWriteSettings settings, ILogger<ConfigurationWriteOperations> logger)
 {
     /// <summary>The highest accepted experience rate. It only prevents obvious mistakes.</summary>
     internal const float MaximumRate = 10_000;
@@ -193,12 +193,12 @@ public sealed class ConfigurationWriteOperations(IDataSource<GameConfiguration> 
         return Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(json)));
     }
 
-    private async ValueTask<JsonObject> RunAsync(string operation, object arguments, string reason, bool apply, string? confirmationToken, Func<GameConfiguration, IContext, IReadOnlyList<PlannedConfigurationChange>> plan, CancellationToken cancellationToken)
+    private async ValueTask<JsonObject> RunAsync(string operation, object arguments, string reason, bool apply, string? confirmationToken, Func<GameConfiguration, IContext, IReadOnlyList<PlannedConfigurationChange>> plan, CancellationToken cancellationToken, string? note = null)
     {
         var hash = Hash(operation, arguments);
         if (!apply)
         {
-            return await this.PreviewAsync(operation, hash, reason, plan, cancellationToken).ConfigureAwait(false);
+            return await this.PreviewAsync(operation, hash, reason, plan, cancellationToken, note).ConfigureAwait(false);
         }
 
         return await executor.ExecuteAsync(
@@ -230,6 +230,7 @@ public sealed class ConfigurationWriteOperations(IDataSource<GameConfiguration> 
                     {
                         applied = true,
                         summary = "Applied and saved. Running game servers receive the change through the usual configuration update; a few settings only take effect after a restart.",
+                        note,
                         changes = planned.Select(p => p.Change),
                     });
                 }
@@ -241,7 +242,7 @@ public sealed class ConfigurationWriteOperations(IDataSource<GameConfiguration> 
             cancellationToken).ConfigureAwait(false);
     }
 
-    private async ValueTask<JsonObject> PreviewAsync(string operation, string hash, string reason, Func<GameConfiguration, IContext, IReadOnlyList<PlannedConfigurationChange>> plan, CancellationToken cancellationToken)
+    private async ValueTask<JsonObject> PreviewAsync(string operation, string hash, string reason, Func<GameConfiguration, IContext, IReadOnlyList<PlannedConfigurationChange>> plan, CancellationToken cancellationToken, string? note)
     {
         var actor = await executor.RequireAsync(AdminRoles.Administrator, cancellationToken).ConfigureAwait(false);
         if (actor.Frontend == "mcp" && settings.ReadOnly)
@@ -263,6 +264,7 @@ public sealed class ConfigurationWriteOperations(IDataSource<GameConfiguration> 
         {
             applied = false,
             summary = "Preview only, nothing was changed. Show the changes to the user. After the user confirmed, call the tool again with the same arguments, apply=true and the confirmationToken.",
+            note,
             changes,
             restartRequired = (bool?)null,
             confirmationToken = token,
@@ -279,6 +281,14 @@ public sealed class ConfigurationWriteOperations(IDataSource<GameConfiguration> 
             {
                 change.Apply();
                 applied.Add(change);
+            }
+
+            foreach (var change in planned)
+            {
+                if (change.BeforeSave is { } beforeSave)
+                {
+                    await beforeSave().ConfigureAwait(false);
+                }
             }
 
             // The change must not stay half applied in the shared configuration when the caller cancels.

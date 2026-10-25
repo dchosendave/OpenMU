@@ -65,28 +65,12 @@ internal static class ConfigurationPatch
         return changes;
     }
 
-    private static PropertyInfo GetPatchableProperty(Type type, string field)
-    {
-        var property = type.GetProperty(field, BindingFlags.Public | BindingFlags.Instance);
-        if (property is null || !property.CanRead || property.SetMethod?.IsPublic != true || property.GetIndexParameters().Length > 0)
-        {
-            throw new ArgumentException($"'{field}' is not a writable field of {type.Name}. Use config_describe to list the fields.", nameof(field));
-        }
-
-        var propertyType = property.PropertyType;
-        if (property.Name == "Id"
-            || propertyType == typeof(byte[])
-            || typeof(PlugInConfiguration).IsAssignableFrom(propertyType)
-            || (propertyType != typeof(string) && typeof(IEnumerable).IsAssignableFrom(propertyType))
-            || !(ConfigurationModel.IsScalar(propertyType) || ConfigurationModel.IsLocalizedString(propertyType) || ConfigurationModel.IsConfigurationType(propertyType)))
-        {
-            throw new ArgumentException($"'{field}' can't be patched: only scalar fields and single references can be changed with config_update.", nameof(field));
-        }
-
-        return property;
-    }
-
-    private static object? Convert(PropertyInfo property, JsonNode? node, GameConfiguration configuration)
+    /// <summary>Converts a JSON value to the value of a scalar field or a single reference.</summary>
+    /// <param name="property">The field.</param>
+    /// <param name="node">The JSON value.</param>
+    /// <param name="configuration">The game configuration, to resolve references.</param>
+    /// <returns>The converted value.</returns>
+    internal static object? Convert(PropertyInfo property, JsonNode? node, GameConfiguration configuration)
     {
         var propertyType = property.PropertyType;
         var type = Nullable.GetUnderlyingType(propertyType) ?? propertyType;
@@ -163,6 +147,27 @@ internal static class ConfigurationPatch
             var expected = type.IsEnum ? "one of " + string.Join(", ", Enum.GetNames(type)) : type.Name;
             throw new ArgumentException($"'{property.Name}' expects {expected} in invariant format.", property.Name);
         }
+    }
+
+    private static PropertyInfo GetPatchableProperty(Type type, string field)
+    {
+        var property = type.GetProperty(field, BindingFlags.Public | BindingFlags.Instance);
+        if (property is null || !property.CanRead || property.SetMethod?.IsPublic != true || property.GetIndexParameters().Length > 0)
+        {
+            throw new ArgumentException($"'{field}' is not a writable field of {type.Name}. Use config_describe to list the fields.", nameof(field));
+        }
+
+        var propertyType = property.PropertyType;
+        if (property.Name == "Id"
+            || propertyType == typeof(byte[])
+            || typeof(PlugInConfiguration).IsAssignableFrom(propertyType)
+            || (propertyType != typeof(string) && typeof(IEnumerable).IsAssignableFrom(propertyType))
+            || !(ConfigurationModel.IsScalar(propertyType) || ConfigurationModel.IsLocalizedString(propertyType) || ConfigurationModel.IsConfigurationType(propertyType)))
+        {
+            throw new ArgumentException($"'{field}' can't be patched: only scalar fields and single references can be changed with config_update.", nameof(field));
+        }
+
+        return property;
     }
 
     private static LocalizedString ConvertLocalized(PropertyInfo property, JsonNode? node, LocalizedString? oldValue)
