@@ -290,7 +290,8 @@ public static class AttackableExtensions
             //        Sleep magic effect is canceled for successful hit (dmg > 0)
             if (isCombo)
             {
-                dmg += (int)attacker.Attributes[Stats.ComboBonus];
+                // Scaled like the rest of the damage, so that a follow-up combo of the combo chain deals less.
+                dmg += (int)(attacker.Attributes[Stats.ComboBonus] * damageFactor);
                 attributes |= DamageAttributes.Combo;
             }
 

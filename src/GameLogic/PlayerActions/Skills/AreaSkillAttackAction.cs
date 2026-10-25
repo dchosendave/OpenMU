@@ -164,6 +164,7 @@ public class AreaSkillAttackAction
 
         IAttackable? extraTarget = null;
         var targets = AreaSkillTargetSelector.GetTargets(player, targetAreaCenter, skill, effectiveRotation, extraTargetId);
+        var hitTargets = isCombo ? new List<IAttackable>() : null;
         if (skill.AreaSkillSettings is not { } areaSkillSettings
             || AreaSkillSettingsAreDefault(areaSkillSettings))
         {
@@ -176,6 +177,7 @@ public class AreaSkillAttackAction
                 }
 
                 await this.ApplySkillAsync(player, skillEntry, target, targetAreaCenter, isCombo).ConfigureAwait(false);
+                hitTargets?.Add(target);
             }
         }
         else
@@ -186,6 +188,14 @@ public class AreaSkillAttackAction
         if (isCombo)
         {
             await player.ForEachWorldObserverAsync<IShowSkillAnimationPlugIn>(p => p.ShowComboAnimationAsync(player, extraTarget), true).ConfigureAwait(false);
+
+            // Skills with special hit settings hit later or by chance; only their locked target gets the follow-ups.
+            if (hitTargets!.Count == 0 && extraTarget is not null)
+            {
+                hitTargets.Add(extraTarget);
+            }
+
+            ComboChainPlugIn.TriggerFollowUps(player, skillEntry, extraTarget, hitTargets);
         }
     }
 

@@ -4818,5 +4818,56 @@ namespace MUnique.OpenMU.GameLogic.Properties {
                 return ResourceManager.GetString("DiscordIntegrationFeaturePlugIn_Description", resourceCulture);
             }
         }
+
+        /// <summary>Gets the localized ComboChainPlugIn_Name text.</summary>
+        public static string ComboChainPlugIn_Name => ResourceManager.GetString("ComboChainPlugIn_Name", resourceCulture)!;
+
+        /// <summary>Gets the localized ComboChainPlugIn_Description text.</summary>
+        public static string ComboChainPlugIn_Description => ResourceManager.GetString("ComboChainPlugIn_Description", resourceCulture)!;
+
+        /// <summary>Gets the localized ComboChainConfiguration_SecondComboChance_Name text.</summary>
+        public static string ComboChainConfiguration_SecondComboChance_Name => ResourceManager.GetString("ComboChainConfiguration_SecondComboChance_Name", resourceCulture)!;
+
+        /// <summary>Gets the localized ComboChainConfiguration_SecondComboChance_Description text.</summary>
+        public static string ComboChainConfiguration_SecondComboChance_Description => ResourceManager.GetString("ComboChainConfiguration_SecondComboChance_Description", resourceCulture)!;
+
+        /// <summary>Gets the localized ComboChainConfiguration_SecondComboDamageFactor_Name text.</summary>
+        public static string ComboChainConfiguration_SecondComboDamageFactor_Name => ResourceManager.GetString("ComboChainConfiguration_SecondComboDamageFactor_Name", resourceCulture)!;
+
+        /// <summary>Gets the localized ComboChainConfiguration_ThirdComboBaseChance_Name text.</summary>
+        public static string ComboChainConfiguration_ThirdComboBaseChance_Name => ResourceManager.GetString("ComboChainConfiguration_ThirdComboBaseChance_Name", resourceCulture)!;
+
+        /// <summary>Gets the localized ComboChainConfiguration_ThirdComboChancePerAgility_Name text.</summary>
+        public static string ComboChainConfiguration_ThirdComboChancePerAgility_Name => ResourceManager.GetString("ComboChainConfiguration_ThirdComboChancePerAgility_Name", resourceCulture)!;
+
+        /// <summary>Gets the localized ComboChainConfiguration_ThirdComboChancePerAgility_Description text.</summary>
+        public static string ComboChainConfiguration_ThirdComboChancePerAgility_Description => ResourceManager.GetString("ComboChainConfiguration_ThirdComboChancePerAgility_Description", resourceCulture)!;
+
+        /// <summary>Gets the localized ComboChainConfiguration_ThirdComboMaximumChance_Name text.</summary>
+        public static string ComboChainConfiguration_ThirdComboMaximumChance_Name => ResourceManager.GetString("ComboChainConfiguration_ThirdComboMaximumChance_Name", resourceCulture)!;
+
+        /// <summary>Gets the localized ComboChainConfiguration_ThirdComboDamageFactor_Name text.</summary>
+        public static string ComboChainConfiguration_ThirdComboDamageFactor_Name => ResourceManager.GetString("ComboChainConfiguration_ThirdComboDamageFactor_Name", resourceCulture)!;
+
+        /// <summary>Gets the localized ComboChainConfiguration_FourthComboBaseChance_Name text.</summary>
+        public static string ComboChainConfiguration_FourthComboBaseChance_Name => ResourceManager.GetString("ComboChainConfiguration_FourthComboBaseChance_Name", resourceCulture)!;
+
+        /// <summary>Gets the localized ComboChainConfiguration_FourthComboBaseChance_Description text.</summary>
+        public static string ComboChainConfiguration_FourthComboBaseChance_Description => ResourceManager.GetString("ComboChainConfiguration_FourthComboBaseChance_Description", resourceCulture)!;
+
+        /// <summary>Gets the localized ComboChainConfiguration_FourthComboChancePerExcellentChance_Name text.</summary>
+        public static string ComboChainConfiguration_FourthComboChancePerExcellentChance_Name => ResourceManager.GetString("ComboChainConfiguration_FourthComboChancePerExcellentChance_Name", resourceCulture)!;
+
+        /// <summary>Gets the localized ComboChainConfiguration_FourthComboChancePerExcellentChance_Description text.</summary>
+        public static string ComboChainConfiguration_FourthComboChancePerExcellentChance_Description => ResourceManager.GetString("ComboChainConfiguration_FourthComboChancePerExcellentChance_Description", resourceCulture)!;
+
+        /// <summary>Gets the localized ComboChainConfiguration_FourthComboMaximumChance_Name text.</summary>
+        public static string ComboChainConfiguration_FourthComboMaximumChance_Name => ResourceManager.GetString("ComboChainConfiguration_FourthComboMaximumChance_Name", resourceCulture)!;
+
+        /// <summary>Gets the localized ComboChainConfiguration_FourthComboDamageFactor_Name text.</summary>
+        public static string ComboChainConfiguration_FourthComboDamageFactor_Name => ResourceManager.GetString("ComboChainConfiguration_FourthComboDamageFactor_Name", resourceCulture)!;
+
+        /// <summary>Gets the localized ComboChainConfiguration_DelayBetweenCombosMs_Name text.</summary>
+        public static string ComboChainConfiguration_DelayBetweenCombosMs_Name => ResourceManager.GetString("ComboChainConfiguration_DelayBetweenCombosMs_Name", resourceCulture)!;
     }
 }

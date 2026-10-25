@@ -1741,4 +1741,21 @@
   <data name="DiscordIntegrationFeaturePlugIn_Description" xml:space="preserve">
     <value>Tells game clients which ask for it how the server is connected to Discord (invite link, Rich Presence application, account link, mirrored chats), lets players link their account from the client, and sends them messages written in Discord as such.</value>
   </data>
+  <data name="ComboChainPlugIn_Name" xml:space="preserve"><value>Combo Chain</value></data>
+  <data name="ComboChainPlugIn_Description" xml:space="preserve"><value>A completed skill combo triggers follow-up combos with decreasing damage: a second one, a third one depending on agility, and a rare fourth one depending on the excellent damage chance. Each one shows the combo effect again.</value></data>
+  <data name="ComboChainConfiguration_SecondComboChance_Name" xml:space="preserve"><value>Second Combo Chance</value></data>
+  <data name="ComboChainConfiguration_SecondComboChance_Description" xml:space="preserve"><value>Chance (0 to 1) of the second combo. 1 means every completed combo triggers it.</value></data>
+  <data name="ComboChainConfiguration_SecondComboDamageFactor_Name" xml:space="preserve"><value>Second Combo Damage Factor</value></data>
+  <data name="ComboChainConfiguration_ThirdComboBaseChance_Name" xml:space="preserve"><value>Third Combo Base Chance</value></data>
+  <data name="ComboChainConfiguration_ThirdComboChancePerAgility_Name" xml:space="preserve"><value>Third Combo Chance Per Agility</value></data>
+  <data name="ComboChainConfiguration_ThirdComboChancePerAgility_Description" xml:space="preserve"><value>Chance added to the third combo per point of total agility.</value></data>
+  <data name="ComboChainConfiguration_ThirdComboMaximumChance_Name" xml:space="preserve"><value>Third Combo Maximum Chance</value></data>
+  <data name="ComboChainConfiguration_ThirdComboDamageFactor_Name" xml:space="preserve"><value>Third Combo Damage Factor</value></data>
+  <data name="ComboChainConfiguration_FourthComboBaseChance_Name" xml:space="preserve"><value>Fourth Combo Base Chance</value></data>
+  <data name="ComboChainConfiguration_FourthComboBaseChance_Description" xml:space="preserve"><value>Chance (0 to 1) of the fourth combo. It is only rolled after a third combo.</value></data>
+  <data name="ComboChainConfiguration_FourthComboChancePerExcellentChance_Name" xml:space="preserve"><value>Fourth Combo Chance Per Excellent Chance</value></data>
+  <data name="ComboChainConfiguration_FourthComboChancePerExcellentChance_Description" xml:space="preserve"><value>Factor by which the excellent damage chance adds to the fourth combo chance.</value></data>
+  <data name="ComboChainConfiguration_FourthComboMaximumChance_Name" xml:space="preserve"><value>Fourth Combo Maximum Chance</value></data>
+  <data name="ComboChainConfiguration_FourthComboDamageFactor_Name" xml:space="preserve"><value>Fourth Combo Damage Factor</value></data>
+  <data name="ComboChainConfiguration_DelayBetweenCombosMs_Name" xml:space="preserve"><value>Delay Between Combos (ms)</value></data>
 </root>
