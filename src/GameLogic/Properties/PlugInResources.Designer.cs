@@ -4869,5 +4869,16 @@ namespace MUnique.OpenMU.GameLogic.Properties {
 
         /// <summary>Gets the localized ComboChainConfiguration_DelayBetweenCombosMs_Name text.</summary>
         public static string ComboChainConfiguration_DelayBetweenCombosMs_Name => ResourceManager.GetString("ComboChainConfiguration_DelayBetweenCombosMs_Name", resourceCulture)!;
+        /// <summary>Gets the localized ClassicSwingPlugIn_Name text.</summary>
+        public static string ClassicSwingPlugIn_Name => ResourceManager.GetString("ClassicSwingPlugIn_Name", resourceCulture)!;
+
+        /// <summary>Gets the localized ClassicSwingPlugIn_Description text.</summary>
+        public static string ClassicSwingPlugIn_Description => ResourceManager.GetString("ClassicSwingPlugIn_Description", resourceCulture)!;
+
+        /// <summary>Gets the localized ClassicSwingConfiguration_Enabled_Name text.</summary>
+        public static string ClassicSwingConfiguration_Enabled_Name => ResourceManager.GetString("ClassicSwingConfiguration_Enabled_Name", resourceCulture)!;
+
+        /// <summary>Gets the localized ClassicSwingConfiguration_Enabled_Description text.</summary>
+        public static string ClassicSwingConfiguration_Enabled_Description => ResourceManager.GetString("ClassicSwingConfiguration_Enabled_Description", resourceCulture)!;
     }
 }

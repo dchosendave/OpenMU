@@ -1758,4 +1758,16 @@
   <data name="ComboChainConfiguration_FourthComboMaximumChance_Name" xml:space="preserve"><value>Fourth Combo Maximum Chance</value></data>
   <data name="ComboChainConfiguration_FourthComboDamageFactor_Name" xml:space="preserve"><value>Fourth Combo Damage Factor</value></data>
   <data name="ComboChainConfiguration_DelayBetweenCombosMs_Name" xml:space="preserve"><value>Delay Between Combos (ms)</value></data>
+  <data name="ClassicSwingPlugIn_Name" xml:space="preserve">
+    <value>Classic Swing</value>
+  </data>
+  <data name="ClassicSwingPlugIn_Description" xml:space="preserve">
+    <value>Tells the MuMain client whether it plays attack swings in the classic 30 FPS rhythm at high attack speed, as reset servers are played with. Sent when a player enters the world, and to all online players when the setting changes.</value>
+  </data>
+  <data name="ClassicSwingConfiguration_Enabled_Name" xml:space="preserve">
+    <value>Enabled</value>
+  </data>
+  <data name="ClassicSwingConfiguration_Enabled_Description" xml:space="preserve">
+    <value>If enabled, clients play attack swings in the classic 30 FPS rhythm from 1,000 attack speed on. If disabled, swings animate at the full frame rate.</value>
+  </data>
 </root>
