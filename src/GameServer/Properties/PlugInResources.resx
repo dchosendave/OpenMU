@@ -2735,4 +2735,10 @@
   <data name="CastleSiegeStatusPlugIn_Description" xml:space="preserve">
     <value>Sends the Castle Siege state, schedule and castle owner to the game client.</value>
   </data>
+  <data name="ShowClassicSwingPlugIn_Name" xml:space="preserve">
+    <value>Show Classic Swing</value>
+  </data>
+  <data name="ShowClassicSwingPlugIn_Description" xml:space="preserve">
+    <value>The default implementation of the IShowClassicSwingPlugIn which sends the classic swing setting to the game client with a server command.</value>
+  </data>
 </root>
