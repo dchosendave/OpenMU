@@ -60,7 +60,12 @@ public class ComboChainConfigurationTest
     [Test]
     public void RollFollowUps_ThirdComboChance_ScalesWithAgilityUpToMaximum()
     {
-        var configuration = new ComboChainConfiguration();
+        var configuration = new ComboChainConfiguration
+        {
+            ThirdComboBaseChance = 0.15,
+            ThirdComboChancePerAgility = 0.00002,
+            ThirdComboMaximumChance = 0.65,
+        };
 
         Assert.That(GetRolledChances(configuration, 0, 0)[1], Is.EqualTo(0.15).Within(1e-9));
         Assert.That(GetRolledChances(configuration, 10000, 0)[1], Is.EqualTo(0.35).Within(1e-9));
@@ -73,11 +78,28 @@ public class ComboChainConfigurationTest
     [Test]
     public void RollFollowUps_FourthComboChance_ScalesWithExcellentChanceUpToMaximum()
     {
-        var configuration = new ComboChainConfiguration();
+        var configuration = new ComboChainConfiguration
+        {
+            FourthComboBaseChance = 0.02,
+            FourthComboChancePerExcellentChance = 0.5,
+            FourthComboMaximumChance = 0.08,
+        };
 
         Assert.That(GetRolledChances(configuration, 0, 0)[2], Is.EqualTo(0.02).Within(1e-6));
         Assert.That(GetRolledChances(configuration, 0, 0.1f)[2], Is.EqualTo(0.07).Within(1e-6));
         Assert.That(GetRolledChances(configuration, 0, 1)[2], Is.EqualTo(0.08).Within(1e-6));
+    }
+
+    /// <summary>
+    /// Tests that the default chances don't depend on agility or the excellent damage chance.
+    /// </summary>
+    [Test]
+    public void RollFollowUps_DefaultChances_IgnoreAgilityAndExcellentChance()
+    {
+        var configuration = new ComboChainConfiguration();
+
+        Assert.That(GetRolledChances(configuration, 0, 0), Is.EqualTo(new[] { 0.3, 0.6667, 0.5 }).Within(1e-9));
+        Assert.That(GetRolledChances(configuration, 32767, 1), Is.EqualTo(new[] { 0.3, 0.6667, 0.5 }).Within(1e-9));
     }
 
     private static List<double> GetRolledChances(ComboChainConfiguration configuration, float agility, float excellentChance)
