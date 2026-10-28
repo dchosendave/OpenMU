@@ -222,6 +222,23 @@ public class CastleSiegeContext : IEventStateProvider
     /// </summary>
     internal int LastForceRequestVersion { get; set; }
 
+    /// <summary>
+    /// Gets or sets the scoreboard of the running point mode battle (see <see cref="PointMode.CastleSiegePointModePlugIn"/>);
+    /// <c>null</c> with the classic rules.
+    /// </summary>
+    internal PointMode.CastleSiegeScoreboard? Scoreboard { get; set; }
+
+    /// <summary>
+    /// Gets since when the current holders of the switches hold them.
+    /// </summary>
+    internal DateTime[] SwitchHeldSinceUtc { get; } = new DateTime[2];
+
+    /// <summary>
+    /// Gets the players who held the switches last, with how long they held them; a holder who just died
+    /// may already be released when the kill is reported.
+    /// </summary>
+    internal (Player? Player, DateTime HeldSinceUtc, DateTime ReleasedAtUtc)[] ReleasedSwitchHolders { get; } = new (Player?, DateTime, DateTime)[2];
+
     /// <inheritdoc />
     public bool IsSpawnWaveActive(byte waveNumber) => false;
 

@@ -41,6 +41,36 @@ public class AdminPanelContext : DbContext
     /// </summary>
     public DbSet<ItemOptionPreset> ItemOptionPresets { get; set; } = null!;
 
+    /// <summary>
+    /// Gets or sets the plays of the mini games of the player website.
+    /// </summary>
+    public DbSet<WebMiniGamePlay> WebMiniGamePlays { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the daily check-ins of the player website.
+    /// </summary>
+    public DbSet<WebCheckIn> WebCheckIns { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the news posts of the player website.
+    /// </summary>
+    public DbSet<WebNewsPost> WebNewsPosts { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the listings of the player market.
+    /// </summary>
+    public DbSet<WebMarketListing> WebMarketListings { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the point mode Castle Siege battles.
+    /// </summary>
+    public DbSet<CastleSiegeBattle> CastleSiegeBattles { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the Castle Siege rewards for the vaults of guild masters.
+    /// </summary>
+    public DbSet<CastleSiegeVaultReward> CastleSiegeVaultRewards { get; set; } = null!;
+
     /// <summary>Gets or sets the administrative audit trail.</summary>
     public DbSet<AdminAuditEntry> AdminAuditEntries { get; set; } = null!;
 
@@ -127,6 +157,114 @@ public class AdminPanelContext : DbContext
         {
             entity.ToTable(nameof(ItemPackageItemOption), SchemaNames.AdminPanel);
             entity.HasKey(o => o.Id);
+        });
+
+        modelBuilder.Entity<WebCheckIn>(entity =>
+        {
+            entity.ToTable(nameof(WebCheckIn), SchemaNames.AdminPanel);
+            entity.HasKey(c => c.Id);
+            entity.Property(c => c.LoginName).IsRequired().HasMaxLength(10);
+            entity.Property(c => c.CoinType).IsRequired().HasMaxLength(20);
+            entity.HasIndex(c => new { c.LoginName, c.Day }).IsUnique();
+        });
+
+        modelBuilder.Entity<WebNewsPost>(entity =>
+        {
+            entity.ToTable(nameof(WebNewsPost), SchemaNames.AdminPanel);
+            entity.HasKey(p => p.Id);
+            entity.Property(p => p.Slug).IsRequired().HasMaxLength(80);
+            entity.HasIndex(p => p.Slug).IsUnique();
+            entity.Property(p => p.Title).IsRequired().HasMaxLength(WebNewsPost.TitleMaximumLength);
+            entity.Property(p => p.Tag).IsRequired().HasMaxLength(20);
+            entity.Property(p => p.Summary).IsRequired().HasMaxLength(WebNewsPost.SummaryMaximumLength);
+            entity.Property(p => p.Body).IsRequired().HasMaxLength(WebNewsPost.BodyMaximumLength);
+            entity.Property(p => p.Author).IsRequired().HasMaxLength(10);
+            entity.HasIndex(p => p.PublishedAt);
+
+            // The posts the website started with.
+            entity.HasData(
+                new WebNewsPost
+                {
+                    Id = new Guid("6c1b9e7a-0001-4d2e-9f3a-5b8c7d6e4f01"),
+                    Slug = "reset-rules",
+                    Title = "Reset rules",
+                    Tag = "Notice",
+                    Summary = "Reset at level 400 for 1,000,000 zen. Stats go up to 32,767, so every build has room to grow.",
+                    Body = "Reach **level 400** and pay **1,000,000 zen** to reset. You go back to level 10 and keep your stats, and every reset gives more points per level.\n\nStats go up to **32,767**, so there's room for every build. Use `/reset` in the game, or the character tools on the website.",
+                    PublishedAt = new DateTime(2026, 10, 25, 12, 0, 0, DateTimeKind.Utc),
+                    Author = "team",
+                },
+                new WebNewsPost
+                {
+                    Id = new Guid("6c1b9e7a-0002-4d2e-9f3a-5b8c7d6e4f02"),
+                    Slug = "wind-combo",
+                    Title = "Blade Knights: the wind combo",
+                    Tag = "Update",
+                    Summary = "Skill hits can now chain into up to four combo strikes, each weaker than the last. The fourth is rare, and lucky.",
+                    Body = "Blade Knight skill hits can now chain into extra strikes: a second hit, sometimes a third, and with luck a fourth. Each strike is weaker than the one before.\n\nThe chances and damage are listed on the server info page.",
+                    PublishedAt = new DateTime(2026, 10, 26, 12, 0, 0, DateTimeKind.Utc),
+                    Author = "team",
+                },
+                new WebNewsPost
+                {
+                    Id = new Guid("6c1b9e7a-0003-4d2e-9f3a-5b8c7d6e4f03"),
+                    Slug = "website-open",
+                    Title = "The website is open",
+                    Tag = "Notice",
+                    Summary = "Create your account here, then log in through the game client or play right in your browser.",
+                    Body = "Create your account here, then log in through the game client or play right in your browser.\n\nOn the website you can also see your characters, move items between them, check the rankings and shop for coins.",
+                    PublishedAt = new DateTime(2026, 10, 28, 12, 0, 0, DateTimeKind.Utc),
+                    Author = "team",
+                });
+        });
+
+        modelBuilder.Entity<WebMarketListing>(entity =>
+        {
+            entity.ToTable(nameof(WebMarketListing), SchemaNames.AdminPanel);
+            entity.HasKey(l => l.Id);
+            entity.Property(l => l.SellerLogin).IsRequired().HasMaxLength(10);
+            entity.Property(l => l.BuyerLogin).HasMaxLength(10);
+            entity.Property(l => l.EscrowLogin).IsRequired().HasMaxLength(10);
+            entity.Property(l => l.ItemName).IsRequired().HasMaxLength(100);
+            entity.Property(l => l.CoinType).IsRequired().HasMaxLength(20);
+            entity.Property(l => l.State).IsRequired().HasMaxLength(20);
+            entity.HasIndex(l => new { l.State, l.CreatedAt });
+            entity.HasIndex(l => l.SellerLogin);
+        });
+
+        modelBuilder.Entity<CastleSiegeBattle>(entity =>
+        {
+            entity.ToTable(nameof(CastleSiegeBattle), SchemaNames.AdminPanel);
+            entity.HasKey(b => b.Id);
+            entity.Property(b => b.HolderGuildName).HasMaxLength(20);
+            entity.Property(b => b.WinnerGuildName).HasMaxLength(20);
+            entity.Property(b => b.ScoresJson).IsRequired();
+            entity.Property(b => b.RewardsJson).IsRequired();
+            entity.HasIndex(b => b.StartedAt);
+        });
+
+        modelBuilder.Entity<CastleSiegeVaultReward>(entity =>
+        {
+            entity.ToTable(nameof(CastleSiegeVaultReward), SchemaNames.AdminPanel);
+            entity.HasKey(r => r.Id);
+            entity.Property(r => r.LoginName).IsRequired().HasMaxLength(10);
+            entity.Property(r => r.GuildName).IsRequired().HasMaxLength(20);
+            entity.Property(r => r.Placement).IsRequired().HasMaxLength(20);
+            entity.Property(r => r.LastProblem).HasMaxLength(200);
+            entity.HasIndex(r => new { r.DeliveredAt, r.CreatedAt });
+            entity.HasIndex(r => r.BattleId);
+        });
+
+        modelBuilder.Entity<WebMiniGamePlay>(entity =>
+        {
+            entity.ToTable(nameof(WebMiniGamePlay), SchemaNames.AdminPanel);
+            entity.HasKey(p => p.Id);
+            entity.Property(p => p.LoginName).IsRequired().HasMaxLength(10);
+            entity.Property(p => p.Game).IsRequired().HasMaxLength(20);
+            entity.Property(p => p.Currency).IsRequired().HasMaxLength(20);
+            entity.Property(p => p.Result).IsRequired().HasMaxLength(WebMiniGamePlay.ResultMaximumLength);
+            entity.HasIndex(p => new { p.LoginName, p.PlayedAt });
+            entity.HasIndex(p => p.PlayedAt);
         });
 
         modelBuilder.Entity<ItemOptionPreset>(entity =>

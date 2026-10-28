@@ -24,6 +24,9 @@ public static class AccountManagerServiceCollectionExtensions
     {
         services.TryAddSingleton<IItemPackageRepository, ItemPackageRepository>();
         services.TryAddSingleton<IItemOptionPresetRepository, ItemOptionPresetRepository>();
+        services.TryAddSingleton<IWebMiniGamePlayRepository, WebMiniGamePlayRepository>();
+        services.TryAddSingleton<IPlayerSiteRepository, PlayerSiteRepository>();
+        services.TryAddSingleton<ICastleSiegeRepository, CastleSiegeRepository>();
         return services;
     }
 }

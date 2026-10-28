@@ -100,6 +100,33 @@ public sealed class PackageEditor : IDisposable
     }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the web shop of the player website sells the package.
+    /// </summary>
+    public bool IsInWebShop
+    {
+        get => this.Package.IsInWebShop;
+        set => this.Update(() => this.Package.IsInWebShop = value);
+    }
+
+    /// <summary>
+    /// Gets or sets the web shop price.
+    /// </summary>
+    public int WebShopPrice
+    {
+        get => this.Package.WebShopPrice;
+        set => this.Update(() => this.Package.WebShopPrice = Math.Max(0, value));
+    }
+
+    /// <summary>
+    /// Gets or sets the web shop currency.
+    /// </summary>
+    public WebShopCurrency WebShopCurrency
+    {
+        get => this.Package.WebShopCurrency;
+        set => this.Update(() => this.Package.WebShopCurrency = value);
+    }
+
+    /// <summary>
     /// Adds a new item.
     /// </summary>
     /// <param name="definition">The item definition.</param>

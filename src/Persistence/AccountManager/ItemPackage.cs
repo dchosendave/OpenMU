@@ -46,6 +46,21 @@ public class ItemPackage
     public int Zen { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether players can buy this package in the web shop of the player website.
+    /// </summary>
+    public bool IsInWebShop { get; set; }
+
+    /// <summary>
+    /// Gets or sets the price in the web shop, in units of the <see cref="WebShopCurrency"/>.
+    /// </summary>
+    public int WebShopPrice { get; set; }
+
+    /// <summary>
+    /// Gets or sets the currency in which the web shop sells this package.
+    /// </summary>
+    public WebShopCurrency WebShopCurrency { get; set; }
+
+    /// <summary>
     /// Gets or sets the date and time when this package has been created.
     /// </summary>
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
@@ -68,6 +83,9 @@ public class ItemPackage
             Name = this.Name,
             Description = this.Description,
             Zen = this.Zen,
+            IsInWebShop = this.IsInWebShop,
+            WebShopPrice = this.WebShopPrice,
+            WebShopCurrency = this.WebShopCurrency,
             CreatedAt = newId ? DateTime.UtcNow : this.CreatedAt,
             Items = this.Items.Select(item => item.Clone()).ToList(),
         };

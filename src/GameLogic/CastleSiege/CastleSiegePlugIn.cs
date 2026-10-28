@@ -332,6 +332,7 @@ public class CastleSiegePlugIn : IPeriodicTaskPlugIn, IObjectAddedToMapPlugIn, I
             if (context.CurrentState == CastleSiegeState.Start)
             {
                 await CastleSiegeSwitchMechanics.SynchronizePlayerAsync(context, player).ConfigureAwait(false);
+                await PointMode.CastleSiegePointMode.SendScoreboardToAsync(context, player).ConfigureAwait(false);
             }
         }
     }
@@ -462,14 +463,24 @@ public class CastleSiegePlugIn : IPeriodicTaskPlugIn, IObjectAddedToMapPlugIn, I
                 await CastleSiegeParticipantTracker.TrackAsync(context, utcNow).ConfigureAwait(false);
                 context.NextParticipantUpdateUtc = utcNow + ParticipantUpdateInterval;
                 context.NextMiniMapUpdateUtc = utcNow + MiniMapUpdateInterval;
+                await PointMode.CastleSiegePointMode.OnBattleStartAsync(context, utcNow).ConfigureAwait(false);
                 break;
             case CastleSiegeState.End:
+                // In point mode, the points decide the owner which the classic result check applies.
+                var pointResult = isStartup ? null : await PointMode.CastleSiegePointMode.DecideAsync(context).ConfigureAwait(false);
                 await CastleSiegeCrownMechanics.CheckResultAsync(context).ConfigureAwait(false);
                 if (!isStartup)
                 {
                     await CastleSiegeParticipantTracker.AwardRewardsAsync(context).ConfigureAwait(false);
+                    if (pointResult is not null)
+                    {
+                        await PointMode.CastleSiegePointMode.RewardAsync(context, pointResult).ConfigureAwait(false);
+                    }
+
                     context.ParticipantTracking.Clear();
                 }
+
+                context.Scoreboard = null;
 
                 await context.SaveNpcStatesAsync().ConfigureAwait(false);
                 await context.NpcController.DespawnMachinesAsync().ConfigureAwait(false);
@@ -537,6 +548,7 @@ public class CastleSiegePlugIn : IPeriodicTaskPlugIn, IObjectAddedToMapPlugIn, I
             await context.TickLifeStonesAsync(utcNow).ConfigureAwait(false);
             await CastleSiegeSwitchMechanics.SendSwitchInfoAsync(context).ConfigureAwait(false);
             await CastleSiegeCrownMechanics.CheckMiddleWinnerAsync(context, utcNow).ConfigureAwait(false);
+            await PointMode.CastleSiegePointMode.OnTickAsync(context, utcNow).ConfigureAwait(false);
         }
 
         if (!context.IsEventRunning && context.NextNpcSaveUtc <= utcNow)

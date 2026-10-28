@@ -9,6 +9,7 @@ using MUnique.OpenMU.DataModel.Configuration;
 using MUnique.OpenMU.DataModel.Configuration.Items;
 using MUnique.OpenMU.DataModel.Entities;
 using MUnique.OpenMU.GameLogic;
+using MUnique.OpenMU.GameLogic.CashShop;
 using MUnique.OpenMU.Persistence;
 using MUnique.OpenMU.Persistence.AccountManager;
 using MUnique.OpenMU.Web.AdminPanel.Properties;
@@ -475,6 +476,48 @@ public sealed class AccountSession : IDisposable
     /// Sets the password.
     /// </summary>
     /// <param name="password">The password.</param>
+    /// <summary>
+    /// Adds the pending coin grants (e.g. check-in rewards, market sales) to the account, like the game does
+    /// when the player opens the cash shop.
+    /// </summary>
+    /// <returns>The number of applied grants.</returns>
+    public async Task<int> ApplyPendingCoinGrantsAsync()
+    {
+        var grants = await this._context.GetPendingCashShopCoinGrantsAsync(this.Account.GetId()).ConfigureAwait(true);
+        var applied = 0;
+        foreach (var grant in grants.Where(g => Enum.IsDefined(g.CoinType)))
+        {
+            var balance = (long)this.Account.GetCashShopCoins(grant.CoinType) + grant.Amount;
+            this.Account.SetCashShopCoins(grant.CoinType, (int)Math.Clamp(balance, 0, int.MaxValue));
+            grant.AppliedAt = DateTime.UtcNow;
+            applied++;
+        }
+
+        if (applied > 0)
+        {
+            this.MarkChanged($"Applied {applied} coin grant(s)");
+        }
+
+        return applied;
+    }
+
+    /// <summary>
+    /// Loads the vault of another account into this session, e.g. of the player market's escrow account, so
+    /// items can move between the two vaults in one save.
+    /// </summary>
+    /// <param name="loginName">The login name of the other account.</param>
+    /// <returns>The vault, or <c>null</c> if the account doesn't exist.</returns>
+    public async Task<(Account Account, StorageModel Vault)?> OpenVaultOfAsync(string loginName)
+    {
+        if (await this._context.GetAccountByLoginNameAsync(loginName).ConfigureAwait(true) is not { } other)
+        {
+            return null;
+        }
+
+        other.Vault ??= this._context.CreateNew<ItemStorage>();
+        return (other, new StorageModel(other.Vault, StorageType.Vault, (byte)(other.IsVaultExtended ? 1 : 0), loginName));
+    }
+
     public void SetPassword(string password)
     {
         AccountManagerDatabase.ValidatePassword(password);

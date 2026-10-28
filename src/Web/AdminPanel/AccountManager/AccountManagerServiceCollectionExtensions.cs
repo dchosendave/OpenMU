@@ -27,6 +27,13 @@ public static class AccountManagerServiceCollectionExtensions
         services.AddScoped<ItemPackageStore>();
         services.AddScoped<ItemOptionPresetStore>();
         services.AddScoped<AccountManagerState>();
+        services.AddSingleton<MUnique.OpenMU.Web.AdminPanel.PlayerSite.PlayerSiteService>();
+        services.AddSingleton<MUnique.OpenMU.Web.AdminPanel.PlayerSite.WebMiniGamesService>();
+        services.AddSingleton<MUnique.OpenMU.Web.AdminPanel.PlayerSite.PlayerSiteFeaturesService>();
+        services.AddSingleton<MUnique.OpenMU.Web.AdminPanel.PlayerSite.CastleSiegeSiteService>();
+        services.AddHostedService(s => s.GetRequiredService<MUnique.OpenMU.Web.AdminPanel.PlayerSite.CastleSiegeSiteService>());
+        services.TryAddSingleton<IWebMiniGamePlayRepository, UnavailableWebMiniGamePlayRepository>();
+        services.TryAddSingleton<IPlayerSiteRepository, UnavailablePlayerSiteRepository>();
         return services;
     }
 }

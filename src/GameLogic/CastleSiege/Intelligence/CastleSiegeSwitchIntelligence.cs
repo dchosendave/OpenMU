@@ -72,6 +72,12 @@ public sealed class CastleSiegeSwitchIntelligence : CastleSiegeNpcIntelligenceBa
                 : candidates.MinBy(player => player.Id);
         }
 
+        var previous = this._context.SwitchUsers[siegeSwitch.SwitchIndex];
+        if (!ReferenceEquals(previous, candidate))
+        {
+            PointMode.CastleSiegePointMode.RecordSwitchHolderChange(this._context, siegeSwitch.SwitchIndex, previous, candidate);
+        }
+
         siegeSwitch.Occupant = candidate;
         this._context.SwitchUsers[siegeSwitch.SwitchIndex] = candidate;
         return ValueTask.CompletedTask;

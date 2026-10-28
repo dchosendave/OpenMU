@@ -58,6 +58,7 @@ public static class CastleSiegeCrownMechanics
             return;
         }
 
+        PointMode.CastleSiegePointMode.ApplyCrownBank(context, crownUser!);
         context.CrownAccumulatedTime += elapsed;
         context.PreviousCrownUser = crownUser;
         if (elapsed > TimeSpan.Zero)
@@ -155,6 +156,7 @@ public static class CastleSiegeCrownMechanics
         }
 
         await BroadcastOwnershipChangeAsync(context, winnerGuild.GuildName).ConfigureAwait(false);
+        await PointMode.CastleSiegePointMode.OnSealAsync(context, winnerGuild, crownUser).ConfigureAwait(false);
     }
 
     /// <summary>

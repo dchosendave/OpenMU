@@ -56,6 +56,28 @@
                         <label class="form-label">@Resources.AccountManagerZen <span class="text-muted small">@Resources.AccountManagerPackageZenHint</span></label>
                         <NumberInput TValue="int" Class="package-zen" Min="0" Value="editor.Zen" ValueChanged="v => this.Set(() => editor.Zen = v)" />
                     </div>
+                    <div class="wide web-shop">
+                        <div class="form-check mb-0">
+                            <input class="form-check-input" type="checkbox" id="package-web-shop" checked="@editor.IsInWebShop" @onchange="e => this.Set(() => editor.IsInWebShop = (bool)e.Value!)" />
+                            <label class="form-check-label" for="package-web-shop">@Resources.AccountManagerWebShop <span class="text-muted small">@Resources.AccountManagerWebShopHint</span></label>
+                        </div>
+                        @if (editor.IsInWebShop)
+                        {
+                            <div>
+                                <label class="form-label">@Resources.AccountManagerWebShopPrice</label>
+                                <NumberInput TValue="int" Class="package-web-shop-price" Min="0" Value="editor.WebShopPrice" ValueChanged="v => this.Set(() => editor.WebShopPrice = v)" />
+                            </div>
+                            <div>
+                                <label class="form-label" for="package-web-shop-currency">@Resources.AccountManagerWebShopCurrency</label>
+                                <select id="package-web-shop-currency" class="form-select form-select-sm" value="@editor.WebShopCurrency" @onchange="e => this.Set(() => editor.WebShopCurrency = Enum.Parse<WebShopCurrency>((string)e.Value!))">
+                                    <option value="@WebShopCurrency.WCoinC">WCoin (C)</option>
+                                    <option value="@WebShopCurrency.WCoinP">WCoin (P)</option>
+                                    <option value="@WebShopCurrency.GoblinPoints">@Resources.AccountManagerGoblinPoints</option>
+                                    <option value="@WebShopCurrency.Zen">@Resources.AccountManagerWebShopCurrencyZen</option>
+                                </select>
+                            </div>
+                        }
+                    </div>
                     <div class="wide">
                         <label class="form-label" for="package-description">@Resources.Description <span class="text-muted small">@Resources.AccountManagerPackageDescriptionHint</span></label>
                         <textarea id="package-description" class="form-control form-control-sm" rows="2" maxlength="@ItemPackage.DescriptionMaximumLength" @onchange="e => this.Set(() => editor.Description = (string)e.Value!)">@editor.Description</textarea>

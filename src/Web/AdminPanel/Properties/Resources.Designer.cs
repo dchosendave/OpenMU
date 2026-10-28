@@ -10819,5 +10819,59 @@ namespace MUnique.OpenMU.Web.AdminPanel.Properties {
                 return ResourceManager.GetString("NavigationSystem", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Sell in the web shop.
+        /// </summary>
+        public static string AccountManagerWebShop {
+            get {
+                return ResourceManager.GetString("AccountManagerWebShop", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to players buy it on the website, the items go to their vault.
+        /// </summary>
+        public static string AccountManagerWebShopHint {
+            get {
+                return ResourceManager.GetString("AccountManagerWebShopHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Web shop price.
+        /// </summary>
+        public static string AccountManagerWebShopPrice {
+            get {
+                return ResourceManager.GetString("AccountManagerWebShopPrice", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Currency.
+        /// </summary>
+        public static string AccountManagerWebShopCurrency {
+            get {
+                return ResourceManager.GetString("AccountManagerWebShopCurrency", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Zen (from the vault).
+        /// </summary>
+        public static string AccountManagerWebShopCurrencyZen {
+            get {
+                return ResourceManager.GetString("AccountManagerWebShopCurrencyZen", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Goblin points.
+        /// </summary>
+        public static string AccountManagerGoblinPoints {
+            get {
+                return ResourceManager.GetString("AccountManagerGoblinPoints", resourceCulture);
+            }
+        }
     }
 }

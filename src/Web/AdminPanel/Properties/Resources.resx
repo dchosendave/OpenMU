@@ -3586,4 +3586,22 @@
   <data name="SaveOrDiscardChangesFirst" xml:space="preserve">
     <value>Save or discard the pending changes first.</value>
   </data>
+  <data name="AccountManagerWebShop" xml:space="preserve">
+    <value>Sell in the web shop</value>
+  </data>
+  <data name="AccountManagerWebShopHint" xml:space="preserve">
+    <value>players buy it on the website, the items go to their vault</value>
+  </data>
+  <data name="AccountManagerWebShopPrice" xml:space="preserve">
+    <value>Web shop price</value>
+  </data>
+  <data name="AccountManagerWebShopCurrency" xml:space="preserve">
+    <value>Currency</value>
+  </data>
+  <data name="AccountManagerWebShopCurrencyZen" xml:space="preserve">
+    <value>Zen (from the vault)</value>
+  </data>
+  <data name="AccountManagerGoblinPoints" xml:space="preserve">
+    <value>Goblin points</value>
+  </data>
 </root>

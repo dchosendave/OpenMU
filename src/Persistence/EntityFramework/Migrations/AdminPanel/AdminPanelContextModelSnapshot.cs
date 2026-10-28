@@ -24,6 +24,96 @@ namespace MUnique.OpenMU.Persistence.EntityFramework.Migrations.AdminPanel
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("MUnique.OpenMU.Persistence.AccountManager.CastleSiegeBattle", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("EndedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("HolderGuildName")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<string>("RewardsJson")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ScoresJson")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("StartedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("WinnerGuildName")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StartedAt");
+
+                    b.ToTable("CastleSiegeBattle", "admin");
+                });
+
+            modelBuilder.Entity("MUnique.OpenMU.Persistence.AccountManager.CastleSiegeVaultReward", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BattleId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Count")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("DeliveredAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("GuildName")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<byte>("ItemGroup")
+                        .HasColumnType("smallint");
+
+                    b.Property<byte>("ItemLevel")
+                        .HasColumnType("smallint");
+
+                    b.Property<short>("ItemNumber")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("LastProblem")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<string>("LoginName")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)");
+
+                    b.Property<string>("Placement")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BattleId");
+
+                    b.HasIndex("DeliveredAt", "CreatedAt");
+
+                    b.ToTable("CastleSiegeVaultReward", "admin");
+                });
+
             modelBuilder.Entity("MUnique.OpenMU.Persistence.AccountManager.ItemOptionPreset", b =>
                 {
                     b.Property<Guid>("Id")
@@ -111,10 +201,19 @@ namespace MUnique.OpenMU.Persistence.EntityFramework.Migrations.AdminPanel
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)");
 
+                    b.Property<bool>("IsInWebShop")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
+
+                    b.Property<int>("WebShopCurrency")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("WebShopPrice")
+                        .HasColumnType("integer");
 
                     b.Property<int>("Zen")
                         .HasColumnType("integer");
@@ -196,6 +295,229 @@ namespace MUnique.OpenMU.Persistence.EntityFramework.Migrations.AdminPanel
                     b.HasIndex("ItemPackageItemId");
 
                     b.ToTable("ItemPackageItemOption", "admin");
+                });
+
+            modelBuilder.Entity("MUnique.OpenMU.Persistence.AccountManager.WebCheckIn", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("CoinType")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<DateOnly>("Day")
+                        .HasColumnType("date");
+
+                    b.Property<string>("LoginName")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)");
+
+                    b.Property<int>("Reward")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("StreakDay")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LoginName", "Day")
+                        .IsUnique();
+
+                    b.ToTable("WebCheckIn", "admin");
+                });
+
+            modelBuilder.Entity("MUnique.OpenMU.Persistence.AccountManager.WebMarketListing", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("BuyerLogin")
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)");
+
+                    b.Property<DateTime?>("ClosedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CoinType")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("EscrowLogin")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)");
+
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ItemName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("SellerLogin")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SellerLogin");
+
+                    b.HasIndex("State", "CreatedAt");
+
+                    b.ToTable("WebMarketListing", "admin");
+                });
+
+            modelBuilder.Entity("MUnique.OpenMU.Persistence.AccountManager.WebMiniGamePlay", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Bet")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<string>("Game")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<string>("LoginName")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)");
+
+                    b.Property<int>("Payout")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("PlayedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Result")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlayedAt");
+
+                    b.HasIndex("LoginName", "PlayedAt");
+
+                    b.ToTable("WebMiniGamePlay", "admin");
+                });
+
+            modelBuilder.Entity("MUnique.OpenMU.Persistence.AccountManager.WebNewsPost", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)");
+
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasMaxLength(20000)
+                        .HasColumnType("character varying(20000)");
+
+                    b.Property<bool>("IsPublished")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("PublishedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("character varying(80)");
+
+                    b.Property<string>("Summary")
+                        .IsRequired()
+                        .HasMaxLength(400)
+                        .HasColumnType("character varying(400)");
+
+                    b.Property<string>("Tag")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(120)
+                        .HasColumnType("character varying(120)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PublishedAt");
+
+                    b.HasIndex("Slug")
+                        .IsUnique();
+
+                    b.ToTable("WebNewsPost", "admin");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("6c1b9e7a-0001-4d2e-9f3a-5b8c7d6e4f01"),
+                            Author = "team",
+                            Body = "Reach **level 400** and pay **1,000,000 zen** to reset. You go back to level 10 and keep your stats, and every reset gives more points per level.\n\nStats go up to **32,767**, so there's room for every build. Use `/reset` in the game, or the character tools on the website.",
+                            IsPublished = true,
+                            PublishedAt = new DateTime(2026, 10, 25, 12, 0, 0, 0, DateTimeKind.Utc),
+                            Slug = "reset-rules",
+                            Summary = "Reset at level 400 for 1,000,000 zen. Stats go up to 32,767, so every build has room to grow.",
+                            Tag = "Notice",
+                            Title = "Reset rules"
+                        },
+                        new
+                        {
+                            Id = new Guid("6c1b9e7a-0002-4d2e-9f3a-5b8c7d6e4f02"),
+                            Author = "team",
+                            Body = "Blade Knight skill hits can now chain into extra strikes: a second hit, sometimes a third, and with luck a fourth. Each strike is weaker than the one before.\n\nThe chances and damage are listed on the server info page.",
+                            IsPublished = true,
+                            PublishedAt = new DateTime(2026, 10, 26, 12, 0, 0, 0, DateTimeKind.Utc),
+                            Slug = "wind-combo",
+                            Summary = "Skill hits can now chain into up to four combo strikes, each weaker than the last. The fourth is rare, and lucky.",
+                            Tag = "Update",
+                            Title = "Blade Knights: the wind combo"
+                        },
+                        new
+                        {
+                            Id = new Guid("6c1b9e7a-0003-4d2e-9f3a-5b8c7d6e4f03"),
+                            Author = "team",
+                            Body = "Create your account here, then log in through the game client or play right in your browser.\n\nOn the website you can also see your characters, move items between them, check the rankings and shop for coins.",
+                            IsPublished = true,
+                            PublishedAt = new DateTime(2026, 10, 28, 12, 0, 0, 0, DateTimeKind.Utc),
+                            Slug = "website-open",
+                            Summary = "Create your account here, then log in through the game client or play right in your browser.",
+                            Tag = "Notice",
+                            Title = "The website is open"
+                        });
                 });
 
             modelBuilder.Entity("MUnique.OpenMU.Persistence.AdminAuth.AdminAuditEntry", b =>

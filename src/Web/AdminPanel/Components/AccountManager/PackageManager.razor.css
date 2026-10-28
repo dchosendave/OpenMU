@@ -41,6 +41,13 @@
     grid-column: span 2;
 }
 
+.web-shop {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: 0.75rem 1rem;
+}
+
 .form-label {
     font-size: 0.8125rem;
     font-weight: 500;
