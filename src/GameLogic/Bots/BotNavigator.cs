@@ -280,6 +280,12 @@ internal sealed class BotNavigator : AsyncDisposable
     private Point _travelPathTarget;
     private Point? _shoppingTarget;
 
+    /// <summary>Where a town bot (see <see cref="BotTownRole"/>) is walking to, or null while it stands.</summary>
+    private Point? _townTarget;
+
+    /// <summary>When a town bot sets off for its next spot.</summary>
+    private DateTime _nextTownMoveUtc;
+
     /// <summary>Target position of the current buff trip, or null, if there is none.</summary>
     private Point? _buffTarget;
 
@@ -750,6 +756,23 @@ internal sealed class BotNavigator : AsyncDisposable
             this._player.PendingBotActions.Enqueue(() => BotWingHandler.TryAdvanceWingsAsync(this._player));
         }
 
+        // Town bots don't hunt: they hang around Lorencia, strolling or standing AFK. Checked on every
+        // tick, so a change of the percentages on the admin panel takes effect right away.
+        var townRole = BotTownRoles.GetRole(this._player.Name, BotFeaturePlugIn.GetConfiguration(this._player.GameContext));
+        if (townRole != BotTownRole.None)
+        {
+            await this.EvaluateInTownAsync(map, townRole, cancellationToken).ConfigureAwait(false);
+            return;
+        }
+
+        if (this._player.IsIdlingInTown)
+        {
+            // Back to hunting: start the routine below from scratch.
+            this._player.IsIdlingInTown = false;
+            this._townTarget = null;
+            this._lastMoveUtc = DateTime.UtcNow;
+        }
+
         // Keep the combat centre on the bot's current position, so the combat handler always engages
         // monsters right next to the bot - both at the hunting ground and while travelling through hostile
         // territory (self-defence). This is what keeps a travelling bot alive. The travel destination is
@@ -960,6 +983,106 @@ internal sealed class BotNavigator : AsyncDisposable
         }
 
         await this.PickGroundAndTravelAsync(map, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// The routine of a town bot: get to Lorencia's safezone, then walk from spot to spot with short
+    /// pauses (<see cref="BotTownRole.Stroller"/>) or stand on one spot for minutes (<see cref="BotTownRole.Afk"/>).
+    /// </summary>
+    private async ValueTask EvaluateInTownAsync(GameMap map, BotTownRole role, CancellationToken cancellationToken)
+    {
+        if (!this._player.IsIdlingInTown)
+        {
+            this._player.IsIdlingInTown = true;
+            this._hasDestination = false;
+            this._travelPath = null;
+            this._townTarget = null;
+            this._nextTownMoveUtc = DateTime.UtcNow;
+            if (this._player.Party is { } party)
+            {
+                await party.KickMySelfAsync(this._player).ConfigureAwait(false);
+            }
+        }
+
+        // Fighting is off (see OfflinePlayer.IsIdlingInTown); the origin follows the bot, so nothing
+        // pulls it back to an old hunting spot.
+        this._player.HuntingOrigin = this._player.Position;
+
+        if (map.Definition.Number != BotTownRoles.LorenciaMapNumber)
+        {
+            await this.WarpToTownAsync(this._player.GameContext.Configuration.Maps.FirstOrDefault(m => m.Number == BotTownRoles.LorenciaMapNumber)).ConfigureAwait(false);
+            return;
+        }
+
+        if (!map.Terrain.SafezoneMap[this._player.Position.X, this._player.Position.Y])
+        {
+            // Out in the field (e.g. respawned or walked off): use a "town portal".
+            await this.WarpToTownAsync(map.Definition).ConfigureAwait(false);
+            return;
+        }
+
+        if (this._player.IsWalking)
+        {
+            return;
+        }
+
+        if (this._townTarget is { } target)
+        {
+            if (this._player.GetDistanceTo(target) > 1
+                && await this.TravelTowardAsync(map, target, cancellationToken).ConfigureAwait(false))
+            {
+                return;
+            }
+
+            // Arrived, or the spot turned out to be unreachable: stay a while.
+            this._townTarget = null;
+            this._travelPath = null;
+            this._nextTownMoveUtc = DateTime.UtcNow + (role == BotTownRole.Afk
+                ? TimeSpan.FromSeconds(Rand.NextInt(4 * 60, 20 * 60))
+                : TimeSpan.FromSeconds(Rand.NextInt(3, 25)));
+            return;
+        }
+
+        if (DateTime.UtcNow < this._nextTownMoveUtc)
+        {
+            return;
+        }
+
+        // AFK bots wander further, so they don't all stand next to the spawn gate.
+        this._townTarget = PickTownSpot(map.Terrain, this._player.Position, role == BotTownRole.Afk ? (byte)25 : (byte)12);
+    }
+
+    private async ValueTask WarpToTownAsync(GameMapDefinition? town)
+    {
+        if (town?.GetSafezoneGate() is not { } gate
+            || this._timeProvider.GetUtcNow() - this._lastWarpUtc < TimeSpan.FromSeconds(10))
+        {
+            return;
+        }
+
+        this._lastWarpUtc = this._timeProvider.GetUtcNow();
+        this._townTarget = null;
+        this._travelPath = null;
+        this._nextTownMoveUtc = DateTime.UtcNow + TimeSpan.FromSeconds(Rand.NextInt(2, 10));
+        await this._player.WarpToAsync(gate).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// A random walkable safezone tile around the point, or the point itself when none is found.
+    /// </summary>
+    private static Point PickTownSpot(GameMapTerrain terrain, Point around, byte radius)
+    {
+        for (var i = 0; i < 30; i++)
+        {
+            var x = Rand.NextInt(Math.Max(0, around.X - radius), Math.Min(255, around.X + radius) + 1);
+            var y = Rand.NextInt(Math.Max(0, around.Y - radius), Math.Min(255, around.Y + radius) + 1);
+            if (terrain.WalkMap[x, y] && terrain.SafezoneMap[x, y])
+            {
+                return new Point((byte)x, (byte)y);
+            }
+        }
+
+        return around;
     }
 
     /// <summary>

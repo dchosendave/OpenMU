@@ -248,7 +248,7 @@ public sealed class BotManager
     public async ValueTask FormPartiesAsync(IGameContext gameContext)
     {
         var candidates = this._bots.Values
-            .Where(b => b.Party is null && b.Attributes is not null)
+            .Where(b => b.Party is null && b.Attributes is not null && !b.IsIdlingInTown)
             .OrderBy(BotResetHandler.GetEffectiveLevel)
             .ToList();
 

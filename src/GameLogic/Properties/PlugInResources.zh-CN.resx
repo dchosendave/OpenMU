@@ -1313,6 +1313,10 @@
     <value>药水储备量（使用次数）</value>
   </data>
   <data name="BotConfiguration_PotionStockCharges_Description" xml:space="preserve">
+  <data name="BotConfiguration_TownIdlerPercent_Name" xml:space="preserve"><value>城镇闲逛机器人 (%)</value></data>
+  <data name="BotConfiguration_TownIdlerPercent_Description" xml:space="preserve"><value>不打怪而在勇者大陆城镇里闲逛或挂机的机器人角色比例。按角色名选择，所以总是同一批机器人。</value></data>
+  <data name="BotConfiguration_TownAfkPercent_Name" xml:space="preserve"><value>挂机比例 (%)</value></data>
+  <data name="BotConfiguration_TownAfkPercent_Description" xml:space="preserve"><value>城镇闲逛机器人中长时间站着不动（挂机）而不是四处走动的比例。</value></data>
     <value>机器人在商店补充治疗和魔力药水时，分别补足的可使用次数。</value>
   </data>
   <data name="BotConfiguration_ProofOfConceptAccounts_Name" xml:space="preserve">

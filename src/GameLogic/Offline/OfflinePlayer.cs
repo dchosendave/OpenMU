@@ -153,6 +153,13 @@ public class OfflinePlayer : Player
     internal bool IsOnBuffTrip { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the bot is one of the town bots hanging around Lorencia
+    /// instead of hunting (see <see cref="Bots.BotConfiguration.TownIdlerPercent"/>), maintained by
+    /// <see cref="Bots.BotNavigator"/>. Such a bot doesn't attack or walk back to a hunting spot.
+    /// </summary>
+    internal bool IsIdlingInTown { get; set; }
+
+    /// <summary>
     /// Gets a value indicating whether a revenge against a player killer is pending or armed - the
     /// bot has unfinished business and is in no mood to group up.
     /// </summary>

@@ -123,6 +123,23 @@ public class BotConfiguration
     public int PotionStockCharges { get; set; } = 60;
 
     /// <summary>
+    /// Gets or sets the share (in percent) of bot characters which don't hunt at all but hang around
+    /// Lorencia town instead, like players who are trading, chatting or simply away from the keyboard.
+    /// Which bots do this is decided by their name, so it's always the same characters.
+    /// </summary>
+    [Display(Name = nameof(MUnique.OpenMU.GameLogic.Properties.PlugInResources.BotConfiguration_TownIdlerPercent_Name), Description = nameof(MUnique.OpenMU.GameLogic.Properties.PlugInResources.BotConfiguration_TownIdlerPercent_Description), ResourceType = typeof(MUnique.OpenMU.GameLogic.Properties.PlugInResources))]
+    [Range(0, 100)]
+    public int TownIdlerPercent { get; set; } = 15;
+
+    /// <summary>
+    /// Gets or sets the share (in percent) of the town bots (see <see cref="TownIdlerPercent"/>) which
+    /// stand still for minutes at a time (AFK) instead of strolling around town.
+    /// </summary>
+    [Display(Name = nameof(MUnique.OpenMU.GameLogic.Properties.PlugInResources.BotConfiguration_TownAfkPercent_Name), Description = nameof(MUnique.OpenMU.GameLogic.Properties.PlugInResources.BotConfiguration_TownAfkPercent_Description), ResourceType = typeof(MUnique.OpenMU.GameLogic.Properties.PlugInResources))]
+    [Range(0, 100)]
+    public int TownAfkPercent { get; set; } = 40;
+
+    /// <summary>
     /// Gets or sets a comma separated list of login names of existing accounts to animate as bots.
     /// This is an optional extra hook alongside the generated population (see
     /// <see cref="NumberOfAccounts"/>): every listed account gets a bot driving its first character.

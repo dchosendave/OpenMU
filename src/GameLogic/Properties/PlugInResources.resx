@@ -1350,6 +1350,10 @@
   <data name="BotConfiguration_JewelStockPerKind_Description" xml:space="preserve"><value>How many Jewels of Bless/Soul/Life a bot keeps of each kind; above this it stops picking them up and sells the surplus.</value></data>
   <data name="BotConfiguration_PotionStockCharges_Name" xml:space="preserve"><value>Potion stock (charges)</value></data>
   <data name="BotConfiguration_PotionStockCharges_Description" xml:space="preserve"><value>How many healing and mana potion charges a bot buys up to at a merchant.</value></data>
+  <data name="BotConfiguration_TownIdlerPercent_Name" xml:space="preserve"><value>Town idlers (%)</value></data>
+  <data name="BotConfiguration_TownIdlerPercent_Description" xml:space="preserve"><value>Share of bot characters which don't hunt but hang around Lorencia town, walking around or standing AFK. Picked by character name, so it's always the same bots.</value></data>
+  <data name="BotConfiguration_TownAfkPercent_Name" xml:space="preserve"><value>AFK town idlers (%)</value></data>
+  <data name="BotConfiguration_TownAfkPercent_Description" xml:space="preserve"><value>Share of the town idlers which stand still for minutes at a time (AFK) instead of strolling around.</value></data>
   <data name="BotConfiguration_ProofOfConceptAccounts_Name" xml:space="preserve"><value>Extra accounts to animate</value></data>
   <data name="BotConfiguration_ProofOfConceptAccounts_Description" xml:space="preserve"><value>Comma separated login names of existing accounts to animate as bots, in addition to the generated population.</value></data>
   <data name="BotSelfDefensePlugIn_Name" xml:space="preserve"><value>Bot self defense</value></data>

@@ -4399,6 +4399,18 @@ namespace MUnique.OpenMU.GameLogic.Properties {
         /// <summary>Gets the localized BotConfiguration_PotionStockCharges_Description text.</summary>
         public static string BotConfiguration_PotionStockCharges_Description => ResourceManager.GetString("BotConfiguration_PotionStockCharges_Description", resourceCulture)!;
 
+        /// <summary>Gets the localized BotConfiguration_TownIdlerPercent_Name text.</summary>
+        public static string BotConfiguration_TownIdlerPercent_Name => ResourceManager.GetString("BotConfiguration_TownIdlerPercent_Name", resourceCulture)!;
+
+        /// <summary>Gets the localized BotConfiguration_TownIdlerPercent_Description text.</summary>
+        public static string BotConfiguration_TownIdlerPercent_Description => ResourceManager.GetString("BotConfiguration_TownIdlerPercent_Description", resourceCulture)!;
+
+        /// <summary>Gets the localized BotConfiguration_TownAfkPercent_Name text.</summary>
+        public static string BotConfiguration_TownAfkPercent_Name => ResourceManager.GetString("BotConfiguration_TownAfkPercent_Name", resourceCulture)!;
+
+        /// <summary>Gets the localized BotConfiguration_TownAfkPercent_Description text.</summary>
+        public static string BotConfiguration_TownAfkPercent_Description => ResourceManager.GetString("BotConfiguration_TownAfkPercent_Description", resourceCulture)!;
+
         /// <summary>Gets the localized BotConfiguration_ProofOfConceptAccounts_Name text.</summary>
         public static string BotConfiguration_ProofOfConceptAccounts_Name => ResourceManager.GetString("BotConfiguration_ProofOfConceptAccounts_Name", resourceCulture)!;
 

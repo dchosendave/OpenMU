@@ -1375,6 +1375,10 @@
     <value>Trankvorrat (Ladungen)</value>
   </data>
   <data name="BotConfiguration_PotionStockCharges_Description" xml:space="preserve">
+  <data name="BotConfiguration_TownIdlerPercent_Name" xml:space="preserve"><value>Bummler in der Stadt (%)</value></data>
+  <data name="BotConfiguration_TownIdlerPercent_Description" xml:space="preserve"><value>Anteil der Bot-Charaktere, die nicht jagen, sondern sich in Lorencia aufhalten, herumlaufen oder AFK stehen. Nach Charaktername gewählt, also immer dieselben Bots.</value></data>
+  <data name="BotConfiguration_TownAfkPercent_Name" xml:space="preserve"><value>AFK-Bummler (%)</value></data>
+  <data name="BotConfiguration_TownAfkPercent_Description" xml:space="preserve"><value>Anteil der Bummler, die minutenlang stillstehen (AFK), statt herumzulaufen.</value></data>
     <value>Bis zu wie vielen Ladungen an Heil- und Manatränken ein Bot bei einem Händler einkauft.</value>
   </data>
   <data name="BotConfiguration_ProofOfConceptAccounts_Name" xml:space="preserve">
