@@ -98,6 +98,24 @@ public interface IPlayerSiteRepository
     ValueTask ReturnFlashSaleStockAsync(Guid id, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Takes one piece of the weekly stock of a web shop package, if fewer than <paramref name="weeklyStock"/>
+    /// were sold in the week. Concurrent buyers can't take the same last piece.
+    /// </summary>
+    /// <param name="itemPackageId">The id of the package.</param>
+    /// <param name="weekStart">The start of the week, see <see cref="WebShopStock.WeekStartOf"/>.</param>
+    /// <param name="weeklyStock">The pieces for sale per week.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns><c>true</c>, if a piece was taken.</returns>
+    ValueTask<bool> TryTakeShopStockAsync(Guid itemPackageId, DateTime weekStart, int weeklyStock, CancellationToken cancellationToken = default);
+
+    /// <summary>Puts a piece back into the weekly stock of a web shop package, after a purchase failed.</summary>
+    /// <param name="itemPackageId">The id of the package.</param>
+    /// <param name="weekStart">The start of the week in which the piece was taken.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>The task.</returns>
+    ValueTask ReturnShopStockAsync(Guid itemPackageId, DateTime weekStart, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Adds a grand reset milestone reward, unless the character already has one for this milestone.
     /// </summary>
     /// <param name="claim">The claim.</param>

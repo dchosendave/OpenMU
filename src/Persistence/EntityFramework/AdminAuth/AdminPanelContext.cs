@@ -79,6 +79,9 @@ public class AdminPanelContext : DbContext
     /// <summary>Gets or sets the grand reset milestone rewards.</summary>
     public DbSet<WebMilestoneClaim> WebMilestoneClaims { get; set; } = null!;
 
+    /// <summary>Gets or sets the weekly sales of web shop packages with a stock.</summary>
+    public DbSet<WebShopStock> WebShopStocks { get; set; } = null!;
+
     /// <summary>Gets or sets the administrative audit trail.</summary>
     public DbSet<AdminAuditEntry> AdminAuditEntries { get; set; } = null!;
 
@@ -258,6 +261,12 @@ public class AdminPanelContext : DbContext
             entity.Property(c => c.ClaimedItem).HasMaxLength(WebMilestoneClaim.ClaimedItemMaximumLength);
             entity.HasIndex(c => c.LoginName);
             entity.HasIndex(c => new { c.CharacterName, c.GrandResets }).IsUnique();
+        });
+
+        modelBuilder.Entity<WebShopStock>(entity =>
+        {
+            entity.ToTable(nameof(WebShopStock), SchemaNames.AdminPanel);
+            entity.HasKey(s => new { s.ItemPackageId, s.WeekStart });
         });
 
         modelBuilder.Entity<CastleSiegeBattle>(entity =>

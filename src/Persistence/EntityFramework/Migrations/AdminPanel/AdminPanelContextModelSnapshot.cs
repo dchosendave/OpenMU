@@ -215,6 +215,9 @@ namespace MUnique.OpenMU.Persistence.EntityFramework.Migrations.AdminPanel
                     b.Property<int>("WebShopPrice")
                         .HasColumnType("integer");
 
+                    b.Property<int>("WebShopWeeklyStock")
+                        .HasColumnType("integer");
+
                     b.Property<int>("Zen")
                         .HasColumnType("integer");
 
@@ -604,6 +607,22 @@ namespace MUnique.OpenMU.Persistence.EntityFramework.Migrations.AdminPanel
                             Tag = "Notice",
                             Title = "The website is open"
                         });
+                });
+
+            modelBuilder.Entity("MUnique.OpenMU.Persistence.AccountManager.WebShopStock", b =>
+                {
+                    b.Property<Guid>("ItemPackageId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("WeekStart")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Sold")
+                        .HasColumnType("integer");
+
+                    b.HasKey("ItemPackageId", "WeekStart");
+
+                    b.ToTable("WebShopStock", "admin");
                 });
 
             modelBuilder.Entity("MUnique.OpenMU.Persistence.AdminAuth.AdminAuditEntry", b =>

@@ -10839,6 +10839,24 @@ namespace MUnique.OpenMU.Web.AdminPanel.Properties {
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Stock per week.
+        /// </summary>
+        public static string AccountManagerWebShopWeeklyStock {
+            get {
+                return ResourceManager.GetString("AccountManagerWebShopWeeklyStock", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to 0 = no limit; refills every Monday (UTC).
+        /// </summary>
+        public static string AccountManagerWebShopWeeklyStockHint {
+            get {
+                return ResourceManager.GetString("AccountManagerWebShopWeeklyStockHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Web shop price.
         /// </summary>
         public static string AccountManagerWebShopPrice {

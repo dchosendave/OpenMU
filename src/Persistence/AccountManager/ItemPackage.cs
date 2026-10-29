@@ -61,6 +61,11 @@ public class ItemPackage
     public WebShopCurrency WebShopCurrency { get; set; }
 
     /// <summary>
+    /// Gets or sets how many pieces the web shop sells per week (Monday to Sunday, UTC); 0 for no limit.
+    /// </summary>
+    public int WebShopWeeklyStock { get; set; }
+
+    /// <summary>
     /// Gets or sets the date and time when this package has been created.
     /// </summary>
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
@@ -86,6 +91,7 @@ public class ItemPackage
             IsInWebShop = this.IsInWebShop,
             WebShopPrice = this.WebShopPrice,
             WebShopCurrency = this.WebShopCurrency,
+            WebShopWeeklyStock = this.WebShopWeeklyStock,
             CreatedAt = newId ? DateTime.UtcNow : this.CreatedAt,
             Items = this.Items.Select(item => item.Clone()).ToList(),
         };

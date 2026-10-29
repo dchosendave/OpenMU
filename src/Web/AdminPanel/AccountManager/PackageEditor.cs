@@ -127,6 +127,15 @@ public sealed class PackageEditor : IDisposable
     }
 
     /// <summary>
+    /// Gets or sets how many pieces the web shop sells per week; 0 for no limit.
+    /// </summary>
+    public int WebShopWeeklyStock
+    {
+        get => this.Package.WebShopWeeklyStock;
+        set => this.Update(() => this.Package.WebShopWeeklyStock = Math.Max(0, value));
+    }
+
+    /// <summary>
     /// Adds a new item.
     /// </summary>
     /// <param name="definition">The item definition.</param>

@@ -76,6 +76,10 @@
                                     <option value="@WebShopCurrency.Zen">@Resources.AccountManagerWebShopCurrencyZen</option>
                                 </select>
                             </div>
+                            <div>
+                                <label class="form-label">@Resources.AccountManagerWebShopWeeklyStock <span class="text-muted small">@Resources.AccountManagerWebShopWeeklyStockHint</span></label>
+                                <NumberInput TValue="int" Class="package-web-shop-stock" Min="0" Value="editor.WebShopWeeklyStock" ValueChanged="v => this.Set(() => editor.WebShopWeeklyStock = v)" />
+                            </div>
                         }
                     </div>
                     <div class="wide">

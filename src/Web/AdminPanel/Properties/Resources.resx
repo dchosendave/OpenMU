@@ -3592,6 +3592,12 @@
   <data name="AccountManagerWebShopHint" xml:space="preserve">
     <value>players buy it on the website, the items go to their vault</value>
   </data>
+  <data name="AccountManagerWebShopWeeklyStock" xml:space="preserve">
+    <value>Stock per week</value>
+  </data>
+  <data name="AccountManagerWebShopWeeklyStockHint" xml:space="preserve">
+    <value>0 = no limit; refills every Monday (UTC)</value>
+  </data>
   <data name="AccountManagerWebShopPrice" xml:space="preserve">
     <value>Web shop price</value>
   </data>

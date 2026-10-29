@@ -48,6 +48,10 @@ public class UnavailablePlayerSiteRepository : IPlayerSiteRepository
 
     public ValueTask ReturnFlashSaleStockAsync(Guid id, CancellationToken cancellationToken = default) => throw new InvalidOperationException(NotAvailableMessage);
 
+    public ValueTask<bool> TryTakeShopStockAsync(Guid itemPackageId, DateTime weekStart, int weeklyStock, CancellationToken cancellationToken = default) => throw new InvalidOperationException(NotAvailableMessage);
+
+    public ValueTask ReturnShopStockAsync(Guid itemPackageId, DateTime weekStart, CancellationToken cancellationToken = default) => throw new InvalidOperationException(NotAvailableMessage);
+
     public ValueTask<bool> TryAddMilestoneClaimAsync(WebMilestoneClaim claim, CancellationToken cancellationToken = default) => throw new InvalidOperationException(NotAvailableMessage);
 
     public ValueTask<WebMilestoneClaim?> GetMilestoneClaimAsync(Guid id, CancellationToken cancellationToken = default) => throw new InvalidOperationException(NotAvailableMessage);

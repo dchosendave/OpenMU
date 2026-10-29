@@ -96,8 +96,11 @@ public sealed class PlayerSiteService : IDisposable
     /// <param name="loginName">The login name of the account.</param>
     /// <param name="packageId">The identifier of the package.</param>
     /// <returns>The result, with the remaining balance of the currency.</returns>
-    public Task<PlayerSiteResult> BuyPackageAsync(string loginName, Guid packageId)
-        => this.ChangeAsync(loginName, async session =>
+    public async Task<PlayerSiteResult> BuyPackageAsync(string loginName, Guid packageId)
+    {
+        var weekStart = WebShopStock.WeekStartOf(DateTime.UtcNow);
+        var tookStock = false;
+        var result = await this.ChangeAsync(loginName, async session =>
         {
             var package = (await this._packages.GetAllAsync().ConfigureAwait(false)).FirstOrDefault(p => p.Id == packageId && p.IsInWebShop)
                 ?? throw new PlayerSiteException(PlayerSiteResult.NotFound, "This product isn't for sale.");
@@ -105,6 +108,16 @@ public sealed class PlayerSiteService : IDisposable
             if (balance < package.WebShopPrice)
             {
                 throw new PlayerSiteException(PlayerSiteResult.InsufficientFunds, $"This costs {package.WebShopPrice:N0}, but you have {balance:N0}.");
+            }
+
+            if (package.WebShopWeeklyStock > 0)
+            {
+                if (!await this._siteRepository.TryTakeShopStockAsync(package.Id, weekStart, package.WebShopWeeklyStock).ConfigureAwait(false))
+                {
+                    throw new PlayerSiteException(PlayerSiteResult.Invalid, "Sold out for this week. New stock comes on Monday.");
+                }
+
+                tookStock = true;
             }
 
             // Pay first: zen is paid from the vault, which the package may add zen to.
@@ -133,7 +146,15 @@ public sealed class PlayerSiteService : IDisposable
                 currency = package.WebShopCurrency.ToString(),
                 balance = BalanceOf(session, package.WebShopCurrency),
             };
-        });
+        }).ConfigureAwait(false);
+
+        if (tookStock && !result.Succeeded)
+        {
+            await this._siteRepository.ReturnShopStockAsync(packageId, weekStart).ConfigureAwait(false);
+        }
+
+        return result;
+    }
 
     /// <summary>
     /// Buys a piece of a flash sale: takes one piece of its stock, the price from the account, and puts the

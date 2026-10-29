@@ -184,6 +184,39 @@ public class PlayerSiteRepository : IPlayerSiteRepository
     }
 
     /// <inheritdoc />
+    public async ValueTask<bool> TryTakeShopStockAsync(Guid itemPackageId, DateTime weekStart, int weeklyStock, CancellationToken cancellationToken = default)
+    {
+        await using var context = await this.CreateContextAsync(cancellationToken).ConfigureAwait(false);
+        if (!await context.WebShopStocks.AnyAsync(s => s.ItemPackageId == itemPackageId && s.WeekStart == weekStart, cancellationToken).ConfigureAwait(false))
+        {
+            context.WebShopStocks.Add(new WebShopStock { ItemPackageId = itemPackageId, WeekStart = weekStart });
+            try
+            {
+                await context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            }
+            catch (DbUpdateException)
+            {
+                // Another buyer added the week at the same time; its row is used below.
+            }
+        }
+
+        var changed = await context.WebShopStocks
+            .Where(s => s.ItemPackageId == itemPackageId && s.WeekStart == weekStart && s.Sold < weeklyStock)
+            .ExecuteUpdateAsync(setters => setters.SetProperty(s => s.Sold, s => s.Sold + 1), cancellationToken)
+            .ConfigureAwait(false);
+        return changed == 1;
+    }
+
+    /// <inheritdoc />
+    public async ValueTask ReturnShopStockAsync(Guid itemPackageId, DateTime weekStart, CancellationToken cancellationToken = default)
+    {
+        await using var context = await this.CreateContextAsync(cancellationToken).ConfigureAwait(false);
+        await context.WebShopStocks.Where(s => s.ItemPackageId == itemPackageId && s.WeekStart == weekStart && s.Sold > 0)
+            .ExecuteUpdateAsync(setters => setters.SetProperty(s => s.Sold, s => s.Sold - 1), cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
     public async ValueTask<bool> TryAddMilestoneClaimAsync(WebMilestoneClaim claim, CancellationToken cancellationToken = default)
     {
         await using var context = await this.CreateContextAsync(cancellationToken).ConfigureAwait(false);
