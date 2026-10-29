@@ -49,6 +49,7 @@ public class ComboChainPlugIn : IFeaturePlugIn, ISupportCustomConfiguration<Comb
         {
             try
             {
+                byte step = 1;
                 foreach (var factor in factors)
                 {
                     await Task.Delay(delay).ConfigureAwait(false);
@@ -57,7 +58,8 @@ public class ComboChainPlugIn : IFeaturePlugIn, ISupportCustomConfiguration<Comb
                         return;
                     }
 
-                    await player.ForEachWorldObserverAsync<IShowSkillAnimationPlugIn>(p => p.ShowComboAnimationAsync(player, comboTarget), true).ConfigureAwait(false);
+                    var currentStep = ++step;
+                    await player.ForEachObservingAsync<IWorldObserver>(observer => ShowFollowUpAsync(observer, player, comboTarget, currentStep), true).ConfigureAwait(false);
                 }
             }
             catch (Exception ex)
@@ -66,6 +68,15 @@ public class ComboChainPlugIn : IFeaturePlugIn, ISupportCustomConfiguration<Comb
             }
         });
     }
+
+    /// <summary>
+    /// Shows a follow-up combo to an observer: with its step to clients which can draw the steps apart
+    /// (<see cref="IShowComboStepPlugIn"/>), as the usual combo animation to the others.
+    /// </summary>
+    private static ValueTask ShowFollowUpAsync(IWorldObserver observer, Player player, IAttackable? comboTarget, byte step)
+        => observer.ViewPlugIns.GetPlugIn<IShowComboStepPlugIn>() is not null
+            ? observer.InvokeViewPlugInAsync<IShowComboStepPlugIn>(p => p.ShowComboStepAsync(player, comboTarget, step))
+            : observer.InvokeViewPlugInAsync<IShowSkillAnimationPlugIn>(p => p.ShowComboAnimationAsync(player, comboTarget));
 
     /// <inheritdoc />
     public object CreateDefaultConfig() => new ComboChainConfiguration();
