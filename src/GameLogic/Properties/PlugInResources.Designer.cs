@@ -4411,6 +4411,42 @@ namespace MUnique.OpenMU.GameLogic.Properties {
         /// <summary>Gets the localized BotConfiguration_TownAfkPercent_Description text.</summary>
         public static string BotConfiguration_TownAfkPercent_Description => ResourceManager.GetString("BotConfiguration_TownAfkPercent_Description", resourceCulture)!;
 
+        /// <summary>Gets the localized BotConfiguration_CompanionsForHirePercent_Name text.</summary>
+        public static string BotConfiguration_CompanionsForHirePercent_Name => ResourceManager.GetString("BotConfiguration_CompanionsForHirePercent_Name", resourceCulture)!;
+
+        /// <summary>Gets the localized BotConfiguration_CompanionsForHirePercent_Description text.</summary>
+        public static string BotConfiguration_CompanionsForHirePercent_Description => ResourceManager.GetString("BotConfiguration_CompanionsForHirePercent_Description", resourceCulture)!;
+
+        /// <summary>Gets the localized BotConfiguration_CompanionFeeZen_Name text.</summary>
+        public static string BotConfiguration_CompanionFeeZen_Name => ResourceManager.GetString("BotConfiguration_CompanionFeeZen_Name", resourceCulture)!;
+
+        /// <summary>Gets the localized BotConfiguration_CompanionFeeZen_Description text.</summary>
+        public static string BotConfiguration_CompanionFeeZen_Description => ResourceManager.GetString("BotConfiguration_CompanionFeeZen_Description", resourceCulture)!;
+
+        /// <summary>Gets the localized BotConfiguration_CompanionHireMinutes_Name text.</summary>
+        public static string BotConfiguration_CompanionHireMinutes_Name => ResourceManager.GetString("BotConfiguration_CompanionHireMinutes_Name", resourceCulture)!;
+
+        /// <summary>Gets the localized BotConfiguration_CompanionHireMinutes_Description text.</summary>
+        public static string BotConfiguration_CompanionHireMinutes_Description => ResourceManager.GetString("BotConfiguration_CompanionHireMinutes_Description", resourceCulture)!;
+
+        /// <summary>Gets the localized BotConfiguration_OnlyHiredCompanionsJoinPlayers_Name text.</summary>
+        public static string BotConfiguration_OnlyHiredCompanionsJoinPlayers_Name => ResourceManager.GetString("BotConfiguration_OnlyHiredCompanionsJoinPlayers_Name", resourceCulture)!;
+
+        /// <summary>Gets the localized BotConfiguration_OnlyHiredCompanionsJoinPlayers_Description text.</summary>
+        public static string BotConfiguration_OnlyHiredCompanionsJoinPlayers_Description => ResourceManager.GetString("BotConfiguration_OnlyHiredCompanionsJoinPlayers_Description", resourceCulture)!;
+
+        /// <summary>Gets the localized BotConfiguration_CompanionLineX_Name text.</summary>
+        public static string BotConfiguration_CompanionLineX_Name => ResourceManager.GetString("BotConfiguration_CompanionLineX_Name", resourceCulture)!;
+
+        /// <summary>Gets the localized BotConfiguration_CompanionLineX_Description text.</summary>
+        public static string BotConfiguration_CompanionLineX_Description => ResourceManager.GetString("BotConfiguration_CompanionLineX_Description", resourceCulture)!;
+
+        /// <summary>Gets the localized BotConfiguration_CompanionLineY_Name text.</summary>
+        public static string BotConfiguration_CompanionLineY_Name => ResourceManager.GetString("BotConfiguration_CompanionLineY_Name", resourceCulture)!;
+
+        /// <summary>Gets the localized BotConfiguration_CompanionLineY_Description text.</summary>
+        public static string BotConfiguration_CompanionLineY_Description => ResourceManager.GetString("BotConfiguration_CompanionLineY_Description", resourceCulture)!;
+
         /// <summary>Gets the localized BotConfiguration_ProofOfConceptAccounts_Name text.</summary>
         public static string BotConfiguration_ProofOfConceptAccounts_Name => ResourceManager.GetString("BotConfiguration_ProofOfConceptAccounts_Name", resourceCulture)!;
 

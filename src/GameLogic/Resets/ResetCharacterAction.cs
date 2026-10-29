@@ -1,4 +1,4 @@
-// <copyright file="ResetCharacterAction.cs" company="MUnique">
+﻿// <copyright file="ResetCharacterAction.cs" company="MUnique">
 // Licensed under the MIT License. See LICENSE file in the project root for full license information.
 // </copyright>
 
@@ -85,6 +85,11 @@ public class ResetCharacterAction
         this._player.Attributes[Stats.Level] = configuration.LevelAfterReset;
         this._player.SelectedCharacter.Experience = 0;
         this.UpdateStats(configuration, resetProgression);
+        if (this._player.GameContext.FeaturePlugIns.GetPlugIn<ResetRewardsPlugIn>() is { } rewards)
+        {
+            await rewards.RewardAsync(this._player, resetProgression.NextResetCount).ConfigureAwait(false);
+        }
+
         if (configuration.MoveHome)
         {
             await this.MoveHomeAsync().ConfigureAwait(false);

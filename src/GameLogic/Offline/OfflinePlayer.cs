@@ -146,6 +146,12 @@ public class OfflinePlayer : Player
     internal bool IsOnShoppingTrip { get; set; }
 
     /// <summary>
+    /// Gets or sets the IP address of the client which started this offline session, for the
+    /// <see cref="OfflineLevelingLimitPlugIn"/>.
+    /// </summary>
+    internal string? OriginIpAddress { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether the bot is currently walking to a buff NPC to claim the
     /// free buff it offers (e.g. the Elf Soldier), maintained by <see cref="Bots.BotNavigator"/>.
     /// While on an errand the bot declines party invitations, like a busy player would.
@@ -158,6 +164,22 @@ public class OfflinePlayer : Player
     /// <see cref="Bots.BotNavigator"/>. Such a bot doesn't attack or walk back to a hunting spot.
     /// </summary>
     internal bool IsIdlingInTown { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the bot runs a store and must stand still (see
+    /// <see cref="Bots.ZenStoreBotPlugIn"/>). It doesn't walk, attack or follow a party meanwhile.
+    /// </summary>
+    internal bool IsRunningStore { get; set; }
+
+    /// <summary>
+    /// Gets or sets the playing time left of the hire of this companion; zero when it isn't hired.
+    /// </summary>
+    internal TimeSpan HireRemaining { get; set; }
+
+    /// <summary>
+    /// Gets or sets when the hire time was counted last.
+    /// </summary>
+    internal DateTime HireCountedAtUtc { get; set; }
 
     /// <summary>
     /// Gets a value indicating whether a revenge against a player killer is pending or armed - the

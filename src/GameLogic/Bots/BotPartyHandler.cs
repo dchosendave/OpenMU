@@ -52,7 +52,15 @@ internal static class BotPartyHandler
             return false;
         }
 
-        if (bot.IsOnShoppingTrip || bot.IsOnBuffTrip || bot.IsIdlingInTown || bot.HasRevengeIntent || bot.CurrentMiniGame is not null)
+        var configuration = BotFeaturePlugIn.GetConfiguration(bot.GameContext);
+        var forHire = BotTownRoles.GetRole(bot.Name, configuration) == BotTownRole.ForHire;
+        if (!forHire && configuration?.OnlyHiredCompanionsJoinPlayers == true)
+        {
+            // Only the companions for hire in Lorencia join players.
+            return false;
+        }
+
+        if (bot.IsOnShoppingTrip || bot.IsOnBuffTrip || (bot.IsIdlingInTown && !forHire) || bot.IsRunningStore || bot.HasRevengeIntent || bot.CurrentMiniGame is not null)
         {
             // Busy - a player in the middle of an errand, a grudge or an event would not group up either.
             return false;
@@ -87,6 +95,7 @@ internal static class BotPartyHandler
     internal static async ValueTask ProcessAsync(OfflinePlayer bot, DateTime? utcNow = null)
     {
         var now = utcNow ?? DateTime.UtcNow;
+        await CountHireAsync(bot, now).ConfigureAwait(false);
 
         if (bot.PendingPartyInvite is { } invite && now >= invite.AcceptAtUtc)
         {
@@ -147,6 +156,67 @@ internal static class BotPartyHandler
             && party.PartyList.OfType<Player>().Any(member => member is not OfflinePlayer);
     }
 
+    /// <summary>
+    /// Counts down the hire of a companion while its player is online, and ends it when the time is up
+    /// or the companion left the party.
+    /// </summary>
+    private static async ValueTask CountHireAsync(OfflinePlayer bot, DateTime now)
+    {
+        if (bot.HireRemaining <= TimeSpan.Zero)
+        {
+            return;
+        }
+
+        if (bot.Party is not { } party)
+        {
+            bot.HireRemaining = TimeSpan.Zero;
+            return;
+        }
+
+        if (HasHumanCompanion(bot))
+        {
+            bot.HireRemaining -= now - bot.HireCountedAtUtc;
+        }
+
+        bot.HireCountedAtUtc = now;
+        if (bot.HireRemaining > TimeSpan.Zero)
+        {
+            return;
+        }
+
+        bot.HireRemaining = TimeSpan.Zero;
+        foreach (var player in party.PartyList.OfType<Player>().Where(p => p is not OfflinePlayer))
+        {
+            await player.ShowBlueMessageAsync($"The hire of your companion {bot.Name} is over. It heads back to Lorencia.").ConfigureAwait(false);
+        }
+
+        await party.KickMySelfAsync(bot).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Charges the fee of a companion for hire. Other bots join for free.
+    /// </summary>
+    /// <returns><c>true</c>, if the bot may join.</returns>
+    private static async ValueTask<bool> TryChargeHireAsync(OfflinePlayer bot, Player requester)
+    {
+        var configuration = BotFeaturePlugIn.GetConfiguration(bot.GameContext);
+        if (configuration is null || BotTownRoles.GetRole(bot.Name, configuration) != BotTownRole.ForHire)
+        {
+            return true;
+        }
+
+        if (configuration.CompanionFeeZen > 0 && !requester.TryRemoveMoney(configuration.CompanionFeeZen))
+        {
+            await requester.ShowBlueMessageAsync($"Hiring {bot.Name} costs {configuration.CompanionFeeZen:N0} zen.").ConfigureAwait(false);
+            return false;
+        }
+
+        bot.HireRemaining = TimeSpan.FromMinutes(Math.Max(1, configuration.CompanionHireMinutes));
+        bot.HireCountedAtUtc = DateTime.UtcNow;
+        await requester.ShowBlueMessageAsync($"You hired {bot.Name} for {configuration.CompanionHireMinutes} minutes of playing time. It follows you anywhere.").ConfigureAwait(false);
+        return true;
+    }
+
     private static async ValueTask AcceptInvitationAsync(OfflinePlayer bot, Player requester)
     {
         // Re-validate: between the invitation and this answer, the bot may have joined a human's party
@@ -164,29 +234,42 @@ internal static class BotPartyHandler
             return;
         }
 
-        bool success;
-        if (requester.Party is { } requesterParty)
+        if (requester.Party is { } requesterParty && !Equals(requesterParty.PartyMaster, requester))
         {
-            if (!Equals(requesterParty.PartyMaster, requester))
-            {
-                // The inviter joined another party as a plain member in the meantime; it can no
-                // longer take the bot in.
-                return;
-            }
+            // The inviter joined another party as a plain member in the meantime; it can no
+            // longer take the bot in.
+            return;
+        }
 
-            success = await requesterParty.AddAsync(bot).ConfigureAwait(false);
+        // Companions for hire join for a fee, which is taken right before joining and given back if it fails.
+        var fee = BotFeaturePlugIn.GetConfiguration(bot.GameContext)?.CompanionFeeZen ?? 0;
+        if (!await TryChargeHireAsync(bot, requester).ConfigureAwait(false))
+        {
+            return;
+        }
+
+        bool success;
+        if (requester.Party is { } party)
+        {
+            success = await party.AddAsync(bot).ConfigureAwait(false);
         }
         else
         {
             // Like the regular party response: the requester becomes the master of the new party.
-            var party = bot.GameContext.PartyManager.CreateParty();
-            success = await party.AddAsync(requester).ConfigureAwait(false)
-                && await party.AddAsync(bot).ConfigureAwait(false);
+            var newParty = bot.GameContext.PartyManager.CreateParty();
+            success = await newParty.AddAsync(requester).ConfigureAwait(false)
+                && await newParty.AddAsync(bot).ConfigureAwait(false);
         }
 
         if (success)
         {
             bot.Logger.LogDebug("Bot '{Name}' joined the party of '{Requester}'.", bot.Name, requester.Name);
+        }
+        else if (bot.HireRemaining > TimeSpan.Zero)
+        {
+            bot.HireRemaining = TimeSpan.Zero;
+            requester.TryAddMoney(fee);
+            await requester.ShowBlueMessageAsync($"{bot.Name} couldn't join your party; your zen is back.").ConfigureAwait(false);
         }
     }
 

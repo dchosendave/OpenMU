@@ -140,6 +140,42 @@ public class BotConfiguration
     public int TownAfkPercent { get; set; } = 40;
 
     /// <summary>
+    /// Gets or sets the share (in percent) of bot characters which stand in a line in Lorencia as
+    /// companions for hire: a player invites one to the party, pays <see cref="CompanionFeeZen"/>, and the
+    /// bot follows the player to any map for <see cref="CompanionHireMinutes"/> minutes of playing time.
+    /// </summary>
+    [Display(Name = nameof(MUnique.OpenMU.GameLogic.Properties.PlugInResources.BotConfiguration_CompanionsForHirePercent_Name), Description = nameof(MUnique.OpenMU.GameLogic.Properties.PlugInResources.BotConfiguration_CompanionsForHirePercent_Description), ResourceType = typeof(MUnique.OpenMU.GameLogic.Properties.PlugInResources))]
+    [Range(0, 100)]
+    public int CompanionsForHirePercent { get; set; } = 5;
+
+    /// <summary>Gets or sets the zen a player pays to hire a companion.</summary>
+    [Display(Name = nameof(MUnique.OpenMU.GameLogic.Properties.PlugInResources.BotConfiguration_CompanionFeeZen_Name), Description = nameof(MUnique.OpenMU.GameLogic.Properties.PlugInResources.BotConfiguration_CompanionFeeZen_Description), ResourceType = typeof(MUnique.OpenMU.GameLogic.Properties.PlugInResources))]
+    [Range(0, 2000000000)]
+    public int CompanionFeeZen { get; set; } = 1000000;
+
+    /// <summary>Gets or sets how long a hire lasts, counted only while the player is online.</summary>
+    [Display(Name = nameof(MUnique.OpenMU.GameLogic.Properties.PlugInResources.BotConfiguration_CompanionHireMinutes_Name), Description = nameof(MUnique.OpenMU.GameLogic.Properties.PlugInResources.BotConfiguration_CompanionHireMinutes_Description), ResourceType = typeof(MUnique.OpenMU.GameLogic.Properties.PlugInResources))]
+    [Range(1, 1440)]
+    public int CompanionHireMinutes { get; set; } = 60;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether only hired companions join the parties of players. When it's
+    /// off, hunting bots also accept party invites of players, for free.
+    /// </summary>
+    [Display(Name = nameof(MUnique.OpenMU.GameLogic.Properties.PlugInResources.BotConfiguration_OnlyHiredCompanionsJoinPlayers_Name), Description = nameof(MUnique.OpenMU.GameLogic.Properties.PlugInResources.BotConfiguration_OnlyHiredCompanionsJoinPlayers_Description), ResourceType = typeof(MUnique.OpenMU.GameLogic.Properties.PlugInResources))]
+    public bool OnlyHiredCompanionsJoinPlayers { get; set; } = true;
+
+    /// <summary>Gets or sets the x coordinate in Lorencia where the line of companions for hire starts.</summary>
+    [Display(Name = nameof(MUnique.OpenMU.GameLogic.Properties.PlugInResources.BotConfiguration_CompanionLineX_Name), Description = nameof(MUnique.OpenMU.GameLogic.Properties.PlugInResources.BotConfiguration_CompanionLineX_Description), ResourceType = typeof(MUnique.OpenMU.GameLogic.Properties.PlugInResources))]
+    [Range(0, 255)]
+    public int CompanionLineX { get; set; } = 140;
+
+    /// <summary>Gets or sets the y coordinate in Lorencia of the line of companions for hire.</summary>
+    [Display(Name = nameof(MUnique.OpenMU.GameLogic.Properties.PlugInResources.BotConfiguration_CompanionLineY_Name), Description = nameof(MUnique.OpenMU.GameLogic.Properties.PlugInResources.BotConfiguration_CompanionLineY_Description), ResourceType = typeof(MUnique.OpenMU.GameLogic.Properties.PlugInResources))]
+    [Range(0, 255)]
+    public int CompanionLineY { get; set; } = 127;
+
+    /// <summary>
     /// Gets or sets a comma separated list of login names of existing accounts to animate as bots.
     /// This is an optional extra hook alongside the generated population (see
     /// <see cref="NumberOfAccounts"/>): every listed account gets a bot driving its first character.

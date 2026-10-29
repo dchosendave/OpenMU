@@ -202,6 +202,53 @@ public sealed class AccountSession : IDisposable
     }
 
     /// <summary>
+    /// Adds a reward item to the first free place of a storage: an ancient part (with the highest bonus
+    /// option of its set), or an excellent part with random excellent options. Weapons get their skill.
+    /// </summary>
+    /// <param name="storage">The storage.</param>
+    /// <param name="definition">The item definition.</param>
+    /// <param name="level">The level.</param>
+    /// <param name="ancientSetItem">The part of the ancient set, or <c>null</c>.</param>
+    /// <param name="excellentOptions">The number of excellent options, if it's not ancient.</param>
+    /// <param name="description">The description for the list of changes.</param>
+    /// <returns>The added item.</returns>
+    public Item AddRewardItem(StorageModel storage, ItemDefinition definition, byte level, ItemOfItemSet? ancientSetItem, int excellentOptions, string description)
+    {
+        var item = this.CreateItem(definition, level, null);
+        item.HasSkill = definition.Skill is not null && definition.ItemSlot is not null;
+        if (ancientSetItem is not null)
+        {
+            item.ItemSetGroups.Add(ancientSetItem);
+            if (ancientSetItem.BonusOption is { } bonusOption)
+            {
+                var link = this._context.CreateNew<ItemOptionLink>();
+                link.ItemOption = bonusOption;
+                link.Level = bonusOption.LevelDependentOptions.Select(o => o.Level).DefaultIfEmpty(0).Max();
+                item.ItemOptions.Add(link);
+            }
+        }
+        else if (definition.PossibleItemOptions.FirstOrDefault(o => o.PossibleOptions.Any(p => object.Equals(p.OptionType, ItemOptionTypes.Excellent))) is { } excellent)
+        {
+            foreach (var option in excellent.PossibleOptions.Where(p => object.Equals(p.OptionType, ItemOptionTypes.Excellent)).OrderBy(_ => Random.Shared.Next()).Take(excellentOptions))
+            {
+                var link = this._context.CreateNew<ItemOptionLink>();
+                link.ItemOption = option;
+                item.ItemOptions.Add(link);
+            }
+        }
+
+        if (!this.TryPlace(storage, item, null, out var reason))
+        {
+            this._context.Detach(item);
+            throw new AccountManagerException(reason);
+        }
+
+        storage.Storage.Items.Add(item);
+        this.MarkChanged(string.Format(Resources.AccountManagerChangeAddedItem, description, storage.Title));
+        return item;
+    }
+
+    /// <summary>
     /// Adds several new items (e.g. the pieces of an armor set) to free places of a storage.
     /// Either all of them fit, or nothing is added.
     /// </summary>

@@ -37,7 +37,10 @@ public sealed class OfflinePlayerManager
             return false;
         }
 
-        var sentinel = new OfflinePlayer(realPlayer.GameContext);
+        var sentinel = new OfflinePlayer(realPlayer.GameContext)
+        {
+            OriginIpAddress = (realPlayer as IHasIpAddress)?.IpAddress,
+        };
 
         // Atomically claim the slot to prevent racing during initialization.
         if (!this._activePlayers.TryAdd(loginName, sentinel))
@@ -69,6 +72,23 @@ public sealed class OfflinePlayerManager
             await this.RemoveAndDisposeAsync(loginName, sentinel).ConfigureAwait(false);
             throw;
         }
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether the IP address already levels the allowed number of characters
+    /// offline (see <see cref="OfflineLevelingLimitPlugIn"/>).
+    /// </summary>
+    /// <param name="player">The player who wants to start offline leveling.</param>
+    /// <returns><c>true</c>, if the limit is reached.</returns>
+    public bool IsIpAddressLimitReached(Player player)
+    {
+        if (player.GameContext.FeaturePlugIns.GetPlugIn<OfflineLevelingLimitPlugIn>()?.Configuration is not { } configuration
+            || (player as IHasIpAddress)?.IpAddress is not { } ipAddress)
+        {
+            return false;
+        }
+
+        return this._activePlayers.Values.Count(p => p.OriginIpAddress == ipAddress) >= configuration.MaximumPerIpAddress;
     }
 
     /// <summary>

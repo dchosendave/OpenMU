@@ -28,4 +28,10 @@ public enum MixResult
     /// The item will be downgraded 2 or 3 levels and its item option will be removed.
     /// </summary>
     ThirdWingsDowngradedRandom = 3,
+
+    /// <summary>
+    /// For the +10 to +15 item upgrades: the item is never destroyed, it loses a random number of levels
+    /// instead: none (40%), 1 (35%), 2 (20%) or 3 (5%), but never below +9.
+    /// </summary>
+    UpgradeDowngradedRandom = 4,
 }

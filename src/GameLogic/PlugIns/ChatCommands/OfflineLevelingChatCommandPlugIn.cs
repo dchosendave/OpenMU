@@ -84,6 +84,12 @@ public sealed class OfflineLevelingChatCommandPlugIn : IChatCommandPlugIn
             return;
         }
 
+        if (manager.IsIpAddressLimitReached(player))
+        {
+            await player.ShowBlueMessageAsync("Your connection already has the most characters allowed in offline leveling.").ConfigureAwait(false);
+            return;
+        }
+
         await player.ShowLocalizedBlueMessageAsync(nameof(PlayerMessage.OfflineLevelingStarted)).ConfigureAwait(false);
 
         if (!await manager.StartAsync(player, loginName).ConfigureAwait(false))

@@ -1379,6 +1379,18 @@
   <data name="BotConfiguration_TownIdlerPercent_Description" xml:space="preserve"><value>Anteil der Bot-Charaktere, die nicht jagen, sondern sich in Lorencia aufhalten, herumlaufen oder AFK stehen. Nach Charaktername gewählt, also immer dieselben Bots.</value></data>
   <data name="BotConfiguration_TownAfkPercent_Name" xml:space="preserve"><value>AFK-Bummler (%)</value></data>
   <data name="BotConfiguration_TownAfkPercent_Description" xml:space="preserve"><value>Anteil der Bummler, die minutenlang stillstehen (AFK), statt herumzulaufen.</value></data>
+  <data name="BotConfiguration_CompanionsForHirePercent_Name" xml:space="preserve"><value>Companions for hire (%)</value></data>
+  <data name="BotConfiguration_CompanionsForHirePercent_Description" xml:space="preserve"><value>Share of bot characters which stand in a line in Lorencia, waiting to be hired as companions.</value></data>
+  <data name="BotConfiguration_CompanionFeeZen_Name" xml:space="preserve"><value>Companion fee (zen)</value></data>
+  <data name="BotConfiguration_CompanionFeeZen_Description" xml:space="preserve"><value>The zen a player pays to hire a companion by inviting it to the party.</value></data>
+  <data name="BotConfiguration_CompanionHireMinutes_Name" xml:space="preserve"><value>Companion hire (minutes)</value></data>
+  <data name="BotConfiguration_CompanionHireMinutes_Description" xml:space="preserve"><value>How long a hire lasts, counted only while the player is online.</value></data>
+  <data name="BotConfiguration_OnlyHiredCompanionsJoinPlayers_Name" xml:space="preserve"><value>Only hired companions join players</value></data>
+  <data name="BotConfiguration_OnlyHiredCompanionsJoinPlayers_Description" xml:space="preserve"><value>When on, hunting bots decline the party invites of players; only companions for hire join, for the fee.</value></data>
+  <data name="BotConfiguration_CompanionLineX_Name" xml:space="preserve"><value>Companion line X</value></data>
+  <data name="BotConfiguration_CompanionLineX_Description" xml:space="preserve"><value>Where the line of companions for hire starts in Lorencia (x).</value></data>
+  <data name="BotConfiguration_CompanionLineY_Name" xml:space="preserve"><value>Companion line Y</value></data>
+  <data name="BotConfiguration_CompanionLineY_Description" xml:space="preserve"><value>Where the line of companions for hire stands in Lorencia (y).</value></data>
     <value>Bis zu wie vielen Ladungen an Heil- und Manatränken ein Bot bei einem Händler einkauft.</value>
   </data>
   <data name="BotConfiguration_ProofOfConceptAccounts_Name" xml:space="preserve">

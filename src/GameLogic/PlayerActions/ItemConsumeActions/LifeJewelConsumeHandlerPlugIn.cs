@@ -16,16 +16,38 @@ using MUnique.OpenMU.PlugIns;
 [Guid("8AC6592D-D51C-47C9-B491-4778C615691D")]
 [PlugIn]
 [Display(Name = nameof(PlugInResources.LifeJewelConsumeHandlerPlugIn_Name), Description = nameof(PlugInResources.LifeJewelConsumeHandlerPlugIn_Description), ResourceType = typeof(PlugInResources))]
-public class LifeJewelConsumeHandlerPlugIn : ItemUpgradeConsumeHandlerPlugIn
+public class LifeJewelConsumeHandlerPlugIn : ItemUpgradeConsumeHandlerPlugIn, ISupportCustomConfiguration<LifeJewelConfiguration>, ISupportDefaultCustomConfiguration
 {
+    private LifeJewelConfiguration? _configuration;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="LifeJewelConsumeHandlerPlugIn" /> class.
     /// </summary>
     public LifeJewelConsumeHandlerPlugIn()
-        : base(new ItemUpgradeConfiguration(ItemOptionTypes.Option, true, true, 0.5, ItemFailResult.RemoveOption))
+        : base(new ItemUpgradeConfiguration(ItemOptionTypes.Option, true, true, 0.5, ItemFailResult.DecreaseOneLevel))
     {
     }
 
     /// <inheritdoc />
     public override ItemIdentifier Key => ItemConstants.JewelOfLife;
+
+    /// <summary>
+    /// Gets or sets the success chances per option level and what a fail does.
+    /// </summary>
+    public new LifeJewelConfiguration? Configuration
+    {
+        get => this._configuration;
+        set
+        {
+            this._configuration = value;
+            base.Configuration.FailResult = value?.FailResult ?? ItemFailResult.DecreaseOneLevel;
+        }
+    }
+
+    /// <inheritdoc />
+    public object CreateDefaultConfig() => new LifeJewelConfiguration();
+
+    /// <inheritdoc />
+    protected override double GetSuccessChance(int targetLevel)
+        => (this._configuration ?? new LifeJewelConfiguration()).ChanceOf(targetLevel);
 }

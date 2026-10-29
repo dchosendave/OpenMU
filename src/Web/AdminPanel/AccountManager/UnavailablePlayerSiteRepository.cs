@@ -37,4 +37,24 @@ public class UnavailablePlayerSiteRepository : IPlayerSiteRepository
 
     /// <inheritdoc />
     public ValueTask<bool> TryChangeListingStateAsync(Guid id, string expectedState, string newState, string? buyerLogin, CancellationToken cancellationToken = default) => throw new InvalidOperationException(NotAvailableMessage);
+
+    public ValueTask SaveFlashSaleAsync(WebFlashSale sale, CancellationToken cancellationToken = default) => throw new InvalidOperationException(NotAvailableMessage);
+
+    public ValueTask DeleteFlashSaleAsync(Guid id, CancellationToken cancellationToken = default) => throw new InvalidOperationException(NotAvailableMessage);
+
+    public ValueTask<WebFlashSale?> GetFlashSaleAsync(Guid id, CancellationToken cancellationToken = default) => throw new InvalidOperationException(NotAvailableMessage);
+
+    public ValueTask<bool> TryTakeFlashSaleStockAsync(Guid id, DateTime utcNow, CancellationToken cancellationToken = default) => throw new InvalidOperationException(NotAvailableMessage);
+
+    public ValueTask ReturnFlashSaleStockAsync(Guid id, CancellationToken cancellationToken = default) => throw new InvalidOperationException(NotAvailableMessage);
+
+    public ValueTask<bool> TryAddMilestoneClaimAsync(WebMilestoneClaim claim, CancellationToken cancellationToken = default) => throw new InvalidOperationException(NotAvailableMessage);
+
+    public ValueTask<WebMilestoneClaim?> GetMilestoneClaimAsync(Guid id, CancellationToken cancellationToken = default) => throw new InvalidOperationException(NotAvailableMessage);
+
+    public ValueTask<IReadOnlyList<WebMilestoneClaim>> GetMilestoneClaimsAsync(string loginName, CancellationToken cancellationToken = default) => throw new InvalidOperationException(NotAvailableMessage);
+
+    public ValueTask<bool> TryMarkMilestoneClaimedAsync(Guid id, string claimedItem, DateTime utcNow, CancellationToken cancellationToken = default) => throw new InvalidOperationException(NotAvailableMessage);
+
+    public ValueTask ReopenMilestoneClaimAsync(Guid id, CancellationToken cancellationToken = default) => throw new InvalidOperationException(NotAvailableMessage);
 }

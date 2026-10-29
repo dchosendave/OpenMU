@@ -31,6 +31,7 @@ public static class AccountManagerServiceCollectionExtensions
         services.AddSingleton<MUnique.OpenMU.Web.AdminPanel.PlayerSite.WebMiniGamesService>();
         services.AddSingleton<MUnique.OpenMU.Web.AdminPanel.PlayerSite.PlayerSiteFeaturesService>();
         services.AddSingleton<MUnique.OpenMU.Web.AdminPanel.PlayerSite.CastleSiegeSiteService>();
+        services.AddSingleton<MUnique.OpenMU.Web.AdminPanel.PlayerSite.MilestoneRewardsService>();
         services.AddHostedService(s => s.GetRequiredService<MUnique.OpenMU.Web.AdminPanel.PlayerSite.CastleSiegeSiteService>());
         services.TryAddSingleton<IWebMiniGamePlayRepository, UnavailableWebMiniGamePlayRepository>();
         services.TryAddSingleton<IPlayerSiteRepository, UnavailablePlayerSiteRepository>();

@@ -17,6 +17,9 @@ internal enum BotTownRole
 
     /// <summary>The bot stands somewhere in Lorencia town for minutes at a time, like a player who is away.</summary>
     Afk,
+
+    /// <summary>The bot stands in the line of companions for hire in Lorencia, until a player hires it.</summary>
+    ForHire,
 }
 
 /// <summary>
@@ -42,6 +45,11 @@ internal static class BotTownRoles
         }
 
         var hash = StableHash(characterName);
+        if ((hash / 10000) % 100 < Math.Clamp(configuration.CompanionsForHirePercent, 0, 100))
+        {
+            return BotTownRole.ForHire;
+        }
+
         if (hash % 100 >= Math.Clamp(configuration.TownIdlerPercent, 0, 100))
         {
             return BotTownRole.None;
@@ -51,6 +59,13 @@ internal static class BotTownRoles
             ? BotTownRole.Afk
             : BotTownRole.Stroller;
     }
+
+    /// <summary>
+    /// Gets the place of a companion for hire in its line, from 0 to 9.
+    /// </summary>
+    /// <param name="characterName">The name of the bot character.</param>
+    /// <returns>The place in the line.</returns>
+    public static int LinePlace(string characterName) => (int)((StableHash(characterName) / 1000000) % 10);
 
     /// <summary>
     /// FNV-1a over the lower-cased name: string.GetHashCode differs between processes.

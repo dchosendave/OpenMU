@@ -18,7 +18,6 @@ public class DefaultDropGenerator : IDropGenerator
     /// </summary>
     private const int BaseMoneyDrop = 7;
     private const int DropLevelMaxGap = 12;
-    private const int SkillDropChancePercent = 50;
 
     private const byte DefaultMaxItemOptionLevelDrop = 3;
     private const byte MinItemOptionLevelDrop = 1;
@@ -165,10 +164,8 @@ public class DefaultDropGenerator : IDropGenerator
             item.SocketCount = this._randomizer.NextInt(1, item.Definition.MaximumSockets + 1);
         }
 
-        if (item.CanHaveSkill())
-        {
-            item.HasSkill = this._randomizer.NextRandomBool(SkillDropChancePercent);
-        }
+        // A weapon which comes with a skill always has it (game-design.md, "Item options").
+        item.HasSkill = item.CanHaveSkill();
     }
 
     /// <summary>

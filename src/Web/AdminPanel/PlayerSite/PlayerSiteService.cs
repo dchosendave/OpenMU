@@ -27,6 +27,7 @@ public sealed class PlayerSiteService : IDisposable
     private readonly IPersistenceContextProvider _persistenceContextProvider;
     private readonly IAccountOnlineStatus _onlineStatus;
     private readonly IItemPackageRepository _packages;
+    private readonly IPlayerSiteRepository _siteRepository;
     private readonly ConcurrentDictionary<string, SemaphoreSlim> _accountLocks = new(StringComparer.OrdinalIgnoreCase);
     private readonly SemaphoreSlim _initializationLock = new(1, 1);
     private IContext? _configurationContext;
@@ -38,11 +39,13 @@ public sealed class PlayerSiteService : IDisposable
     /// <param name="persistenceContextProvider">The persistence context provider.</param>
     /// <param name="onlineStatus">The online status of accounts.</param>
     /// <param name="packages">The item packages, which are the products of the web shop.</param>
-    public PlayerSiteService(IPersistenceContextProvider persistenceContextProvider, IAccountOnlineStatus onlineStatus, IItemPackageRepository packages)
+    /// <param name="siteRepository">The data of the player website, e.g. the flash sales.</param>
+    public PlayerSiteService(IPersistenceContextProvider persistenceContextProvider, IAccountOnlineStatus onlineStatus, IItemPackageRepository packages, IPlayerSiteRepository siteRepository)
     {
         this._persistenceContextProvider = persistenceContextProvider;
         this._onlineStatus = onlineStatus;
         this._packages = packages;
+        this._siteRepository = siteRepository;
     }
 
     /// <summary>
@@ -131,6 +134,103 @@ public sealed class PlayerSiteService : IDisposable
                 balance = BalanceOf(session, package.WebShopCurrency),
             };
         });
+
+    /// <summary>
+    /// Buys a piece of a flash sale: takes one piece of its stock, the price from the account, and puts the
+    /// package (or one random item of it) into the vault. A failed purchase puts the piece back.
+    /// </summary>
+    /// <param name="loginName">The login name of the account.</param>
+    /// <param name="saleId">The identifier of the sale.</param>
+    /// <returns>The result, with what was bought and the remaining balance.</returns>
+    public async Task<PlayerSiteResult> BuyFlashSaleAsync(string loginName, Guid saleId)
+    {
+        var tookStock = false;
+        var result = await this.ChangeAsync(loginName, async session =>
+        {
+            var sale = await this._siteRepository.GetFlashSaleAsync(saleId).ConfigureAwait(false)
+                ?? throw new PlayerSiteException(PlayerSiteResult.NotFound, "This sale doesn't exist.");
+            var package = (await this._packages.GetAllAsync().ConfigureAwait(false)).FirstOrDefault(p => p.Id == sale.ItemPackageId)
+                ?? throw new PlayerSiteException(PlayerSiteResult.NotFound, "This sale has nothing to sell.");
+            var balance = BalanceOf(session, sale.Currency);
+            if (balance < sale.Price)
+            {
+                throw new PlayerSiteException(PlayerSiteResult.InsufficientFunds, $"This costs {sale.Price:N0}, but you have {balance:N0}.");
+            }
+
+            if (!await this._siteRepository.TryTakeFlashSaleStockAsync(saleId, DateTime.UtcNow).ConfigureAwait(false))
+            {
+                throw new PlayerSiteException(PlayerSiteResult.Invalid, "Too late: this sale is over or sold out.");
+            }
+
+            tookStock = true;
+            var delivered = sale.PickOneRandomItem && package.Items.Count > 0
+                ? new ItemPackage { Id = package.Id, Name = package.Name, Items = [package.Items[Random.Shared.Next(package.Items.Count)]] }
+                : package;
+            SetBalance(session, sale.Currency, balance - sale.Price);
+            PackageResult packageResult;
+            try
+            {
+                packageResult = session.ApplyPackage(session.Vault, delivered, null);
+            }
+            catch (AccountManagerException ex)
+            {
+                throw new PlayerSiteException(PlayerSiteResult.NoSpace, ex.Message);
+            }
+
+            if (packageResult.Problems.Count > 0)
+            {
+                throw new PlayerSiteException(PlayerSiteResult.Invalid, "This item can't be delivered right now. Nothing was charged.");
+            }
+
+            return new
+            {
+                sale = sale.Title,
+                items = delivered.Items.Select(i => i.Name).ToList(),
+                currency = sale.Currency.ToString(),
+                balance = BalanceOf(session, sale.Currency),
+            };
+        }).ConfigureAwait(false);
+
+        if (tookStock && !result.Succeeded)
+        {
+            await this._siteRepository.ReturnFlashSaleStockAsync(saleId).ConfigureAwait(false);
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Adds or updates a flash sale.
+    /// </summary>
+    /// <param name="sale">The sale.</param>
+    /// <returns>The result.</returns>
+    public async Task<PlayerSiteResult> SaveFlashSaleAsync(WebFlashSale sale)
+    {
+        if (string.IsNullOrWhiteSpace(sale.Title) || sale.Title.Length > WebFlashSale.TitleMaximumLength
+            || sale.Price < 0 || sale.Stock < 1 || sale.DurationSeconds < 5)
+        {
+            return new PlayerSiteResult(PlayerSiteResult.Invalid, "A sale needs a title, a price, at least 1 in stock and at least 5 seconds.");
+        }
+
+        if (!(await this._packages.GetAllAsync().ConfigureAwait(false)).Any(p => p.Id == sale.ItemPackageId))
+        {
+            return new PlayerSiteResult(PlayerSiteResult.NotFound, "There's no such item package.");
+        }
+
+        await this._siteRepository.SaveFlashSaleAsync(sale).ConfigureAwait(false);
+        return new PlayerSiteResult(PlayerSiteResult.Ok);
+    }
+
+    /// <summary>
+    /// Deletes a flash sale.
+    /// </summary>
+    /// <param name="id">The id.</param>
+    /// <returns>The result.</returns>
+    public async Task<PlayerSiteResult> DeleteFlashSaleAsync(Guid id)
+    {
+        await this._siteRepository.DeleteFlashSaleAsync(id).ConfigureAwait(false);
+        return new PlayerSiteResult(PlayerSiteResult.Ok);
+    }
 
     /// <inheritdoc />
     public void Dispose()

@@ -330,6 +330,53 @@ namespace MUnique.OpenMU.Persistence.EntityFramework.Migrations.AdminPanel
                     b.ToTable("WebCheckIn", "admin");
                 });
 
+            modelBuilder.Entity("MUnique.OpenMU.Persistence.AccountManager.WebFlashSale", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)");
+
+                    b.Property<int>("Currency")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("DurationSeconds")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("ItemPackageId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("PickOneRandomItem")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Sold")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("StartsAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Stock")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("character varying(60)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StartsAt");
+
+                    b.ToTable("WebFlashSale", "admin");
+                });
+
             modelBuilder.Entity("MUnique.OpenMU.Persistence.AccountManager.WebMarketListing", b =>
                 {
                     b.Property<Guid>("Id")
@@ -384,6 +431,45 @@ namespace MUnique.OpenMU.Persistence.EntityFramework.Migrations.AdminPanel
                     b.HasIndex("State", "CreatedAt");
 
                     b.ToTable("WebMarketListing", "admin");
+                });
+
+            modelBuilder.Entity("MUnique.OpenMU.Persistence.AccountManager.WebMilestoneClaim", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("CharacterName")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)");
+
+                    b.Property<DateTime?>("ClaimedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ClaimedItem")
+                        .HasMaxLength(80)
+                        .HasColumnType("character varying(80)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("GrandResets")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("LoginName")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LoginName");
+
+                    b.HasIndex("CharacterName", "GrandResets")
+                        .IsUnique();
+
+                    b.ToTable("WebMilestoneClaim", "admin");
                 });
 
             modelBuilder.Entity("MUnique.OpenMU.Persistence.AccountManager.WebMiniGamePlay", b =>

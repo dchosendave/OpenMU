@@ -756,10 +756,18 @@ internal sealed class BotNavigator : AsyncDisposable
             this._player.PendingBotActions.Enqueue(() => BotWingHandler.TryAdvanceWingsAsync(this._player));
         }
 
+        // A bot running a store stands where it is until the store closes.
+        if (this._player.IsRunningStore)
+        {
+            this._player.HuntingOrigin = this._player.Position;
+            this._lastMoveUtc = DateTime.UtcNow;
+            return;
+        }
+
         // Town bots don't hunt: they hang around Lorencia, strolling or standing AFK. Checked on every
         // tick, so a change of the percentages on the admin panel takes effect right away.
         var townRole = BotTownRoles.GetRole(this._player.Name, BotFeaturePlugIn.GetConfiguration(this._player.GameContext));
-        if (townRole != BotTownRole.None)
+        if (townRole != BotTownRole.None && !BotPartyHandler.HasHumanCompanion(this._player) && this._player.HireRemaining <= TimeSpan.Zero)
         {
             await this.EvaluateInTownAsync(map, townRole, cancellationToken).ConfigureAwait(false);
             return;
@@ -1043,6 +1051,12 @@ internal sealed class BotNavigator : AsyncDisposable
             return;
         }
 
+        if (role == BotTownRole.ForHire)
+        {
+            await this.StandInHireLineAsync(map, cancellationToken).ConfigureAwait(false);
+            return;
+        }
+
         if (DateTime.UtcNow < this._nextTownMoveUtc)
         {
             return;
@@ -1050,6 +1064,26 @@ internal sealed class BotNavigator : AsyncDisposable
 
         // AFK bots wander further, so they don't all stand next to the spawn gate.
         this._townTarget = PickTownSpot(map.Terrain, this._player.Position, role == BotTownRole.Afk ? (byte)25 : (byte)12);
+    }
+
+    /// <summary>
+    /// Walks a companion for hire to its place in the line in Lorencia and keeps it there.
+    /// </summary>
+    private async ValueTask StandInHireLineAsync(GameMap map, CancellationToken cancellationToken)
+    {
+        var configuration = BotFeaturePlugIn.GetConfiguration(this._player.GameContext);
+        if (configuration is null || this._player.Name is not { } name)
+        {
+            return;
+        }
+
+        var place = new Point(
+            (byte)Math.Clamp(configuration.CompanionLineX + (BotTownRoles.LinePlace(name) * 2), 0, 255),
+            (byte)Math.Clamp(configuration.CompanionLineY, 0, 255));
+        if (this._player.GetDistanceTo(place) > 1)
+        {
+            await this.TravelTowardAsync(map, place, cancellationToken).ConfigureAwait(false);
+        }
     }
 
     private async ValueTask WarpToTownAsync(GameMapDefinition? town)

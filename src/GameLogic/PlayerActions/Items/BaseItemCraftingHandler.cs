@@ -160,6 +160,27 @@ public abstract class BaseItemCraftingHandler : IItemCraftingHandler
     }
 
     /// <summary>
+    /// The level of an item after a failed +10 to +15 upgrade (<see cref="MixResult.UpgradeDowngradedRandom"/>):
+    /// it keeps its level (40%), or loses 1 (35%), 2 (20%) or 3 levels (5%), but never goes below +9.
+    /// </summary>
+    /// <param name="level">The level before the upgrade.</param>
+    /// <param name="roll">A random number from 0 to 99.</param>
+    /// <returns>The new level.</returns>
+    internal static byte UpgradeFailLevel(byte level, int roll)
+    {
+        const byte lowestLevel = 9;
+        var levelsLost = roll switch
+        {
+            < 40 => 0,
+            < 75 => 1,
+            < 95 => 2,
+            _ => 3,
+        };
+
+        return (byte)Math.Max(Math.Min((int)level, lowestLevel), level - levelsLost);
+    }
+
+    /// <summary>
     /// Changes the <see cref="CraftingRequiredItemLink.Items"/> depending on the success.
     /// </summary>
     /// <param name="player">The player.</param>
@@ -232,6 +253,16 @@ public abstract class BaseItemCraftingHandler : IItemCraftingHandler
 
                     item.Durability = item.GetMaximumDurabilityOfOnePiece();
                     player.Logger.LogDebug("Item {0} was downgraded from level {1} to {2}. Item option was removed.", item, previousLevel, item.Level);
+                });
+
+                break;
+            case MixResult.UpgradeDowngradedRandom:
+                itemLink.Items.ForEach(item =>
+                {
+                    var previousLevel = item.Level;
+                    item.Level = UpgradeFailLevel(previousLevel, Rand.NextInt(0, 100));
+                    item.Durability = Math.Min(item.Durability, item.GetMaximumDurabilityOfOnePiece());
+                    player.Logger.LogDebug("Item {0} failed its upgrade and went from level {1} to {2}.", item, previousLevel, item.Level);
                 });
 
                 break;

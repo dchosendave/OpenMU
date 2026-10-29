@@ -159,7 +159,7 @@ public class ItemConsumptionTest
     public async ValueTask JewelOfLifeAsync(int numberOfOptions, bool consumptionExpectation)
     {
         var consumeHandler = new LifeJewelConsumeHandlerPlugIn();
-        consumeHandler.Configuration.SuccessChance = 1;
+        consumeHandler.Configuration = new LifeJewelConfiguration { SuccessPercentPerLevel = "100", FailResult = ItemUpgradeConsumeHandlerPlugIn.ItemFailResult.RemoveOption };
         var player = await this.GetPlayerAsync().ConfigureAwait(false);
         var upgradeableItem = this.GetItemWithPossibleOption();
         var upgradableItemSlot = (byte)(ItemSlot + 1);
@@ -192,7 +192,7 @@ public class ItemConsumptionTest
     public async ValueTask JewelOfLifeFailRemovesOptionAsync(int numberOfOptions)
     {
         var consumeHandler = new LifeJewelConsumeHandlerPlugIn();
-        consumeHandler.Configuration.SuccessChance = 1;
+        consumeHandler.Configuration = new LifeJewelConfiguration { SuccessPercentPerLevel = "100", FailResult = ItemUpgradeConsumeHandlerPlugIn.ItemFailResult.RemoveOption };
         var player = await this.GetPlayerAsync().ConfigureAwait(false);
         var upgradeableItem = this.GetItemWithPossibleOption();
         var upgradableItemSlot = (byte)(ItemSlot + 1);
@@ -210,7 +210,7 @@ public class ItemConsumptionTest
         Assert.That(upgradeableItem.ItemOptions.Count, Is.EqualTo(1));
 
         // then adding fails, so option needs to be removed
-        consumeHandler.Configuration.SuccessChance = 0;
+        consumeHandler.Configuration = new LifeJewelConfiguration { SuccessPercentPerLevel = "0", FailResult = ItemUpgradeConsumeHandlerPlugIn.ItemFailResult.RemoveOption };
         var jol2 = this.GetItem();
         await player.Inventory.AddItemAsync(ItemSlot, jol2).ConfigureAwait(false);
         jol2.Durability = 1;
@@ -229,7 +229,7 @@ public class ItemConsumptionTest
     public async ValueTask JewelOfLifeDoesNotAddFixedOptionAsync(double successChance)
     {
         var consumeHandler = new LifeJewelConsumeHandlerPlugIn();
-        consumeHandler.Configuration.SuccessChance = successChance;
+        consumeHandler.Configuration = new LifeJewelConfiguration { SuccessPercentPerLevel = (successChance * 100).ToString(System.Globalization.CultureInfo.InvariantCulture) };
         var player = await this.GetPlayerAsync().ConfigureAwait(false);
         var upgradeableItem = this.GetItemWithPossibleOption(false);
         await player.Inventory!.AddItemAsync((byte)(ItemSlot + 1), upgradeableItem).ConfigureAwait(false);
@@ -253,7 +253,7 @@ public class ItemConsumptionTest
     {
         const int optionLevel = 2;
         var consumeHandler = new LifeJewelConsumeHandlerPlugIn();
-        consumeHandler.Configuration.SuccessChance = successChance;
+        consumeHandler.Configuration = new LifeJewelConfiguration { SuccessPercentPerLevel = (successChance * 100).ToString(System.Globalization.CultureInfo.InvariantCulture) };
         var player = await this.GetPlayerAsync().ConfigureAwait(false);
         var upgradeableItem = this.GetItemWithPossibleOption(false);
         var fixedOption = upgradeableItem.Definition!.PossibleItemOptions.Single().PossibleOptions.Single();

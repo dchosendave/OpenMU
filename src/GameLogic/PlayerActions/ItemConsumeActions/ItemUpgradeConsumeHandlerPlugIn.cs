@@ -43,6 +43,11 @@ public abstract class ItemUpgradeConsumeHandlerPlugIn : ItemModifyConsumeHandler
         /// Removes the option.
         /// </summary>
         RemoveOption,
+
+        /// <summary>
+        /// Lowers the option by one level; an option of the lowest level is removed.
+        /// </summary>
+        DecreaseOneLevel,
     }
 
     /// <summary>
@@ -100,7 +105,7 @@ public abstract class ItemUpgradeConsumeHandlerPlugIn : ItemModifyConsumeHandler
             return false;
         }
 
-        if (Rand.NextRandomBool(this.Configuration.SuccessChance))
+        if (Rand.NextRandomBool(this.GetSuccessChance(itemOption.Level + 1)))
         {
             itemOption.Level++;
         }
@@ -119,6 +124,17 @@ public abstract class ItemUpgradeConsumeHandlerPlugIn : ItemModifyConsumeHandler
             case ItemFailResult.RemoveOption:
                 item.ItemOptions.Remove(itemOption);
                 break;
+            case ItemFailResult.DecreaseOneLevel:
+                if (itemOption.Level > 1)
+                {
+                    itemOption.Level--;
+                }
+                else
+                {
+                    item.ItemOptions.Remove(itemOption);
+                }
+
+                break;
             case ItemFailResult.SetOptionToBaseLevel:
                 itemOption.Level = itemOption.ItemOption?.LevelDependentOptions.Min(ldo => ldo.Level) ?? itemOption.Level;
                 break;
@@ -135,7 +151,7 @@ public abstract class ItemUpgradeConsumeHandlerPlugIn : ItemModifyConsumeHandler
             return false;
         }
 
-        if (Rand.NextRandomBool(this.Configuration.SuccessChance))
+        if (Rand.NextRandomBool(this.GetSuccessChance(1)))
         {
             var possibleOptions = item.Definition.PossibleItemOptions.
                 SelectMany(o => o.PossibleOptions).
@@ -179,6 +195,13 @@ public abstract class ItemUpgradeConsumeHandlerPlugIn : ItemModifyConsumeHandler
 
         return true;
     }
+
+    /// <summary>
+    /// Gets the chance that the upgrade to the given option level succeeds.
+    /// </summary>
+    /// <param name="targetLevel">The option level after a successful upgrade; 1 when the option is added.</param>
+    /// <returns>The chance, from 0 to 1.</returns>
+    protected virtual double GetSuccessChance(int targetLevel) => this.Configuration.SuccessChance;
 
     private bool IsUpgradableOption(IncreasableItemOption option)
     {

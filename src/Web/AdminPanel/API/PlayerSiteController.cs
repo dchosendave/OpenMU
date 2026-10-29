@@ -36,6 +36,7 @@ public class PlayerSiteController : ControllerBase
     private readonly PlayerSiteFeaturesService _features;
     private readonly AdminOperationExecutor _executor;
     private readonly CastleSiegeSiteService _castleSiege;
+    private readonly MilestoneRewardsService _milestones;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PlayerSiteController"/> class.
@@ -45,8 +46,10 @@ public class PlayerSiteController : ControllerBase
     /// <param name="features">The check-in, character tools, news and market.</param>
     /// <param name="executor">The executor, which audits the changes.</param>
     /// <param name="castleSiege">The Castle Siege point mode settings.</param>
-    public PlayerSiteController(PlayerSiteService service, WebMiniGamesService games, PlayerSiteFeaturesService features, AdminOperationExecutor executor, CastleSiegeSiteService castleSiege)
+    /// <param name="milestones">The grand reset milestone rewards.</param>
+    public PlayerSiteController(PlayerSiteService service, WebMiniGamesService games, PlayerSiteFeaturesService features, AdminOperationExecutor executor, CastleSiegeSiteService castleSiege, MilestoneRewardsService milestones)
     {
+        this._milestones = milestones;
         this._castleSiege = castleSiege;
         this._service = service;
         this._games = games;
@@ -118,6 +121,59 @@ public class PlayerSiteController : ControllerBase
     [HttpPut("~/api/site/castle-siege/settings")]
     public Task<IActionResult> SaveCastleSiegeSettingsAsync([FromBody] CastleSiegeSettings request, CancellationToken cancellationToken)
         => this.ExecuteAsync("site_castlesiege_settings", new { request.ChangedBy, request.Active }, () => this._castleSiege.SaveSettingsAsync(request.Active, request.Configuration), cancellationToken);
+
+    /// <summary>
+    /// Buys a piece of a flash sale.
+    /// </summary>
+    /// <param name="loginName">The login name of the account.</param>
+    /// <param name="saleId">The sale.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>The result.</returns>
+    [HttpPost("flashsales/{saleId:guid}/buy")]
+    public Task<IActionResult> BuyFlashSaleAsync(string loginName, Guid saleId, CancellationToken cancellationToken)
+        => this.ExecuteAsync("site_flashsale_buy", new { loginName, saleId }, () => this._service.BuyFlashSaleAsync(loginName, saleId), cancellationToken);
+
+    /// <summary>
+    /// Adds or updates a flash sale.
+    /// </summary>
+    /// <param name="sale">The sale.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>The result.</returns>
+    [HttpPut("~/api/site/flashsales")]
+    public Task<IActionResult> SaveFlashSaleAsync([FromBody] WebFlashSale sale, CancellationToken cancellationToken)
+        => this.ExecuteAsync("site_flashsale_save", new { sale.Id, sale.Title, sale.CreatedBy }, () => this._service.SaveFlashSaleAsync(sale), cancellationToken);
+
+    /// <summary>
+    /// Deletes a flash sale.
+    /// </summary>
+    /// <param name="saleId">The sale.</param>
+    /// <param name="by">The administrator who deletes it, for the audit trail.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>The result.</returns>
+    [HttpDelete("~/api/site/flashsales/{saleId:guid}")]
+    public Task<IActionResult> DeleteFlashSaleAsync(Guid saleId, [FromQuery] string? by, CancellationToken cancellationToken)
+        => this.ExecuteAsync("site_flashsale_delete", new { saleId, by }, () => this._service.DeleteFlashSaleAsync(saleId), cancellationToken);
+
+    /// <summary>
+    /// Gets the grand reset milestone rewards of the account, with the parts to pick from.
+    /// </summary>
+    /// <param name="loginName">The login name of the account.</param>
+    /// <returns>The claims.</returns>
+    [HttpGet("milestones")]
+    public async Task<IActionResult> GetMilestonesAsync(string loginName)
+        => ToResponse(await this._milestones.GetClaimsAsync(loginName).ConfigureAwait(false));
+
+    /// <summary>
+    /// Picks the reward of a grand reset milestone, which goes into the vault.
+    /// </summary>
+    /// <param name="loginName">The login name of the account.</param>
+    /// <param name="claimId">The milestone reward.</param>
+    /// <param name="request">The picked part.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>The result.</returns>
+    [HttpPost("milestones/{claimId:guid}/claim")]
+    public Task<IActionResult> ClaimMilestoneAsync(string loginName, Guid claimId, [FromBody] MilestoneClaimRequest request, CancellationToken cancellationToken)
+        => this.ExecuteAsync("site_milestone_claim", new { loginName, claimId, request.SetItemId, request.Excellent }, () => this._milestones.ClaimAsync(loginName, claimId, request.SetItemId, request.Excellent), cancellationToken);
 
     /// <summary>
     /// Checks the account in for today and grants the reward of its streak day.
@@ -245,6 +301,22 @@ public class PlayerSiteController : ControllerBase
         [MaxLength(20)]
         [RegularExpression(@"^[\x20-\x7E]+$")]
         public string Password { get; set; } = string.Empty;
+    }
+
+    /// <summary>
+    /// The part picked for a grand reset milestone.
+    /// </summary>
+    public sealed class MilestoneClaimRequest
+    {
+        /// <summary>
+        /// Gets or sets the identifier of the part of the ancient set.
+        /// </summary>
+        public Guid SetItemId { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the part comes as excellent item instead of ancient.
+        /// </summary>
+        public bool Excellent { get; set; }
     }
 
     /// <summary>

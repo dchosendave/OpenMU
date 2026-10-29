@@ -208,7 +208,7 @@ public sealed class OfflinePlayerMuHelper : AsyncDisposable
         await this._combatHandler.PerformDrainLifeRecoveryAsync().ConfigureAwait(false);
         await this._itemPickupHandler.PickupItemsAsync().ConfigureAwait(false);
 
-        if (this._player.IsWalking || this._player.IsIdlingInTown)
+        if (this._player.IsWalking || this._player.IsIdlingInTown || this._player.IsRunningStore)
         {
             return;
         }

@@ -29,6 +29,22 @@ public class ResetChatCommandPlugIn : IChatCommandPlugIn
     /// <inheritdoc />
     public async ValueTask HandleCommandAsync(Player player, string command)
     {
+        // "/reset auto" turns the automatic reset on, "/reset auto off" turns it off again.
+        var arguments = command.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        if (arguments.Length > 1 && string.Equals(arguments[1], "auto", StringComparison.OrdinalIgnoreCase)
+            && player.SelectedCharacter is { } character)
+        {
+            var enable = arguments.Length < 3 || !string.Equals(arguments[2], "off", StringComparison.OrdinalIgnoreCase);
+            AutoResetPlugIn.SetEnabled(character.Id, enable);
+            await player.ShowBlueMessageAsync(enable
+                ? "Automatic reset is on: you reset by yourself on reaching the reset level. \"/reset auto off\" turns it off."
+                : "Automatic reset is off.").ConfigureAwait(false);
+            if (!enable)
+            {
+                return;
+            }
+        }
+
         var resetAction = new ResetCharacterAction(player);
         await resetAction.ResetCharacterAsync().ConfigureAwait(false);
     }

@@ -71,6 +71,14 @@ public class AdminPanelContext : DbContext
     /// </summary>
     public DbSet<CastleSiegeVaultReward> CastleSiegeVaultRewards { get; set; } = null!;
 
+    /// <summary>
+    /// Gets or sets the flash sales of the web shop.
+    /// </summary>
+    public DbSet<WebFlashSale> WebFlashSales { get; set; } = null!;
+
+    /// <summary>Gets or sets the grand reset milestone rewards.</summary>
+    public DbSet<WebMilestoneClaim> WebMilestoneClaims { get; set; } = null!;
+
     /// <summary>Gets or sets the administrative audit trail.</summary>
     public DbSet<AdminAuditEntry> AdminAuditEntries { get; set; } = null!;
 
@@ -230,6 +238,26 @@ public class AdminPanelContext : DbContext
             entity.Property(l => l.State).IsRequired().HasMaxLength(20);
             entity.HasIndex(l => new { l.State, l.CreatedAt });
             entity.HasIndex(l => l.SellerLogin);
+        });
+
+        modelBuilder.Entity<WebFlashSale>(entity =>
+        {
+            entity.ToTable(nameof(WebFlashSale), SchemaNames.AdminPanel);
+            entity.HasKey(s => s.Id);
+            entity.Property(s => s.Title).IsRequired().HasMaxLength(WebFlashSale.TitleMaximumLength);
+            entity.Property(s => s.CreatedBy).IsRequired().HasMaxLength(10);
+            entity.HasIndex(s => s.StartsAt);
+        });
+
+        modelBuilder.Entity<WebMilestoneClaim>(entity =>
+        {
+            entity.ToTable(nameof(WebMilestoneClaim), SchemaNames.AdminPanel);
+            entity.HasKey(c => c.Id);
+            entity.Property(c => c.LoginName).IsRequired().HasMaxLength(10);
+            entity.Property(c => c.CharacterName).IsRequired().HasMaxLength(10);
+            entity.Property(c => c.ClaimedItem).HasMaxLength(WebMilestoneClaim.ClaimedItemMaximumLength);
+            entity.HasIndex(c => c.LoginName);
+            entity.HasIndex(c => new { c.CharacterName, c.GrandResets }).IsUnique();
         });
 
         modelBuilder.Entity<CastleSiegeBattle>(entity =>

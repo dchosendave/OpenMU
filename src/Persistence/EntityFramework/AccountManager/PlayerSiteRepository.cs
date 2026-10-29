@@ -124,6 +124,120 @@ public class PlayerSiteRepository : IPlayerSiteRepository
         return changed == 1;
     }
 
+    /// <inheritdoc />
+    public async ValueTask SaveFlashSaleAsync(WebFlashSale sale, CancellationToken cancellationToken = default)
+    {
+        await using var context = await this.CreateContextAsync(cancellationToken).ConfigureAwait(false);
+        if (await context.WebFlashSales.AnyAsync(s => s.Id == sale.Id, cancellationToken).ConfigureAwait(false))
+        {
+            // The stock sold so far stays as it is.
+            await context.WebFlashSales.Where(s => s.Id == sale.Id).ExecuteUpdateAsync(
+                setters => setters
+                    .SetProperty(s => s.Title, sale.Title)
+                    .SetProperty(s => s.ItemPackageId, sale.ItemPackageId)
+                    .SetProperty(s => s.PickOneRandomItem, sale.PickOneRandomItem)
+                    .SetProperty(s => s.Price, sale.Price)
+                    .SetProperty(s => s.Currency, sale.Currency)
+                    .SetProperty(s => s.Stock, sale.Stock)
+                    .SetProperty(s => s.StartsAt, sale.StartsAt)
+                    .SetProperty(s => s.DurationSeconds, sale.DurationSeconds),
+                cancellationToken).ConfigureAwait(false);
+            return;
+        }
+
+        context.WebFlashSales.Add(sale);
+        await context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public async ValueTask DeleteFlashSaleAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        await using var context = await this.CreateContextAsync(cancellationToken).ConfigureAwait(false);
+        await context.WebFlashSales.Where(s => s.Id == id).ExecuteDeleteAsync(cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public async ValueTask<WebFlashSale?> GetFlashSaleAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        await using var context = await this.CreateContextAsync(cancellationToken).ConfigureAwait(false);
+        return await context.WebFlashSales.AsNoTracking().FirstOrDefaultAsync(s => s.Id == id, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public async ValueTask<bool> TryTakeFlashSaleStockAsync(Guid id, DateTime utcNow, CancellationToken cancellationToken = default)
+    {
+        await using var context = await this.CreateContextAsync(cancellationToken).ConfigureAwait(false);
+        var changed = await context.WebFlashSales
+            .Where(s => s.Id == id && s.Sold < s.Stock && s.StartsAt <= utcNow && s.StartsAt.AddSeconds(s.DurationSeconds) > utcNow)
+            .ExecuteUpdateAsync(setters => setters.SetProperty(s => s.Sold, s => s.Sold + 1), cancellationToken)
+            .ConfigureAwait(false);
+        return changed == 1;
+    }
+
+    /// <inheritdoc />
+    public async ValueTask ReturnFlashSaleStockAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        await using var context = await this.CreateContextAsync(cancellationToken).ConfigureAwait(false);
+        await context.WebFlashSales.Where(s => s.Id == id && s.Sold > 0)
+            .ExecuteUpdateAsync(setters => setters.SetProperty(s => s.Sold, s => s.Sold - 1), cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public async ValueTask<bool> TryAddMilestoneClaimAsync(WebMilestoneClaim claim, CancellationToken cancellationToken = default)
+    {
+        await using var context = await this.CreateContextAsync(cancellationToken).ConfigureAwait(false);
+        context.WebMilestoneClaims.Add(claim);
+        try
+        {
+            await context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            return true;
+        }
+        catch (DbUpdateException)
+        {
+            // The unique index on character and milestone: it was reached before, e.g. after a reset was undone.
+            return false;
+        }
+    }
+
+    /// <inheritdoc />
+    public async ValueTask<WebMilestoneClaim?> GetMilestoneClaimAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        await using var context = await this.CreateContextAsync(cancellationToken).ConfigureAwait(false);
+        return await context.WebMilestoneClaims.AsNoTracking().FirstOrDefaultAsync(c => c.Id == id, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public async ValueTask<IReadOnlyList<WebMilestoneClaim>> GetMilestoneClaimsAsync(string loginName, CancellationToken cancellationToken = default)
+    {
+        await using var context = await this.CreateContextAsync(cancellationToken).ConfigureAwait(false);
+        return await context.WebMilestoneClaims.AsNoTracking()
+            .Where(c => c.LoginName == loginName)
+            .OrderByDescending(c => c.CreatedAt)
+            .ToListAsync(cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public async ValueTask<bool> TryMarkMilestoneClaimedAsync(Guid id, string claimedItem, DateTime utcNow, CancellationToken cancellationToken = default)
+    {
+        await using var context = await this.CreateContextAsync(cancellationToken).ConfigureAwait(false);
+        var changed = await context.WebMilestoneClaims
+            .Where(c => c.Id == id && c.ClaimedAt == null)
+            .ExecuteUpdateAsync(setters => setters.SetProperty(c => c.ClaimedAt, utcNow).SetProperty(c => c.ClaimedItem, claimedItem), cancellationToken)
+            .ConfigureAwait(false);
+        return changed == 1;
+    }
+
+    /// <inheritdoc />
+    public async ValueTask ReopenMilestoneClaimAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        await using var context = await this.CreateContextAsync(cancellationToken).ConfigureAwait(false);
+        await context.WebMilestoneClaims.Where(c => c.Id == id)
+            .ExecuteUpdateAsync(setters => setters.SetProperty(c => c.ClaimedAt, (DateTime?)null).SetProperty(c => c.ClaimedItem, (string?)null), cancellationToken)
+            .ConfigureAwait(false);
+    }
+
     private async ValueTask<AdminPanelContext> CreateContextAsync(CancellationToken cancellationToken)
     {
         if (!await this._adminUserRepository.EnsureStorageAsync(cancellationToken).ConfigureAwait(false))
