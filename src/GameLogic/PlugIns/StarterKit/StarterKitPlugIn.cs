@@ -59,6 +59,9 @@ public class StarterKitPlugIn : ICharacterCreatedPlugIn, ISupportCustomConfigura
         }
 
         var configuration = this.Configuration ?? new StarterKitConfiguration();
+        var maximumZen = gameConfiguration.MaximumInventoryMoney > 0 ? gameConfiguration.MaximumInventoryMoney : int.MaxValue;
+        inventory.Money = Math.Clamp(configuration.Zen, 0, maximumZen);
+
         var occupied = new bool[BagColumns * BagRows];
         foreach (var existing in inventory.Items)
         {

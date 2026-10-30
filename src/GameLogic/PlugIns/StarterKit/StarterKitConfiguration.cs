@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 
 /// <summary>
-/// The configuration of the <see cref="StarterKitPlugIn"/>: the items every new character of a class
+/// The configuration of the <see cref="StarterKitPlugIn"/>: the zen and the items every new character of a class
 /// starts with. Items are comma separated as <c>group:number</c>; armor, weapons, shields and rings get
 /// <see cref="ItemLevel"/> and their 2 weakest excellent options, wings and pets stay plain.
 /// </summary>
@@ -22,6 +22,11 @@ public class StarterKitConfiguration
     /// <summary>Gets or sets a value indicating whether the armor, weapons, shields and rings are excellent.</summary>
     [Display(Name = "Excellent (2 weakest options)")]
     public bool Excellent { get; set; } = true;
+
+    /// <summary>Gets or sets the zen every new character starts with (capped by the maximum inventory zen).</summary>
+    [Display(Name = "Starting zen", Description = "Enough for the first potions and a map move.")]
+    [Range(0, int.MaxValue)]
+    public int Zen { get; set; } = 10_000_000;
 
     /// <summary>Gets or sets the items every class gets, e.g. the Pet Panda and the Panda Ring.</summary>
     [Display(Name = "Every class", Description = "Comma separated group:number, e.g. 13:80 for the Pet Panda.")]
